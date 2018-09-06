@@ -1,6 +1,6 @@
 {
-  "name": "kompdemo",
-  "version": "0.1.0",
+
+  "name": "kompetenssikysely",
   "private": true,
   "dependencies": {
     "firebase": "^5.4.2",

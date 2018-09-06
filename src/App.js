@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import './App.css';
 import fire from './fire'
@@ -72,6 +73,8 @@ show = (event, item) => {
   
 }
 
+
+class App extends Component {
   render() {
     return (
       <div className="App">
