@@ -6,7 +6,7 @@ const Topic = ({ topic, show, sub }) => {
 	if(sub.length === 0) {
 	return (
 	<div>
-	<p onClick={(e) => show(e, topic)}>{topic.text}</p>
+	<h2 onClick={(e) => show(e, topic)}>{topic.text}</h2>
 	</div>
 	)
 	} else {
@@ -18,10 +18,9 @@ Object.keys(obj).forEach(function (key) {
 		arr.push(obj[key])
 	}
 })
-
 		return (
 	<div>
-	<p onClick={(e) => show(e, topic)}>{topic.text}</p>
+	<h2 onClick={(e) => show(e, topic)}>{topic.text}</h2>
 	{sub[0].text !== topic.text ? null : arr.map(topic => <TopicItem topic={topic} key={topic.text}></TopicItem>)}
 	</div>
 	)
