@@ -8,21 +8,22 @@ class App extends React.Component {
     super()
     this.state = {
       topics: [],
-      subtopic: [],
-      yleinen: {}
+      subtopics: [],
+      yleinen: {},
+      answers: []
     }
   }
 
 
 //child tilalla voi olla myös "child_added", "child_moved", "child_removed" tai "value"
-// "on" -metodi: This is the primary way to read data from a Database. Your callback will be 
-//triggered for the initial data and again whenever the data changes. 
+// "on" -metodi: This is the primary way to read data from a Database. Your callback will be
+//triggered for the initial data and again whenever the data changes.
 // Use off( ) to stop receiving updates. See Retrieve Data on the Web for more details.
-// https://firebase.google.com/docs/reference/js/firebase.database.Reference 
+// https://firebase.google.com/docs/reference/js/firebase.database.Reference
   componentDidMount() {
     let getAll = []
     const db = fire.database().ref('topics'); //toinen on answers!
-    db.on('child_added', snapshot => {    
+    db.on('child_added', snapshot => {
       getAll.push(snapshot.val())
       this.setState({ topics: getAll })
     })
@@ -51,25 +52,25 @@ class App extends React.Component {
     this.setState({topics: getAll})
   }*/
 
+changeOption = (event) => {
+const answerObj = {
+  answer: event.target.name,
+  value: event.target.value
+}
+const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
+this.setState({answers: updatedAnswers.concat(answerObj)})
+}
+
 
 show = (event, item) => {
   event.preventDefault()
   console.log('clicked item!', item)
-
-  let arr = []
-
-  Object.keys(item).forEach(function (key) {
-    if (typeof item[key] === 'object'){
-      console.log('this is a object', item[key])
-      arr.push(item[key])
-    }
-  })
-  if(this.state.subtopic.length === 0){
-    this.setState({subtopic: arr})
+const subtopics = Object.values(item).map(topic => topic).filter(o => typeof o === 'object')
+  if(this.state.subtopics.length === 0){
+    this.setState({subtopics})
   } else {
-    this.setState({subtopic: []})
+    this.setState({subtopics: []})
   }
-  
 }
 
   render() {
@@ -78,7 +79,7 @@ show = (event, item) => {
         <header className="App-header">
           <h1 className="App-title">this is Sparta</h1>
         </header>
-        <List topics={this.state.topics} sub={this.state.subtopic} show={this.show}/>
+        <List topics={this.state.topics} subs={this.state.subtopics} show={this.show} changeOption={this.changeOption}/>
       </div>
     );
   }
