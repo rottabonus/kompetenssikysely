@@ -1,9 +1,8 @@
 import React from 'react'
 import TopicItem from './TopicItem'
 
-
-const Topic = ({ topic, show, sub }) => {
-	if(sub.length === 0) {
+const Topic = ({ topic, show, subs, changeOption }) => {
+	if(subs.length === 0) {
 	return (
 	<div>
 	<h2 onClick={(e) => show(e, topic)}>{topic.text}</h2>
@@ -11,23 +10,16 @@ const Topic = ({ topic, show, sub }) => {
 	)
 	} else {
 
-let arr = []
-let obj = sub[0]
-Object.keys(obj).forEach(function (key) {
-	if(typeof obj[key] === 'object'){
-		arr.push(obj[key])
-	}
-})
+const obj = subs[0]
+const topicArray = Object.values(obj).map(topic => topic)
+
 		return (
 	<div>
 	<h2 onClick={(e) => show(e, topic)}>{topic.text}</h2>
-	{sub[0].text !== topic.text ? null : arr.map(topic => <TopicItem topic={topic} key={topic.text}></TopicItem>)}
+	{subs[0].text !== topic.text ? null : topicArray.map((topic, i) => <TopicItem key={i} changeOption={changeOption} topic={topic} ></TopicItem>)}
 	</div>
 	)
 	}
 }
 
 export default Topic
-
-
-//if (sub[0].text === topic.text)
