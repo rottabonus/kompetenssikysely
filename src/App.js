@@ -33,7 +33,6 @@ class App extends React.Component {
     db.on('child_added', snapshot => {
       getAll.push(snapshot.val())
       this.setState({ topics: getAll })
-      this.fetchAnswers()
     })
   }
 
@@ -103,16 +102,12 @@ sendAnswers = (event) => {
   this.fetchAnswers() 
 }
 
-mergeArrays = (...args) => {
-  return args.reduce((acc, val) => [...acc, ...val]);
-}
-
 fetchAnswers = () => {
   console.log('fetch Answers triggered!')
-  //const subtopic = this.state.subtopics[0].text
+  const subtopic = this.state.subtopics[0].text
   const allAnswers = []
   const rootRef = fire.database().ref()
-  const db = rootRef.child('answers/').orderByChild('topic').equalTo('Henkilöstöhallinto')
+  const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
   db.on('child_added', snapshot => {
       allAnswers.push(snapshot.val())
       console.log(allAnswers)
@@ -120,11 +115,8 @@ fetchAnswers = () => {
   console.log('only answers',onlyAnswers)
 let mergedarray = onlyAnswers.reduce((a, b) => [...a, ...b])
   console.log('onlyValues', mergedarray)
-
       this.setState({ kakka: mergedarray })
-    })
-
-  
+    })  
 }
 
 
