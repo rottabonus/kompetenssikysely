@@ -29,12 +29,19 @@ class App extends React.Component {
 // https://firebase.google.com/docs/reference/js/firebase.database.Reference
   componentDidMount() {
     let getAll = []
-    const db = fire.database().ref('topics'); //toinen on answers!
-    db.on('child_added', snapshot => {
+    const db2 = fire.database().ref().child('answers').orderByChild('topic').equalTo('Henkilöstöhallinto');
+    //const db = fire.database().ref('topics'); //toinen on answers!
+    /*db.on('child_added', snapshot => {
       getAll.push(snapshot.val())
       this.setState({ topics: getAll })
-    })
-  }
+    })*/
+    db2.on('value', snapshot => {
+      getAll.push(snapshot.val())
+    
+    console.log(getAll);
+  })
+}
+
 
 // Listens for exactly one event of the specified event type, and then stops listening.
 //This is equivalent to calling on(), and then calling off() inside the callback function.
@@ -108,10 +115,10 @@ fetchAnswers = () => {
   const allAnswers = []
   const rootRef = fire.database().ref()
   const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
-  db.once('child_added').then( snapshot => {
+  db.on('child_added').then( snapshot => {
     allAnswers.push(snapshot.val())
   })
-this.setState({ kakka: allAnswers})
+this.setState({ kakka: allAnswers })
 }
 
 
