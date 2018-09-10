@@ -33,6 +33,7 @@ class App extends React.Component {
     db.on('child_added', snapshot => {
       getAll.push(snapshot.val())
       this.setState({ topics: getAll })
+      this.fetchAnswers()
     })
   }
 
@@ -102,18 +103,40 @@ sendAnswers = (event) => {
   this.fetchAnswers() 
 }
 
+mergeArrays = (...args) => {
+  return args.reduce((acc, val) => [...acc, ...val]);
+}
+
 fetchAnswers = () => {
   console.log('fetch Answers triggered!')
-  const subtopic = this.state.subtopics[0].text
+  //const subtopic = this.state.subtopics[0].text
   const allAnswers = []
   const rootRef = fire.database().ref()
+<<<<<<< HEAD
   const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
   db.on('child_added', snapshot => {
     allAnswers.push(snapshot.val())
     console.log(allAnswers);
   })
 this.setState({ dbanswers: allAnswers})
+=======
+  const db = rootRef.child('answers/').orderByChild('topic').equalTo('Henkilöstöhallinto')
+  db.on('child_added', snapshot => {
+      allAnswers.push(snapshot.val())
+      console.log(allAnswers)
+  const onlyAnswers = allAnswers.map(l => l.Answers)
+  console.log('only answers',onlyAnswers)
+let mergedarray = onlyAnswers.reduce((a, b) => [...a, ...b])
+  console.log('onlyValues', mergedarray)
+
+      this.setState({ kakka: mergedarray })
+    })
+
+  
+>>>>>>> d460743cac65c9e30972a6dba7adfc43af5291f7
 }
+
+
 
 
   render() {
@@ -133,7 +156,7 @@ this.setState({ dbanswers: allAnswers})
         return(
         <div className="App">
         <header className="App-header">
-          <h1 className="App-title">this is Sparta</h1>
+          <h1 className="App-title">Ajajajajjaja ja Puerto Rico !</h1>
         </header>
         <h2>Here we will render answers</h2>
       </div>
