@@ -3,6 +3,7 @@ import './App.css';
 import fire from './fire'
 import List from './components/List'
 
+
 class App extends React.Component {
   constructor(){
     super()
@@ -10,10 +11,16 @@ class App extends React.Component {
       topics: [],
       subtopics: [],
       yleinen: {},
-      answers: []
+      answers: [],
+      key: '',
+      surveyState: 0,
+      states : {
+        PROFESSION: 0,
+        PROFANSW: 1
+      },
+      kakka: ''
     }
   }
-
 
 //child tilalla voi olla myös "child_added", "child_moved", "child_removed" tai "value"
 // "on" -metodi: This is the primary way to read data from a Database. Your callback will be
@@ -28,8 +35,6 @@ class App extends React.Component {
       this.setState({ topics: getAll })
     })
   }
-
-
 
 // Listens for exactly one event of the specified event type, and then stops listening.
 //This is equivalent to calling on(), and then calling off() inside the callback function.
@@ -57,10 +62,10 @@ const answerObj = {
   answer: event.target.name,
   value: event.target.value
 }
+
 const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
 this.setState({answers: updatedAnswers.concat(answerObj)})
 }
-
 
 show = (event, item) => {
   event.preventDefault()
@@ -73,16 +78,69 @@ const subtopics = Object.values(item).map(topic => topic).filter(o => typeof o =
   }
 }
 
+sendAnswers = (event) => {
+  event.preventDefault()
+  console.log('sendAnswers clicked!')
+
+  const dataObject = {
+    date: '9/9/2018',
+    topic: this.state.subtopics[0].text,
+    Answers : this.state.answers
+  }
+  if(this.state.key === ''){
+ let key = fire.database().ref().child('answers').push(dataObject);
+ // let key = {
+   // key: 'kakkamies'
+  //}
+  this.setState({ key: key.key,
+                surveyState: this.state.surveyState + 1 })
+  } else {
+    let key = fire.database().ref('answers').child(this.state.key).set(dataObject);
+    this.setState({ surveyState: this.state.surveyState +1 })
+  }
+
+  this.fetchAnswers() 
+}
+
+fetchAnswers = () => {
+  console.log('fetch Answers triggered!')
+  const subtopic = this.state.subtopics[0].text
+  const allAnswers = []
+  const rootRef = fire.database().ref()
+  const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
+  db.once('child_added').then( snapshot => {
+    allAnswers.push(snapshot.val())
+  })
+this.setState({ kakka: allAnswers})
+}
+
+
   render() {
-    return (
+    switch(this.state.surveyState) {
+      case this.state.states.PROFESSION:{
+        return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">this is Sparta</h1>
         </header>
-        <List topics={this.state.topics} subs={this.state.subtopics} show={this.show} changeOption={this.changeOption}/>
+        <List topics={this.state.topics} subs={this.state.subtopics} show={this.show}
+             changeOption={this.changeOption} sendAnswers={this.sendAnswers}/>
       </div>
-    );
+    )
+  } 
+      case this.state.states.PROFANSW:{
+        return(
+        <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">this is Sparta</h1>
+        </header>
+        <h2>Here we will render answers</h2>
+      </div>
+      )
+      }
+    }
   }
 }
+    
 
 export default App;
