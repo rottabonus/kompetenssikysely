@@ -18,7 +18,7 @@ class App extends React.Component {
         PROFESSION: 0,
         PROFANSW: 1
       },
-      kakka: ''
+      dbanswers: [],
     }
   }
 
@@ -108,10 +108,11 @@ fetchAnswers = () => {
   const allAnswers = []
   const rootRef = fire.database().ref()
   const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
-  db.once('child_added').then( snapshot => {
+  db.on('child_added', snapshot => {
     allAnswers.push(snapshot.val())
+    console.log(allAnswers);
   })
-this.setState({ kakka: allAnswers})
+this.setState({ dbanswers: allAnswers})
 }
 
 
