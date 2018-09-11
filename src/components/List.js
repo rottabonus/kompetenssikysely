@@ -16,7 +16,7 @@ Object.keys(sub).forEach(function (key) {
 		<div>
 		<h2>This is a List</h2>
 		<form onSubmit={sendAnswers}>
-		{topics.filter(t => t.text !== 'yleinen').map((topic, i) => <Topic key={i} topic={topic} show={show} subs={subs} 
+		{topics.map((topic, i) => <Topic key={i} topic={topic} show={show} subs={subs} 
 		 changeOption={changeOption}></Topic>)}
 		 <button type="submit">send answers</button>
 		 </form>
