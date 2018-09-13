@@ -85,6 +85,7 @@ class App extends React.Component {
     //dataObject sisältää date-attribuutin, topic-attribuutin ja Answersin joka sisältää listan vastauksista
     //date -attribuutti 
     const dataObject = {
+      //tähän dateen täytyy keksiä funktio!!!
       date: '9/9/2018',
       topic: this.state.subtopics[0].text,
       Answers: this.state.answers
@@ -101,13 +102,15 @@ class App extends React.Component {
       key = fire.database().ref('answers').child(this.state.key).set(dataObject);
     }
     this.fetchAnswers()
-//    this.moveForward()
+    this.moveForward()
   }
 
+  //kutsutaan kun liikutaan statesta ylöspäin !!
   moveForward = () => {
     this.setState({surveyState: this.state.surveyState + 1})
   }
 
+//haetaan ammattikysymykset ja asetetaan stateen
   fetchAnswers =  () => {
     console.log('fetch Answers triggered!')
     const subtopic = this.state.subtopics[0].text
@@ -117,15 +120,12 @@ class App extends React.Component {
     const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
     db.on('child_added', snapshot => {
        answerObjectArray.push(snapshot.val())
-         console.log('answerObjectArray', answerObjectArray)
-         this.setState({professionAnswers: answerObjectArray })
+        console.log('answerObjectArray lopuks,', answerObjectArray)
+        const onlyAnswers = answerObjectArray.map(l => l.Answers)  
+        const Answers = onlyAnswers.reduce((a, b) => [...a, ...b])
+       console.log('Answers', Answers)
+        this.setState({professionAnswers: onlyAnswers })
     })
-    
-    //tää pitää laittaa radariin..
-     // console.log('answerObjectArray lopuks,', answerObjectArray)
-     //const onlyAnswers = answerObjectArray.map(l => l.Answers)  
-     // const Answers = onlyAnswers.reduce((a, b) => [...a, ...b])
-     // console.log('Answers', Answers)
   }
 
   selectProfessions = (event) => {
