@@ -7,13 +7,20 @@ const SelectProfession = ({ topics, selectProfessions, selectedTopics, changePro
 	
 	return (
 		<div>
-		<h2>Select profession</h2>
-		<form onSubmit={selectProfessions}>
-		{topicObjects.filter(t => t.text !== 'yleinen').map((topic, i) => <div key={i}><p>{topic.text}<input onChange={() => changeProfessions(topic)} type="checkbox"/></p></div>)}
-		<button type="submit">select</button>
-		</form>
+			<h2 className="text">ASIANTUNTIJAN OSAAMINEN</h2>
+			<div>
+			<div><p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p></div>
+			<div><p>In lobortis ultricies erat, in consequat massa dictum eu. Ut est dui, dignissim aliquet ex at, 
+					accumsan congue sapien. Integer nec diam id ex eleifend mollis.</p></div>
+			<div><p> Etiam molestie nunc eget ligula porta, malesuada luctus ipsum pharetra.</p></div>
+			</div>
+				<form onSubmit={selectProfessions}>
+					{topicObjects.filter(t => t.text !== 'yleinen').map((topic, i) => 
+					<div className="checkBox" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox"/><p>{topic.text}</p></div>)}
+						<button type="submit">select</button>
+				</form>
 		</div>
-		)
+	)
 }
 
 export default SelectProfession
