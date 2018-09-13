@@ -21,8 +21,7 @@ class App extends React.Component {
         PROFANSW: 2
       },
       professionAnswers: '',
-      selectedTopics: [],
-      checked: false
+      selectedTopics: []
     }
   }
 
@@ -36,28 +35,33 @@ class App extends React.Component {
   }
 
   changeOption = (event) => {
+    //answerObj ottaa arvot event-paikasta (tässä tapauksessa inputin name- ja value-attribuuteista ks. komponentti) 
     const answerObj = {
       answer: event.target.name,
       value: event.target.value
     }
-
+    //updatedAnswers on uusi lista, joka luodaan this.state.answersien pohjalta filteröimällä answerObj.answer 
+    //- jos se on jo olemassa taulussa , ettei samaa vaihtoehtoa lisätä uudestaan!
+    // siksi, koska jos vaihtaa vaihtoehtoa
     const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
     this.setState({ answers: updatedAnswers.concat(answerObj) })
   }
 
   changeProfessions = (item) => {
     console.log('item checked', item)
+    //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
     const topicObject = {
       topic: item.text,
       subs: item.ST01
     }
-    console.log('and this is topicObject', topicObject)
+    // selectedTopics on uusi lista, joka luodaan this.state.selectedTopicsista - jossa mäpätään vain topic-attribuutit
     const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
+    //jos selectedTopics sisältää topicObjectin attribuutin topic - arvon =>
+    // filteröidään pois topicit, jotka on jo valittu => eli checkboxia kuń painetaan uudestaan - se lähtee pois statesta!!!
     if (selectedTopics.includes(topicObject.topic)) {
-      console.log('on samaa')
       const updatedTopics = this.state.selectedTopics.filter(topic => topic.topic !== topicObject.topic)
-      console.log('first', this.state.selectedTopics.map(topic=>topic), 'updated',updatedTopics)
       this.setState({selectedTopics: updatedTopics})
+      // muussa tapauksessa lisätään topic listaan
     } else {
       this.setState({ selectedTopics: [...this.state.selectedTopics, topicObject]})
     }
@@ -66,6 +70,7 @@ class App extends React.Component {
   show = (event, item) => {
     event.preventDefault()
     console.log('clicked item!', item)
+    // mapataan Object.values (eli objecteja) listaksi - filteröidään muut kuin objectit pois!
     const subtopics = Object.values(item).map(topic => topic).filter(o => typeof o === 'object')
     if (this.state.subtopics.length === 0) {
       this.setState({ subtopics })
@@ -76,16 +81,15 @@ class App extends React.Component {
 
   sendAnswers = (event) => {
     event.preventDefault()
-    console.log('sendAnswers clicked!')
 
+    //dataObject sisältää date-attribuutin, topic-attribuutin ja Answersin joka sisältää listan vastauksista
+    //date -attribuutti 
     const dataObject = {
       date: '9/9/2018',
       topic: this.state.subtopics[0].text,
       Answers: this.state.answers
     }
-
     let key = ''
-
     if (this.state.key === '') {
       key = fire.database().ref().child('answers').push(dataObject);
       // let key = {
@@ -96,28 +100,32 @@ class App extends React.Component {
     } else {
       key = fire.database().ref('answers').child(this.state.key).set(dataObject);
     }
-
     this.fetchAnswers()
-    this.moveForward()
+//    this.moveForward()
   }
 
   moveForward = () => {
     this.setState({surveyState: this.state.surveyState + 1})
   }
 
-  fetchAnswers = () => {
+  fetchAnswers =  () => {
     console.log('fetch Answers triggered!')
     const subtopic = this.state.subtopics[0].text
     const answerObjectArray = []
     const rootRef = fire.database().ref()
+    console.log('subtopic', subtopic)
     const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
     db.on('child_added', snapshot => {
-      answerObjectArray.push(snapshot.val())
-      const onlyAnswers = answerObjectArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
-      console.log('onlyValues', onlyAnswers)
-
-      this.setState({ professionAnswers: onlyAnswers })
+       answerObjectArray.push(snapshot.val())
+         console.log('answerObjectArray', answerObjectArray)
+         this.setState({professionAnswers: answerObjectArray })
     })
+    
+    //tää pitää laittaa radariin..
+     // console.log('answerObjectArray lopuks,', answerObjectArray)
+     //const onlyAnswers = answerObjectArray.map(l => l.Answers)  
+     // const Answers = onlyAnswers.reduce((a, b) => [...a, ...b])
+     // console.log('Answers', Answers)
   }
 
   selectProfessions = (event) => {
