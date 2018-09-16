@@ -93,9 +93,9 @@ class App extends React.Component {
 // hahs-taulua voi sitten kutsua lopuksi näin => taulu
 // se palauttaa sitten taulun kaiki arvot, näin ollen voimme käyttää sitä ikään kuin arrayna.
         const answers = {}
-        const AnswerTable = {}
         const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
         selectedTopics.forEach((topic) => {
+          let AnswerTable = {}
             let answerSet = this.state.answers.filter(answers => answers.topic === topic)
             answerSet.forEach((answer) => {
               AnswerTable[answer.answer] = answer.value
@@ -107,8 +107,8 @@ class App extends React.Component {
                 Answers: AnswerTable
             }
             //tietokantaan ei saa syöttää tyhjiä vastauksia!
-            if(dataObject.Answers.length === 0){
-                window.confirm(`${dataObject.topic} must have answers!`)
+            if(Object.keys(AnswerTable).length === 0){
+                window.confirm(`${topic} must have answers!`)
             } else {
                 answers[topic] = dataObject
             }
@@ -121,7 +121,7 @@ class App extends React.Component {
             key = fire.database().ref('answers').child(this.state.key).set(answers);
         }
         this.fetchAnswers()
-      //  this.moveForward()
+        this.moveForward()
     }
 
     //kutsutaan kun liikutaan statesta ylöspäin !!
