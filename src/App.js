@@ -30,10 +30,12 @@ class App extends React.Component {
             getAll.push(snapshot.val())
             this.setState({ topics: getAll })
         })
+        this.fetchAnswers()
     }
 
     changeOption = (event) => {
         //answerObj ottaa arvot event-paikasta (tässä tapauksessa inputin name- ja value-attribuuteista ks. komponentti)
+        const answer = {}
         const answerObj = {
             answer: event.target.name,
             value: event.target.value,
@@ -42,6 +44,8 @@ class App extends React.Component {
         //updatedAnswers on uusi lista, joka luodaan this.state.answersien pohjalta filteröimällä answerObj.answer
         //- jos se on jo olemassa taulussa , ettei samaa vaihtoehtoa lisätä uudestaan!
         // siksi, koska jos vaihtaa vaihtoehtoa
+        // answer[event.target.name] = answerObj
+      //  this.setState({ answers: this.state.answers.concat(answer) })
         const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
         this.setState({ answers: updatedAnswers.concat(answerObj) })
     }
@@ -84,23 +88,29 @@ class App extends React.Component {
     sendAnswers = (event) => {
         event.preventDefault()
 // jaetaan vastaukset ammatin/topicin mukaan eri arrayhin!!
-// ja työnnetään molemmat objektit yhden vastausobjektin sisälle -> ks. answers.push(dataObject)!!
-        const answers = []
+// answers ja AnswerTable on hash-Tauluja, jotta päästään eroon listoista.
+//hahs-tauluihin työnnetään aina arvo näin => taulu[avain] = arvo
+// hahs-taulua voi sitten kutsua lopuksi näin => taulu
+// se palauttaa sitten taulun kaiki arvot, näin ollen voimme käyttää sitä ikään kuin arrayna.
+        const answers = {}
+        const AnswerTable = {}
         const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
         selectedTopics.forEach((topic) => {
             let answerSet = this.state.answers.filter(answers => answers.topic === topic)
-            console.log(answerSet)
+            answerSet.forEach((answer) => {
+              AnswerTable[answer.answer] = answer.value
+            })
+            console.log('hashtable',AnswerTable)
             const dataObject = {
                 //tähän dateen täytyy keksiä funktio!!!
                 date: '13/9/2018',
-                topic: topic,
-                Answers: answerSet
+                Answers: AnswerTable
             }
             //tietokantaan ei saa syöttää tyhjiä vastauksia!
             if(dataObject.Answers.length === 0){
                 window.confirm(`${dataObject.topic} must have answers!`)
             } else {
-                answers.push(dataObject)
+                answers[topic] = dataObject
             }
         })
         let key = ''
@@ -111,7 +121,7 @@ class App extends React.Component {
             key = fire.database().ref('answers').child(this.state.key).set(answers);
         }
         this.fetchAnswers()
-        this.moveForward()
+      //  this.moveForward()
     }
 
     //kutsutaan kun liikutaan statesta ylöspäin !!
@@ -122,11 +132,8 @@ class App extends React.Component {
 //haetaan ammattikysymykset ja asetetaan stateen
     fetchAnswers =  () => {
         const answerObjectArray = []
-        const db = fire.database().ref('answers')
-        // alemmat kommentoidut ovat tallessa, mutta lue alemmat kommentit!
-        // const subtopic = this.state.subtopics[0].text
-        //  const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
-        db.on('child_added', snapshot => {
+        const rootRef = fire.database().ref('answers')
+        rootRef.on('child_added', snapshot => {
             answerObjectArray.push(snapshot.val())
             // HUOM! Tää metodi vaihdettu hakemaan kaikki vastaukset, koska ammattivalintoja voi olla useampia. On järkevämpää hakea
             // kaikki tietokannan vastaukset ja komponentissa filteröidä pois ne mitä ei tarvitse käyttää!
