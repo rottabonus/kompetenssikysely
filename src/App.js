@@ -3,6 +3,10 @@ import './App.css';
 import fire from './fire'
 import List from './components/List'
 import SelectProfession from './components/SelectProfession'
+import WelcomePage from './pages/WelcomePage'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import General from './pages/General'
 
 
 class App extends React.Component {
@@ -16,9 +20,12 @@ class App extends React.Component {
       key: '',
       surveyState: 0,
       states: {
-        SELECTPROF: 0,
-        PROFESSION: 1,
-        PROFANSW: 2
+        WelcomePage: 0,
+        General: 1,
+        SELECTPROF: 2,
+        PROFESSION: 3,
+        PROFANSW: 4,
+
       },
       professionAnswers: '',
       selectedTopics: []
@@ -60,10 +67,10 @@ class App extends React.Component {
     // filteröidään pois topicit, jotka on jo valittu => eli checkboxia kuń painetaan uudestaan - se lähtee pois statesta!!!
     if (selectedTopics.includes(topicObject.topic)) {
       const updatedTopics = this.state.selectedTopics.filter(topic => topic.topic !== topicObject.topic)
-      this.setState({selectedTopics: updatedTopics})
+      this.setState({ selectedTopics: updatedTopics })
       // muussa tapauksessa lisätään topic listaan
     } else {
-      this.setState({ selectedTopics: [...this.state.selectedTopics, topicObject]})
+      this.setState({ selectedTopics: [...this.state.selectedTopics, topicObject] })
     }
   }
 
@@ -97,7 +104,8 @@ class App extends React.Component {
       // key: 'kakkamies'
       //}
       this.setState({
-        key: key.key})
+        key: key.key
+      })
     } else {
       key = fire.database().ref('answers').child(this.state.key).set(dataObject);
     }
@@ -107,11 +115,11 @@ class App extends React.Component {
 
   //kutsutaan kun liikutaan statesta ylöspäin !!
   moveForward = () => {
-    this.setState({surveyState: this.state.surveyState + 1})
+    this.setState({ surveyState: this.state.surveyState + 1 })
   }
 
-//haetaan ammattikysymykset ja asetetaan stateen
-  fetchAnswers =  () => {
+  //haetaan ammattikysymykset ja asetetaan stateen
+  fetchAnswers = () => {
     console.log('fetch Answers triggered!')
     const subtopic = this.state.subtopics[0].text
     const answerObjectArray = []
@@ -119,12 +127,12 @@ class App extends React.Component {
     console.log('subtopic', subtopic)
     const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
     db.on('child_added', snapshot => {
-       answerObjectArray.push(snapshot.val())
-        console.log('answerObjectArray lopuks,', answerObjectArray)
-        const onlyAnswers = answerObjectArray.map(l => l.Answers)  
-        const Answers = onlyAnswers.reduce((a, b) => [...a, ...b])
-       console.log('Answers', Answers)
-        this.setState({professionAnswers: onlyAnswers })
+      answerObjectArray.push(snapshot.val())
+      console.log('answerObjectArray lopuks,', answerObjectArray)
+      const onlyAnswers = answerObjectArray.map(l => l.Answers)
+      const Answers = onlyAnswers.reduce((a, b) => [...a, ...b])
+      console.log('Answers', Answers)
+      this.setState({ professionAnswers: onlyAnswers })
     })
   }
 
@@ -136,45 +144,66 @@ class App extends React.Component {
 
   render() {
     switch (this.state.surveyState) {
-       default: {
-        return ( 
+      default: {
+        return (
           <div className="App">
             <header className="App-header">
               <h1 className="App-title">if something went wrong</h1>
             </header>
-          <h2> you will see this </h2>
+            <h2> you will see this </h2>
           </div>
-          )
+        )
       }
+
+      case this.state.states.WelcomePage: {
+        return (
+          <div className="App">
+            <Header />
+            <WelcomePage moveForward={this.moveForward} />
+            <Footer />
+          </div>
+        )
+      }
+
+      case this.state.states.General: {
+        return (
+          <div className="App">
+            <Header />
+            <General moveForward={this.moveForward} />
+            <Footer />
+          </div>
+        )
+      }
+
       case this.state.states.SELECTPROF: {
         return (
           <div className="App">
-            <header className="App-header">
-              <h1 className="App-title">select profession topic</h1>
-            </header>
+            <Header />
+            <h1 className="App-title">select profession topic</h1>
             <SelectProfession topics={this.state.topics} selectProfessions={this.selectProfessions}
               selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
+            <Footer />
           </div>
         )
       }
       case this.state.states.PROFESSION: {
         return (
           <div className="App">
-            <header className="App-header">
-              <h1 className="App-title">this is Sparta</h1>
-            </header>
+            <Header />
+            <h1 className="App-title">this is Sparta</h1>
             <List topics={this.state.selectedTopics} subs={this.state.subtopics} show={this.show}
               changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
+            <Footer />
           </div>
         )
       }
       case this.state.states.PROFANSW: {
         return (
           <div className="App">
-            <header className="App-header">
-              <h1 className="App-title">Ajajajajjaja ja Puerto Rico !</h1>
-            </header>
+            <Header />
+            <h1 className="App-title">Ajajajajjaja ja Puerto Rico !</h1>
             <h2>Here we will render answers</h2>
+            <Footer />
           </div>
         )
       }
