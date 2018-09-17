@@ -5,7 +5,7 @@ const Topic = ({ topic, show, subs, changeOption }) => {
 
   if(subs.length === 0) {
     return (
-      <div>
+      <div className="topicContainer">
         <h2 onClick={(e) => show(e, topic)}>{topic.topic}</h2>
       </div>
     )
@@ -15,7 +15,7 @@ const Topic = ({ topic, show, subs, changeOption }) => {
     const topicArray = Object.values(obj).map(topic => topic)
 
     return (
-      <div>
+      <div className="topicContainer">
         <h2 onClick={(e) => show(e, topic)}>{topic.topic}</h2>
         {subs[0].text !== topic.topic ? null :
           topicArray.map((topic, i) =>
