@@ -3,24 +3,32 @@ import './App.css';
 import fire from './fire'
 import List from './components/List'
 import SelectProfession from './components/SelectProfession'
+import WelcomePage from './pages/WelcomePage'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import General from './pages/General'
 
 class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            topics: [],
-            subtopics: [],
-            answers: [],
-            key: '',
-            surveyState: 0,
-            states: {
-                SELECTPROF: 0,
-                PROFESSION: 1,
-                PROFANSW: 2
-            },
-            professionAnswers: '',
-            selectedTopics: []
-        }
+  
+  constructor() {
+    super()
+    this.state = {
+      topics: [],
+      subtopics: [],
+      yleinen: {},
+      answers: [],
+      key: '',
+      surveyState: 0,
+      states: {
+        WelcomePage: 0,
+        General: 1,
+        SELECTPROF: 2,
+        PROFESSION: 3,
+        PROFANSW: 4,
+
+      },
+      professionAnswers: '',
+      selectedTopics: []
     }
 
     componentDidMount() {
@@ -48,7 +56,6 @@ class App extends React.Component {
       //  this.setState({ answers: this.state.answers.concat(answer) })
         const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
         this.setState({ answers: updatedAnswers.concat(answerObj) })
-    }
 
     changeProfessions = (item) => {
         //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
@@ -141,6 +148,23 @@ class App extends React.Component {
             this.setState({professionAnswers: answerObjectArray })
         })
     }
+  /*//haetaan ammattikysymykset ja asetetaan stateen
+  fetchAnswers = () => {
+    console.log('fetch Answers triggered!')
+    const subtopic = this.state.subtopics[0].text
+    const answerObjectArray = []
+    const rootRef = fire.database().ref()
+    console.log('subtopic', subtopic)
+    const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic)
+    db.on('child_added', snapshot => {
+      answerObjectArray.push(snapshot.val())
+      console.log('answerObjectArray lopuks,', answerObjectArray)
+      const onlyAnswers = answerObjectArray.map(l => l.Answers)
+      const Answers = onlyAnswers.reduce((a, b) => [...a, ...b])
+      console.log('Answers', Answers)
+      this.setState({ professionAnswers: onlyAnswers })
+    })
+  }*/
 
 //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
@@ -148,23 +172,71 @@ class App extends React.Component {
         this.moveForward()
     }
 
-    render() {
-        switch (this.state.surveyState) {
-            default: {
-                return <div><h2>if something went wrong you will see this </h2></div>
-            }
-            case this.state.states.SELECTPROF: {
-                return <div><SelectProfession topics={this.state.topics} selectProfessions={this.selectProfessions}
-                                              selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} /></div>
-            }
-            case this.state.states.PROFESSION: {
-                return <div><List topics={this.state.selectedTopics} subs={this.state.subtopics} show={this.show}
-                                  changeOption={this.changeOption} sendAnswers={this.sendAnswers}/></div>
-            }
-            case this.state.states.PROFANSW: {
-                return <div><h2>Here we will render answers</h2></div>
-            }
-        }
+  render() {
+    switch (this.state.surveyState) {
+      default: {
+        return (
+          <div className="App">
+            <header className="App-header">
+              <h1 className="App-title">if something went wrong</h1>
+            </header>
+            <h2> you will see this </h2>
+          </div>
+        )
+      }
+
+      case this.state.states.WelcomePage: {
+        return (
+          <div className="App">
+            <Header />
+            <WelcomePage moveForward={this.moveForward} />
+            <Footer />
+          </div>
+        )
+      }
+
+      case this.state.states.General: {
+        return (
+          <div className="App">
+            <Header />
+            <General moveForward={this.moveForward} />
+            <Footer />
+          </div>
+        )
+      }
+
+      case this.state.states.SELECTPROF: {
+        return (
+          <div className="App">
+            <Header />
+            <h1 className="App-title">select profession topic</h1>
+            <SelectProfession topics={this.state.topics} selectProfessions={this.selectProfessions}
+              selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
+            <Footer />
+          </div>
+        )
+      }
+      case this.state.states.PROFESSION: {
+        return (
+          <div className="App">
+            <Header />
+            <h1 className="App-title">this is Sparta</h1>
+            <List topics={this.state.selectedTopics} subs={this.state.subtopics} show={this.show}
+              changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
+            <Footer />
+          </div>
+        )
+      }
+      case this.state.states.PROFANSW: {
+        return (
+          <div className="App">
+            <Header />
+            <h1 className="App-title">Ajajajajjaja ja Puerto Rico !</h1>
+            <h2>Here we will render answers</h2>
+            <Footer />
+          </div>
+        )
+      }
     }
 }
 
