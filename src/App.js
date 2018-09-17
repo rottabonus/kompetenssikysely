@@ -30,15 +30,15 @@ class App extends React.Component {
       professionAnswers: '',
       selectedTopics: []
     }
+  }
 
-    componentDidMount() {
+    componentDidMount(){
         let getAll = []
         const db = fire.database().ref('topics')
         db.on('child_added', snapshot => {
             getAll.push(snapshot.val())
             this.setState({ topics: getAll })
         })
-        this.fetchAnswers()
     }
 
     changeOption = (event) => {
@@ -56,6 +56,7 @@ class App extends React.Component {
       //  this.setState({ answers: this.state.answers.concat(answer) })
         const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
         this.setState({ answers: updatedAnswers.concat(answerObj) })
+      }
 
     changeProfessions = (item) => {
         //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
@@ -74,7 +75,8 @@ class App extends React.Component {
         } else {
             this.setState({ selectedTopics: [...this.state.selectedTopics, topicObject]})
         }
-    }
+      }
+    
 
 // eli asetetaan "item" (objectArray)- stateen jos this.state.subtopics on tyhjä (muuten tila tyhjennetään) -
 // tilaan asetettavasta 'subtopic'ista on muodostettu itemistä, josta kaikki muut filtteröity jotka eivät ole objecteja. //esim siellä on arvo nimeltä 'text'
@@ -172,6 +174,7 @@ class App extends React.Component {
         this.moveForward()
     }
 
+
   render() {
     switch (this.state.surveyState) {
       default: {
@@ -238,6 +241,7 @@ class App extends React.Component {
         )
       }
     }
+  }
 }
 
 export default App;
