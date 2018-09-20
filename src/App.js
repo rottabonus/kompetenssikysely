@@ -212,7 +212,6 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <h1 className="App-title">select profession topic</h1>
             <SelectProfession topics={this.state.topics} selectProfessions={this.selectProfessions}
               selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
             <Footer />
@@ -223,7 +222,6 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <h1 className="App-title">this is Sparta</h1>
             <List topics={this.state.selectedTopics} subs={this.state.subtopics} show={this.show}
               changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
             <Footer />
@@ -234,7 +232,6 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <h1 className="App-title">Ajajajajjaja ja Puerto Rico !</h1>
             <h2>Here we will render answers</h2>
             <Footer />
           </div>
