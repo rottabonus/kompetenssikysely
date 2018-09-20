@@ -1,26 +1,31 @@
 import React from 'react'
+import Topic from './Topic'
+import List from './List'
 
+const SelectProfession = ({ topics, selectProfessions, selectedTopics, changeProfessions, show, subs, changeOption, Topic }) => {
 
-const SelectGeneral = ({ topics, selectProfessions, selectedTopics, changeProfessions }) => {
-
-	const topicObjects = topics.filter(t => typeof t === 'object')
+	const topicObjects = topics.map(t => t).filter(t => t.category !== 'ammatti')
+	const lol = topicObjects.filter(t => typeof t === "object")
+	const yleiset = Object.values(lol[0]).map(lol => lol).filter(obj => obj.text !== undefined)
+	//console.log(topicObjects.length, topicObjects, typeof topicObjects)
+	console.log('lol0', lol[0])
+	//console.log('yleiset', yleiset)
 
 	return (
-		<div>
-			<h2 className="text">SELECT GENERAL</h2>
-			<div>
-				<div><p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p></div>
-				<div><p>In lobortis ultricies erat, in consequat massa dictum eu. Ut est dui, dignissim aliquet ex at,
-					accumsan congue sapien. Integer nec diam id ex eleifend mollis.</p></div>
-				<div><p> Etiam molestie nunc eget ligula porta, malesuada luctus ipsum pharetra.</p></div>
+		<div className="App">
+			<header className="App-header">
+				<h1 className="App-title">Select general</h1>
+			</header>
+
+			<div className="professionSelection">
+				<form onSubmit={selectProfessions}>
+
+					<button className="selectionButton" type="submit">select</button>
+				</form>
 			</div>
-			<form onSubmit={selectProfessions}>
-				{topicObjects.filter(t => t.text === 'yleinen').map((topic, i) =>
-					<div className="checkBox" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" /><p>{topic.text}</p></div>)}
-				<button type="submit">select</button>
-			</form>
 		</div>
+
 	)
 }
 
-export default SelectGeneral;
+export default SelectProfession

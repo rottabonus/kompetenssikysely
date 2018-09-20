@@ -62,6 +62,7 @@
 .selectionButton {
   margin-left: 300px;
   margin-top: 40px;
+
 }
 
 .topicContainer {
@@ -102,4 +103,8 @@
 
 .profOptionsRadio{
   margin-left: 50px;
+}
+
+#cursor-hover {  /* MUUTTAA KURSORIN KUN HOVEROI JATKA-NAPIN YLLE */
+  cursor: pointer;
 }

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import SelectGeneral from '../components/SelectGeneral';
+import { Select } from '@material-ui/core';
+
 
 class General extends Component {
-    constructor(props) {
-        super(props);
-    }
+
 
     render() {
         return (
             <div>
-                Tänne tulee kyselyn ensimmäinen osa
+                <SelectGeneral />
                 <button onClick={this.props.moveForward}>Jatka</button>
             </div>
         )
