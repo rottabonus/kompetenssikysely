@@ -4,10 +4,7 @@ import Topic from './Topic'
 const List = ({ topics, show, subs, changeOption, sendAnswers }) => {
 
   return (
-    <div className="App">
-        <header className="App-header">
-            <h1 className="App-title">Profession questions</h1>
-        </header>
+    <div>
         <div className="surveyContainer">
       <form onSubmit={sendAnswers}>
         {topics.map((topic, i) =>

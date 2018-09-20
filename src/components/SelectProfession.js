@@ -5,10 +5,7 @@ const SelectProfession = ({ topics, selectProfessions, selectedTopics, changePro
   const topicObjects = topics.filter(t => typeof t === 'object')
 
   return (
-    <div className="App">
-        <header className="App-header">
-            <h1 className="App-title">Select profession</h1>
-        </header>
+    <div>
         <div className="surveyContainer">
         <div className="professionSelectionText">
       <h2 className="text">ASIANTUNTIJAN OSAAMINEN</h2>
