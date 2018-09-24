@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
+import jatka from '../img/PNG/jatka.png';
 
 class WelcomePage extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
             <div>
-                <Grid container spacing={12} alignItems="center" justify="center">
-                    <Grid item xs={12} >
+                <Grid container spacing={8} alignItems="center" justify="center">
+                    <Grid item xs={8} >
                         <h2>ASIANTUNTIJAN KOMPETENSSITYÖKALU</h2>
                     </Grid>
                     <div className="frontpage_txt">
@@ -23,7 +21,8 @@ class WelcomePage extends Component {
                             <b>B. Asiantuntijan osaaminen</b>, joista voit valita markkinoinnin, myynnin, taloushallinnon tai henkilöstöhallinnon osiot.<br />
                         </p>
                     </div>
-                    <Grid item xs={12}><button onClick={this.props.moveForward}>Jatka</button></Grid>
+                    <Grid item xs={12}>
+                        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} /></Grid>
                 </Grid>
             </div>
         )

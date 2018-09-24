@@ -9,32 +9,20 @@ class Footer extends React.Component {
     render() {
         return (
             <footer>
-                <ul>
-                    <li className="footer-links">
-                        <a href="https://www.facebook.com/HaagaHeliaAMK/?userLang=en" target="_blank" rel="noopener noreferrer">
-                            <img src={TT_facebook} alt="KANADA" /> </a>
-                    </li>
+                <a href="https://www.facebook.com/HaagaHeliaAMK/?userLang=en" target="_blank" rel="noopener noreferrer">
+                    <img src={TT_facebook} alt="Facebook" /> </a>
 
-                    <li className="footer-links">
-                        <a href="https://www.youtube.com/user/HAAGAHELIAviestinta?userLang=en" target="_blank" rel="noopener noreferrer">
-                            <img src={TT_youtube} alt="KANADA" /></a>
-                    </li>
+                <a href="https://www.youtube.com/user/HAAGAHELIAviestinta?userLang=en" target="_blank" rel="noopener noreferrer">
+                    <img src={TT_youtube} alt="Youtube" /></a>
 
-                    <li className="footer-links">
-                        <a href="https://twitter.com/haagaheliaamk?userLang=en" target="_blank" rel="noopener noreferrer">
-                            <img src={TT_twitter} alt="KANADA" /></a>
-                    </li>
+                <a href="https://twitter.com/haagaheliaamk?userLang=en" target="_blank" rel="noopener noreferrer">
+                    <img src={TT_twitter} alt="Twitter" /></a>
 
-                    <li className="footer-links">
-                        <a href="https://www.linkedin.com/school/haaga-helia-university-of-applied-sciences/" target="_blank" rel="noopener noreferrer">
-                            <img src={TT_linkedin} alt="KANADA" /></a>
-                    </li>
+                <a href="https://www.linkedin.com/school/haaga-helia-university-of-applied-sciences/" target="_blank" rel="noopener noreferrer">
+                    <img src={TT_linkedin} alt="Linkedin" /></a>
 
-                    <li className="footer-links">
-                        <a href="https://www.instagram.com/haagahelia/?userLang=en" target="_blank" rel="noopener noreferrer">
-                            <img src={TT_insta} alt="KANADA" /></a>
-                    </li>
-                </ul>
+                <a href="https://www.instagram.com/haagahelia/?userLang=en" target="_blank" rel="noopener noreferrer">
+                    <img src={TT_insta} alt="Instagram" /></a>
             </footer>
         )
     }
