@@ -9,7 +9,7 @@ const List = ({ topics, show, subs, changeOption, sendAnswers }) => {
         <form onSubmit={sendAnswers}>
           {topics.map((topic, i) =>
             <Topic key={i} topic={topic} show={show} subs={subs} changeOption={changeOption}></Topic>)}
-          <button type="submit">send answers</button>
+          <button type="submit">Send answers</button>
         </form>
       </div>
     </div>

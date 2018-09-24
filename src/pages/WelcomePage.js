@@ -4,7 +4,6 @@ import jatka from '../img/PNG/jatka.png';
 
 class WelcomePage extends Component {
 
-
     render() {
         return (
             <div>
@@ -23,7 +22,7 @@ class WelcomePage extends Component {
                         </p>
                     </div>
                     <Grid item xs={12}>
-                        <img src={jatka} id="cursor-hover" alt="KANADA" onClick={this.props.moveForward} /></Grid>
+                        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} /></Grid>
                 </Grid>
             </div>
         )

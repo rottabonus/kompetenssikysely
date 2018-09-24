@@ -5,7 +5,6 @@ const GeneralOptions = ({ options }) => {
     const optionValues = Object.values(options).map(t => t)
     console.log(optionValues[0])
 
-
     return (
         <div className="topicContainer">
             <h2>{options.text}</h2>
@@ -13,6 +12,5 @@ const GeneralOptions = ({ options }) => {
         </div>
     )
 }
-
 
 export default GeneralOptions
