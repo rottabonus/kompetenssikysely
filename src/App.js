@@ -203,7 +203,8 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} />
+            <SelectGeneral topics={this.state.topics} subs={this.state.subtopics} show={this.show}
+              changeOption={this.changeOption} moveForward={this.moveForward} />
 
             <Footer />
           </div>

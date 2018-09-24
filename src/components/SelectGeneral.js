@@ -1,31 +1,39 @@
 import React from 'react'
-import Topic from './Topic'
-import List from './List'
+import GeneralOptions from './GeneralOptions'
 
-const SelectProfession = ({ topics, selectProfessions, selectedTopics, changeProfessions, show, subs, changeOption, Topic }) => {
+const SelectGeneral = ({ topics, moveForward }) => {
 
-	const topicObjects = topics.map(t => t).filter(t => t.category !== 'ammatti')
-	const lol = topicObjects.filter(t => typeof t === "object")
-	const yleiset = Object.values(lol[0]).map(lol => lol).filter(obj => obj.text !== undefined)
-	//console.log(topicObjects.length, topicObjects, typeof topicObjects)
-	console.log('lol0', lol[0])
-	//console.log('yleiset', yleiset)
-
+	const topicArray = topics.filter(t => t.category === 'yleinen')
+	const filterObjects = topicArray.filter(t => typeof t === 'object')
+	const pleasePlease = Object.values(filterObjects[0]).map(t => t).filter(t => typeof t === 'object')
+	console.log('kato tätä', pleasePlease[0])
+	const options = Object.values(pleasePlease[0]).filter(t => t.category === 'Yleisettiedot')
+	console.log('object: ', options)
 	return (
 		<div className="App">
 			<header className="App-header">
-				<h1 className="App-title">Select general</h1>
+				<h1 className="App-title">Select profession</h1>
 			</header>
+			<div className="surveyContainer">
+				<div className="professionSelectionText">
+					<h2 className="text">YLEINEN OSAAMINEN</h2>
 
-			<div className="professionSelection">
-				<form onSubmit={selectProfessions}>
+				</div>
+				<div className="professionSelection">
 
-					<button className="selectionButton" type="submit">select</button>
-				</form>
-			</div>
-		</div>
+					<form>
+						{options.map((op, i) =>
+							<GeneralOptions key={i} options={op}></GeneralOptions>)}
+						<button onClick={moveForward}>Jatka</button>
 
+					</form>
+
+
+
+
+
+				</div></div></div>
 	)
 }
 
-export default SelectProfession
+export default SelectGeneral;
