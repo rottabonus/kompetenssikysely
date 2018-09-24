@@ -11,7 +11,7 @@ class WelcomePage extends Component {
                     <Grid item xs={8} >
                         <h2>ASIANTUNTIJAN KOMPETENSSITYÖKALU</h2>
                     </Grid>
-                    <div className="frontpage_txt">
+                    <div className="professionSelectionText">
                         <p>Tervetuloa kartoittamaan omaa osaamistasi ja tunnistamaan kehittymistarpeitasi suhteessa tämän päivän työelämään. <br /><br />
                             Tässä työkalussa voit testata, miten yleiset kompetenssisi ja asiantuntijan osaamisesi asettuvat
                             suhteessa tämän päivän tradenomien osaamisvaatimuksiin.<br /><br />
