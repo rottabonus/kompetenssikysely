@@ -1,25 +1,29 @@
 import React from 'react'
+import GeneralOptions from './GeneralOptions'
+import jatka from '../img/PNG/jatka.png';
 
+const SelectGeneral = ({ topics, moveForward }) => {
 
-const SelectGeneral = ({ topics, selectProfessions, selectedTopics, changeProfessions }) => {
-
-	const topicObjects = topics.filter(t => typeof t === 'object')
-
+	const filterCategory = topics.filter(t => t.category === 'yleinen')
+	const filterObjects = filterCategory.filter(t => typeof t === 'object')
+	const filterSubtopic = Object.values(filterObjects[0]).map(t => t).filter(t => typeof t === 'object')
+	console.log('subtopics:', filterSubtopic[0])
+	const options = Object.values(filterSubtopic[0]).filter(t => t.category === 'Yleisettiedot')
+	console.log('object: ', options)
 	return (
-		<div>
-			<h2 className="text">SELECT GENERAL</h2>
-			<div>
-				<div><p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p></div>
-				<div><p>In lobortis ultricies erat, in consequat massa dictum eu. Ut est dui, dignissim aliquet ex at,
-					accumsan congue sapien. Integer nec diam id ex eleifend mollis.</p></div>
-				<div><p> Etiam molestie nunc eget ligula porta, malesuada luctus ipsum pharetra.</p></div>
-			</div>
-			<form onSubmit={selectProfessions}>
-				{topicObjects.filter(t => t.text === 'yleinen').map((topic, i) =>
-					<div className="checkBox" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" /><p>{topic.text}</p></div>)}
-				<button type="submit">select</button>
-			</form>
-		</div>
+		<div className="App">
+			<div className="surveyContainer">
+				<div className="professionSelectionText">
+					<h2 className="text">YLEINEN OSAAMINEN</h2>
+				</div>
+				<div className="professionSelection">
+					<form>
+						{options.map((op, i) =>
+							<GeneralOptions key={i} options={op}></GeneralOptions>)}
+						{/*<button onClick={moveForward}>Jatka</button>*/}
+						<img src={jatka} id="cursor-hover" alt="Jatka" onClick={moveForward} />
+					</form>
+				</div></div></div>
 	)
 }
 
