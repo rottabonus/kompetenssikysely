@@ -11,33 +11,19 @@ class BarChart extends Component {
         };
     }
 
-    HandleAnswers = () => {
-        const answerNames = this.props.answers.map((a) => a.answer);
-        console.log(answerNames);
-        return answerNames;
-    }
-
-    HandleValues = () => {
-        const answerValues = this.props.answers.map((a) => a.value);
-        console.log(answerValues);
-        return answerValues;
-    }
-
-
     componentDidUpdate(data){
         if(this.props.calculated){
-            console.log("987" + this.props.professionAnswers);
-    var data = {labels: this.HandleAnswers(), //tähän kyssärit db:stä
+    var data = {labels: this.props.answers.map((a) => a.answer), //tähän kyssärit db:stä
     datasets: [{
             "label": "Minun Kompetenssini",
             "yAxisID": "A",
-            "backgroundColor": "rgba(53,81,103,1)",
+            "backgroundColor": "rgba(53,81,103,0.6)",
             "borderColor": "rgba(53,81,103,.4)",
-            "data": this.HandleValues(), //tähän käyttäjän vastaukset db:stä
+            "data": this.props.answers.map((a) => a.value), //tähän käyttäjän vastaukset db:stä
         },{
             "label": "Kompetenssi keskiarvo",
             "yAxisID": "A",
-            "backgroundColor": "rgba(255,153,0,1)",
+            "backgroundColor": "rgba(255,153,0.3)",
             "borderColor": "rgba(255,153,0,.4)",
             "data": this.props.professionAnswers, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
          }]
@@ -45,18 +31,22 @@ class BarChart extends Component {
     var options = {
         scales: {
           yAxes: [{
+            stacked: true,
             id: 'A',
             position: 'left',
             ticks: {
                 beginAtZero: true,
             },
+            maxBarThickness: 20,
+            categoryPercentage: 1.0, 
+            barPercentage: 0.9,
           }],
           xAxes: [{
               ticks: {
                   beginAtZero: true,
               }
           }]
-        }
+        },
       };
       const ctx = document.getElementById("myChart");
        const myChart = new Chart(ctx, {type: "horizontalBar",data:data, options:options});
@@ -67,7 +57,7 @@ class BarChart extends Component {
     render() {
     return (
       <div>
-       <canvas id="myChart" width="500" height="300"></canvas>
+       <canvas id="myChart" width="300" height="300"></canvas>
       </div>
     );
   }

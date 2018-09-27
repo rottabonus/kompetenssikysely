@@ -2,6 +2,7 @@ import React from 'react'
 
 const TopicItem = ({ topic, changeOption }) => {
 
+  // FIXME: filteröinti??
   const optionValues = Object.values(topic).map(option => option).filter(o => typeof o === 'object')
 
   return (

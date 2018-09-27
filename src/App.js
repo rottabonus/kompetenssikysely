@@ -36,7 +36,7 @@ class App extends React.Component {
     const db = fire.database().ref('topics')
     db.on('child_added', snapshot => {
       getAll.push(snapshot.val())
-      this.setState({ topics: getAll })
+      this.setState({ topics: getAll }) // setStatea ei saa loopin ulkopuolelle?
     })
   }
 
@@ -96,7 +96,6 @@ class App extends React.Component {
   // eli asetetaan "item" (objectArray)- stateen jos this.state.subtopics on tyhjä (muuten tila tyhjennetään) -
   // tilaan asetettavasta 'subtopic'ista on muodostettu itemistä, josta kaikki muut filtteröity jotka eivät ole objecteja. //esim siellä on arvo nimeltä 'text'
   // Tätä käytetään monessa funktiossa, että nähdään mikä on "valittu" - mille kysymyksille operoidaan ks. komponentti Topic
-  // katso myös console log item niin tajuat!!
   show = (event, item) => {
     event.preventDefault()
     // mapataan Object.values (eli objecteja) listaksi - filteröidään muut kuin objectit pois!
@@ -124,9 +123,10 @@ class App extends React.Component {
         setTimeout(() => {
             db.off()
             this.handleProfessionAnswers();
-        }, 5000)
+        }, 1000)
     }
 
+    // FIXME: Dokumentointi
     handleProfessionAnswers = () => {
         const answerObjectArray = this.state.professionAnswers;
         const onlyAnswers = answerObjectArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
@@ -199,7 +199,7 @@ class App extends React.Component {
           <div className="App">
             <Header />
             <SelectProfession topics={this.state.topics} selectProfessions={this.selectProfessions}
-              selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
+            changeProfessions={this.changeProfessions} />
             <Footer />
           </div>
         )
@@ -214,13 +214,16 @@ class App extends React.Component {
           </div>
         )
       }
+
+      // FIXME: calculated käyttö renderiin??
       case this.state.states.PROFANSW: {
         return (
-
+          <div className="Chart">
           <div className="App">
             <Header />
             <BarChart answers={this.state.answers} calculated={this.state.calculated} professionAnswers={this.state.professionAnswers}></BarChart>
             <Footer />
+          </div>
           </div>
         )
       }

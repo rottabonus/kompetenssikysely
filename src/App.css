@@ -108,3 +108,10 @@
 #cursor-hover {  /* MUUTTAA KURSORIN KUN HOVEROI JATKA-NAPIN YLLE */
   cursor: pointer;
 }
+
+.Chart {
+  width: 80%;
+  height: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
