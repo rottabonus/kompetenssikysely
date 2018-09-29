@@ -29,7 +29,7 @@ class App extends React.Component {
             professionAnswers: [],
             selectedTopics: [],
             calculated: false,
-            profAverages: { values: [], names: []}
+            profAverages: { values: [], answers: []}
         }
     }
   componentDidMount() {
@@ -37,7 +37,7 @@ class App extends React.Component {
     const db = fire.database().ref('topics')
     db.on('child_added', snapshot => {
       getAll.push(snapshot.val())
-      this.setState({ topics: getAll })
+      this.setState({ topics: getAll }) // setStatea ei saa loopin ulkopuolelle?
     })
     this.fetchAnswers()
   }
@@ -101,7 +101,6 @@ class App extends React.Component {
   // eli asetetaan "item" (objectArray)- stateen jos this.state.subtopics on tyhjä (muuten tila tyhjennetään) -
   // tilaan asetettavasta 'subtopic'ista on muodostettu itemistä, josta kaikki muut filtteröity jotka eivät ole objecteja. //esim siellä on arvo nimeltä 'text'
   // Tätä käytetään monessa funktiossa, että nähdään mikä on "valittu" - mille kysymyksille operoidaan ks. komponentti Topic
-  // katso myös console log item niin tajuat!!
   show = (event, item) => {
     event.preventDefault()
     // mapataan Object.values (eli objecteja) listaksi - filteröidään muut kuin objectit pois!
@@ -141,22 +140,23 @@ class App extends React.Component {
       })
       const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
       console.log('vain vastauksia', onlyAnswers)
-      const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
-      console.log('unique',uniqueAnswers)
-      const answerAverages = [];
-      uniqueAnswers.forEach((element) => {
-          const tempArr = onlyAnswers.filter((answer) =>
-              element === answer.answer);
-          const valueArr = tempArr.map((a) => parseInt(a.value));
-          var sum = valueArr.reduce((previous, current) => current + previous);
-          var avg = sum / valueArr.length;
-          answerAverages.push(avg);
-          return answerAverages;
-      });
-      const profAverages = {values: answerAverages, answers: uniqueAnswers}
-      console.log(profAverages.answers.map(a => a))
-  this.setState({ profAverages })
-  this.moveForward()
+      console.log(typeof onlyAnswers)
+        const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
+        console.log('unique',uniqueAnswers)
+        const answerAverages = [];
+        uniqueAnswers.forEach((element) => {
+            const tempArr = onlyAnswers.filter((answer) =>
+                element === answer.answer);
+            const valueArr = tempArr.map((a) => parseInt(a.value));
+            var sum = valueArr.reduce((previous, current) => current + previous);
+            var avg = sum / valueArr.length;
+            answerAverages.push(avg);
+            return answerAverages;
+        });
+        const profAverages = {values: answerAverages, answers: uniqueAnswers}
+        console.log(profAverages.answers.map(a => a))
+    this.setState({ profAverages })
+    this.moveForward()
     }
 
   //kutsutaan kun liikutaan statesta ylöspäin !!
@@ -227,13 +227,16 @@ class App extends React.Component {
           </div>
         )
       }
+
+      // FIXME: calculated käyttö renderiin??
       case this.state.states.PROFANSW: {
         return (
-
+          <div className="Chart">
           <div className="App">
             <Header />
             {this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
             <Footer />
+          </div>
           </div>
         )
       }

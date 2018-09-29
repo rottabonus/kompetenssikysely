@@ -4,6 +4,8 @@ import jatka from '../img/PNG/jatka.png';
 
 const SelectGeneral = ({ topics, moveForward }) => {
 
+
+	// TODO: flatmap/reduce??
 	const filterCategory = topics.filter(t => t.category === 'yleinen')
 	/*const filterObjects = filterCategory.filter(t => typeof t === 'object')
 	const filterSubtopic = Object.values(filterObjects[0]).map(t => t).filter(t => typeof t === 'object')
