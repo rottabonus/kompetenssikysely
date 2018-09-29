@@ -18,7 +18,7 @@ class App extends React.Component {
             yleinen: {},
             key: '',
             answers: [],
-            surveyState: 0,
+            surveyState: 1,
             states: {
                 WelcomePage: 0,
                 General: 1,
@@ -28,7 +28,8 @@ class App extends React.Component {
             },
             professionAnswers: [],
             selectedTopics: [],
-            calculated: false
+            calculated: false,
+            profAverages: { values: [], names: []}
         }
     }
   componentDidMount() {
@@ -38,6 +39,7 @@ class App extends React.Component {
       getAll.push(snapshot.val())
       this.setState({ topics: getAll })
     })
+    this.fetchAnswers()
   }
 
   changeOption = (event) => {
@@ -53,26 +55,29 @@ class App extends React.Component {
     this.setState({ answers: updatedAnswers.concat(answerObj) })
   }
 
-    sendAnswers = (event) => {
-        event.preventDefault()
-        console.log('sendAnswers clicked!')
-        const dataObject = {
-            date: '9/9/2018',
-            topic: this.state.subtopics[0].text,
-            Answers: this.state.answers
-        }
-        let key = ''
-        if (this.state.key === '') {
-            key = fire.database().ref().child('answers').push(dataObject);
-            this.setState({
-                key: key.key
-            })
-        } else {
-            key = fire.database().ref('answers').child(this.state.key).set(dataObject);
-        }
-        this.fetchAnswers();
-        this.moveForward();
-      }
+  sendAnswers = (event) => {
+  event.preventDefault()
+  const answers = {}
+  const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
+  selectedTopics.forEach((topic) => {
+    let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a =>   a={answer: a.answer, value: a.value})
+    const dataObject = {Answers: answerSet, date: '28/9/2018'}
+    //tietokantaan ei saa syöttää tyhjiä vastauksia!
+    if (dataObject.Answers.length === 0) {
+      window.confirm(`${topic} must have answers!`)
+    } else {
+      answers[topic] = dataObject
+    }
+  })
+  let key = ''
+  if (this.state.key === '') {
+    key = fire.database().ref().child('answers').push(answers)
+    this.setState({ key: key.key })
+  } else {
+    key = fire.database().ref('answers').child(this.state.key).set(answers);
+  }
+  this.moveForward()
+}
 
   changeProfessions = (item) => {
     //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
@@ -108,43 +113,50 @@ class App extends React.Component {
     }
   }
 
-    fetchAnswers = () => {
+    fetchAnswers = async () => {
         console.log('fetch Answers triggered!')
-        const subtopic = this.state.subtopics[0].text;
+        //const subtopic = this.state.subtopics[0].text;
         let answerObjectArray = [];
-        const rootRef = fire.database().ref();
-        const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic);
-        db.on('child_added', snapshot => {
+        const db = fire.database().ref('answers/');
+        //const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic);
+        const allDone = await db.on('child_added', snapshot => {
             answerObjectArray.push(snapshot.val())
-            //console.log(JSON.stringify(snapshot))
             this.setState({
                 professionAnswers: answerObjectArray
             })
+            db.off('child_added', allDone)
         })
-        setTimeout(() => {
-            db.off()
-            this.handleProfessionAnswers();
-        }, 5000)
     }
 
-    handleProfessionAnswers = () => {
-        const answerObjectArray = this.state.professionAnswers;
-        const onlyAnswers = answerObjectArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
-       const answerNames = this.state.answers.map(answer => answer.answer)
-            const answerAverages = [];
-            answerNames.forEach((element) => {
-                const tempArr = onlyAnswers.filter((answer) =>
-                    element === answer.answer);
-                const valueArr = tempArr.map((a) => parseInt(a.value));
-                var sum = valueArr.reduce((previous, current) => current + previous);
-                var avg = sum / valueArr.length;
-                answerAverages.push(avg);
-                return answerAverages;
-            });
-        this.setState({
-            professionAnswers: answerAverages,
-            calculated: true
+    handleProfessionAnswers = (event) => {
+      event.preventDefault()
+      const professions = this.state.selectedTopics.map(t => t.topic)
+      const answerArray = []
+      this.state.professionAnswers.forEach((answers) => {
+        professions.forEach((profession, i) => {
+          if(answers[professions[i]]){
+            answerArray.push(answers[professions[i]])
+          }
         })
+      })
+      const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
+      console.log('vain vastauksia', onlyAnswers)
+      const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
+      console.log('unique',uniqueAnswers)
+      const answerAverages = [];
+      uniqueAnswers.forEach((element) => {
+          const tempArr = onlyAnswers.filter((answer) =>
+              element === answer.answer);
+          const valueArr = tempArr.map((a) => parseInt(a.value));
+          var sum = valueArr.reduce((previous, current) => current + previous);
+          var avg = sum / valueArr.length;
+          answerAverages.push(avg);
+          return answerAverages;
+      });
+      const profAverages = {values: answerAverages, answers: uniqueAnswers}
+      console.log(profAverages.answers.map(a => a))
+  this.setState({ profAverages })
+  this.moveForward()
     }
 
   //kutsutaan kun liikutaan statesta ylöspäin !!
@@ -152,10 +164,11 @@ class App extends React.Component {
     this.setState({ surveyState: this.state.surveyState + 1 })
   }
 
- 
+
   //tämä siirtää eteenpäin prof-selectistä
   selectProfessions = (event) => {
     event.preventDefault()
+    this.handleProfessionAnswers()
     this.moveForward()
   }
 
@@ -198,7 +211,7 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <SelectProfession topics={this.state.topics} selectProfessions={this.selectProfessions}
+            <SelectProfession topics={this.state.topics} handleProfessionsAndMove={this.handleProfessionAnswers}
               selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
             <Footer />
           </div>
@@ -219,7 +232,7 @@ class App extends React.Component {
 
           <div className="App">
             <Header />
-            <BarChart answers={this.state.answers} calculated={this.state.calculated} professionAnswers={this.state.professionAnswers}></BarChart>
+            {this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
             <Footer />
           </div>
         )
@@ -230,61 +243,21 @@ class App extends React.Component {
 
 export default App;
 
-/*            banswers: [{answer: "Strateginen johtaminen",value: "1"}, 
-                      {answer: "Strateginen HR", value: "5"}, 
-                      {answer: "Päätöksenteon valmistelu",value: "3"}, 
-                      {answer: "Henkilöstöresurssien hallinta",value: "3"}, 
-                      {answer: "Digitaalinen osaamisen kehittäminen",value: "1"}, 
-                      {answer: "Oppimismenetelmät", value: "3"}, 
-                      {answer: "Työnantajaimagon rakentaminen",value: "5"}, 
-                      {answer: "Rekrytointi",value: "1"}, 
-                      {answer: "Vaikuttamisviestintä",value: "3"}, 
-                      {answer: "HR-verkostot",value: "1"}, 
-                      {answer: "Työhyvinvointi",value: "5"}, 
-                      {answer: "Sitouttaminen",value: "3"}, 
-                      {answer: "Diversiteetin huomioiminen",value: "5"}, 
-                      {answer: "Monikulttuurinen HR-viestintä",value: "3"}, 
-                      {answer: "Kansainvälinen HRM",value: "3"}, 
-                      {answer: "Muutoksen organisointi",value: "1"}, 
+           /*banswers: [{answer: "Strateginen johtaminen",value: "1"},
+                      {answer: "Strateginen HR", value: "5"},
+                      {answer: "Päätöksenteon valmistelu",value: "3"},
+                      {answer: "Henkilöstöresurssien hallinta",value: "3"},
+                      {answer: "Digitaalinen osaamisen kehittäminen",value: "1"},
+                      {answer: "Oppimismenetelmät", value: "3"},
+                      {answer: "Työnantajaimagon rakentaminen",value: "5"},
+                      {answer: "Rekrytointi",value: "1"},
+                      {answer: "Vaikuttamisviestintä",value: "3"},
+                      {answer: "HR-verkostot",value: "1"},
+                      {answer: "Työhyvinvointi",value: "5"},
+                      {answer: "Sitouttaminen",value: "3"},
+                      {answer: "Diversiteetin huomioiminen",value: "5"},
+                      {answer: "Monikulttuurinen HR-viestintä",value: "3"},
+                      {answer: "Kansainvälinen HRM",value: "3"},
+                      {answer: "Muutoksen organisointi",value: "1"},
                       {answer: "Muutosagentit",value: "1"}],
-
-
-    sendAnswers = (event) => {
-    event.preventDefault()
-    // jaetaan vastaukset ammatin/topicin mukaan eri arrayhin!!
-    // answers ja AnswerTable on hash-Tauluja, jotta päästään eroon listoista.
-    //hahs-tauluihin työnnetään aina arvo näin => taulu[avain] = arvo
-    // hahs-taulua voi sitten kutsua lopuksi näin => taulu
-    // se palauttaa sitten taulun kaiki arvot, näin ollen voimme käyttää sitä ikään kuin arrayna.
-    const answers = {}
-    const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
-    selectedTopics.forEach((topic) => {
-      let AnswerTable = {}
-      let answerSet = this.state.answers.filter(answers => answers.topic === topic)
-      answerSet.forEach((answer) => {
-        AnswerTable[answer.answer] = answer.value
-      })
-      console.log('hashtable', AnswerTable)
-      const dataObject = {
-        //tähän dateen täytyy keksiä funktio!!!
-        date: '13/9/2018',
-        Answers: AnswerTable
-      }
-      //tietokantaan ei saa syöttää tyhjiä vastauksia!
-      if (Object.keys(AnswerTable).length === 0) {
-        window.confirm(`${topic} must have answers!`)
-      } else {
-        answers[topic] = dataObject
-      }
-    })
-    let key = ''
-    if (this.state.key === '') {
-      key = fire.database().ref().child('answers').push(answers)
-      this.setState({ key: key.key })
-    } else {
-      key = fire.database().ref('answers').child(this.state.key).set(answers);
-    }
-    this.fetchAnswers()
-    this.moveForward()
-  }*/
-
+*/
