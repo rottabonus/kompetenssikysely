@@ -1,18 +1,20 @@
 import React from 'react'
+import GeneralTopic from './GeneralTopic'
 import jatka from '../img/PNG/jatka.png';
-import GeneralTopic from './GeneralTopic';
 
-const SelectGeneral = ({ topics, moveForward }) => {
+const GeneralList = ({ topics, moveForward, subs}) => {
 
 	const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
 	const generalTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object')
-	const generalSubTopics = Object.values(generalTopics[0]).filter(t => t.category === 'Yleisettiedot' && typeof t === 'object')
-	
+	const generalSubTopics = generalTopics.filter(t => t.text !== 'Yleiset tiedot' && typeof t === 'object')
+	console.log(generalSubTopics)
+
+
 	return (
-		<div className="App">
+			<div className="App">
 			<div className="surveyContainer">
 				<div className="professionSelectionText">
-					<h1 className="text">{generalTopics[0].text}</h1>
+					<h1 className="text">yolo</h1>
 				</div>
 				<div className="professionSelection">
 					<form>
@@ -21,7 +23,7 @@ const SelectGeneral = ({ topics, moveForward }) => {
 						<img src={jatka} id="cursor-hover" alt="Jatka" onClick={moveForward} />
 					</form>
 				</div></div></div>
-	)
-}
+		)
+} 
 
-export default SelectGeneral;
+export default GeneralList

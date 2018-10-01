@@ -8,6 +8,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import WelcomePage from './pages/WelcomePage'
 import SelectGeneral from './components/SelectGeneral'
+import GeneralList from './components/GeneralList'
 
 class App extends React.Component {
     constructor() {
@@ -18,13 +19,14 @@ class App extends React.Component {
             yleinen: {},
             key: '',
             answers: [],
-            surveyState: 1,
+            surveyState: 0,
             states: {
                 WelcomePage: 0,
                 General: 1,
-                SELECTPROF: 2,
-                PROFESSION: 3,
-                PROFANSW: 4,
+                General2: 2,
+                SELECTPROF: 3,
+                PROFESSION: 4,
+                PROFANSW: 5,
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -32,14 +34,22 @@ class App extends React.Component {
             profAverages: { values: [], answers: []}
         }
     }
-  componentDidMount() {
+
+
+   async componentDidMount() {
     let getAll = []
-    const db = fire.database().ref('topics')
-    db.on('child_added', snapshot => {
+    const topics = fire.database().ref('topics')
+    const allTopicsDone = await topics.on('child_added', snapshot => {
       getAll.push(snapshot.val())
-      this.setState({ topics: getAll }) // setStatea ei saa loopin ulkopuolelle?
+        topics.off('child_added', allTopicsDone)
     })
-    this.fetchAnswers()
+        let answerObjectArray = [];
+        const answers = fire.database().ref('answers/');
+        const allAnswersDone = await answers.on('child_added', snapshot => {
+            answerObjectArray.push(snapshot.val())
+            answers.off('child_added', allAnswersDone)
+        })
+        this.setState({ topics: getAll, professionAnswers: answerObjectArray })
   }
 
   changeOption = (event) => {
@@ -111,21 +121,6 @@ class App extends React.Component {
       this.setState({ subtopics: [] })
     }
   }
-
-    fetchAnswers = async () => {
-        console.log('fetch Answers triggered!')
-        //const subtopic = this.state.subtopics[0].text;
-        let answerObjectArray = [];
-        const db = fire.database().ref('answers/');
-        //const db = rootRef.child('answers/').orderByChild('topic').equalTo(subtopic);
-        const allDone = await db.on('child_added', snapshot => {
-            answerObjectArray.push(snapshot.val())
-            this.setState({
-                professionAnswers: answerObjectArray
-            })
-            db.off('child_added', allDone)
-        })
-    }
 
     handleProfessionAnswers = (event) => {
       event.preventDefault()
@@ -199,9 +194,18 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <SelectGeneral topics={this.state.topics} subs={this.state.subtopics} show={this.show}
-              changeOption={this.changeOption} moveForward={this.moveForward} />
+            <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} />
 
+            <Footer />
+          </div>
+        )
+      }
+
+      case this.state.states.General2: {
+        return (
+          <div className="App">
+            <Header />
+            <GeneralList topics={this.state.topics} moveForward={this.moveForward} subs={this.state.subtopics}/>
             <Footer />
           </div>
         )
