@@ -1,7 +1,7 @@
 import React from 'react'
 import jatka from '../img/PNG/jatka.png';
 
-const SelectProfession = ({ topics, selectProfessions, changeProfessions }) => {
+const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove }) => {
 
   const topicObjects = topics.filter(t => typeof t === 'object')
 
@@ -16,12 +16,11 @@ const SelectProfession = ({ topics, selectProfessions, changeProfessions }) => {
           <div><p>Valitse yksi tai useampi seuraavista alueista:</p></div>
         </div>
         <div className="professionSelection">
-          <form onSubmit={selectProfessions}>
-            {/* FIXME: filteröinti muuten kuin yleinen -sanalla?*/}
+          <form>
             {topicObjects.filter(t => t.text !== 'yleinen').map((topic, i) =>
               <div key={i}><input onChange={() => changeProfessions(topic)} className="selectionInput" type="checkbox" />{topic.text}</div>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
-            <input type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={this.moveForward} />
+            <input type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
           </form>
         </div>
       </div>
