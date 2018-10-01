@@ -110,8 +110,8 @@
 }
 
 .Chart {
-  width: 80%;
-  height: 70%;
+  width: 65%;
+  height: auto;
   margin-left: auto;
   margin-right: auto;
 }
