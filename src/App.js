@@ -107,6 +107,7 @@ class App extends React.Component {
     }
   }
 
+    
     fetchAnswers = () => {
         console.log('fetch Answers triggered!')
         const subtopic = this.state.subtopics[0].text;
@@ -130,7 +131,7 @@ class App extends React.Component {
     handleProfessionAnswers = () => {
         const answerObjectArray = this.state.professionAnswers;
         const onlyAnswers = answerObjectArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
-       const answerNames = this.state.answers.map(answer => answer.answer)
+        const answerNames = this.state.answers.map(answer => answer.answer)
             const answerAverages = [];
             answerNames.forEach((element) => {
                 const tempArr = onlyAnswers.filter((answer) =>
@@ -138,7 +139,7 @@ class App extends React.Component {
                 const valueArr = tempArr.map((a) => parseInt(a.value));
                 var sum = valueArr.reduce((previous, current) => current + previous);
                 var avg = sum / valueArr.length;
-                answerAverages.push(avg);
+                answerAverages.push(Math.round(avg * 100) / 100);
                 return answerAverages;
             });
         this.setState({
