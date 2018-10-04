@@ -53,15 +53,16 @@ class App extends React.Component {
   }
 
   changeOption = (event) => {
-    //answerObj ottaa arvot event-paikasta (tässä tapauksessa inputin name- ja value-attribuuteista ks. komponentti)
     const answerObj = {
       answer: event.target.name,
       value: event.target.value,
-      topic: this.state.subtopics[0].text
+      topic: event.target.dataset.parent
     }
+
     //updatedAnswers on uusi lista, joka luodaan this.state.answersien pohjalta filteröimällä answerObj.answer
     //- jos se on jo olemassa taulussa , ettei samaa vaihtoehtoa lisätä uudestaan!
     const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
+      console.log(answerObj, "ja sitten array", updatedAnswers)
     this.setState({ answers: updatedAnswers.concat(answerObj) })
   }
 
@@ -134,8 +135,6 @@ class App extends React.Component {
         })
       })
       const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
-      console.log('vain vastauksia', onlyAnswers)
-      console.log(typeof onlyAnswers)
         const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
         console.log('unique',uniqueAnswers)
         const answerAverages = [];
@@ -149,8 +148,7 @@ class App extends React.Component {
             return answerAverages;
         });
         const profAverages = {values: answerAverages, answers: uniqueAnswers}
-        console.log(profAverages.answers.map(a => a))
-    this.setState({ profAverages })
+    this.setState({ profAverages, calculated: true })
     this.moveForward()
     }
 
@@ -225,7 +223,7 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <List topics={this.state.selectedTopics} subs={this.state.subtopics} show={this.show}
+            <List topics={this.state.selectedTopics}
               changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
             <Footer />
           </div>
@@ -238,7 +236,7 @@ class App extends React.Component {
           <div className="Chart">
           <div className="App">
             <Header />
-            {this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
+            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
             <Footer />
           </div>
           </div>
