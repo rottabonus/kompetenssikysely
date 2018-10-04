@@ -1,28 +1,29 @@
 import React from 'react'
 import GeneralTopicItem from './GeneralTopicItem'
 
-const GeneralTopic = ({ generalSubTopics }) => {
-    
-	if(generalSubTopics.Options !== undefined){
-		return (
-        <div className="topicContainer">
-            <h2>{generalSubTopics.text}</h2>
-            {generalSubTopics.Options.map((option, i) => <GeneralTopicItem key={i} option={option}></GeneralTopicItem>)}
-        </div>
+const GeneralTopic = ({ generalSubTopics, handleChange }) => {
 
-    )
-	} else {
-		console.log( 'does not have options array, but a options value-key pair!')
-		return (
-        <div className="topicContainer">
-            <h2>{generalSubTopics.text}</h2>
-            {Object.values(generalSubTopics).filter(a => typeof a === 'object').map((option, i) => <GeneralTopicItem key={i} option={option}></GeneralTopicItem>)}
-            
-        </div>
+    if (generalSubTopics.Options !== undefined) {
+        return (
+            <div className="topicContainer">
+                <h2>{generalSubTopics.text}</h2><fieldset>
+                    {generalSubTopics.Options.map((option, i) =>
+                        <GeneralTopicItem key={i} option={option} name={generalSubTopics.text} handleChange={handleChange}></GeneralTopicItem>)}
+                </fieldset>
+            </div>
 
-    )
-	}
-      
+        )
+    } else {
+        console.log('does not have options array, but a options value-key pair!')
+        return (
+            <div className="topicContainer">
+                <h2>{generalSubTopics.text}</h2>
+                {Object.values(generalSubTopics).filter(a => typeof a === 'object').map((option, i) =>
+                    <GeneralTopicItem key={i} option={option} handleChange={handleChange}></GeneralTopicItem>)}
+            </div>
+
+        )
+    }
 }
 
 

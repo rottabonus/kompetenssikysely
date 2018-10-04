@@ -11,45 +11,46 @@ import SelectGeneral from './components/SelectGeneral'
 import GeneralList from './components/GeneralList'
 
 class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            topics: [],
-            subtopics: [],
-            yleinen: {},
-            key: '',
-            answers: [],
-            surveyState: 0,
-            states: {
-                WelcomePage: 0,
-                General: 1,
-                General2: 2,
-                SELECTPROF: 3,
-                PROFESSION: 4,
-                PROFANSW: 5,
-            },
-            professionAnswers: [],
-            selectedTopics: [],
-            calculated: false,
-            profAverages: { values: [], answers: []}
-        }
+  constructor() {
+    super()
+    this.state = {
+      topics: [],
+      subtopics: [],
+      yleinen: {},
+      key: '',
+      answers: [],
+      surveyState: 0,
+      states: {
+        WelcomePage: 0,
+        General: 1,
+        General2: 2,
+        SELECTPROF: 3,
+        PROFESSION: 4,
+        PROFANSW: 5,
+      },
+      professionAnswers: [],
+      selectedTopics: [],
+      calculated: false,
+      profAverages: { values: [], answers: [] }
     }
 
+  }
 
-   async componentDidMount() {
+
+  async componentDidMount() {
     let getAll = []
     const topics = fire.database().ref('topics')
     const allTopicsDone = await topics.on('child_added', snapshot => {
       getAll.push(snapshot.val())
-        topics.off('child_added', allTopicsDone)
+      topics.off('child_added', allTopicsDone)
     })
-        let answerObjectArray = [];
-        const answers = fire.database().ref('answers/');
-        const allAnswersDone = await answers.on('child_added', snapshot => {
-            answerObjectArray.push(snapshot.val())
-            answers.off('child_added', allAnswersDone)
-        })
-        this.setState({ topics: getAll, professionAnswers: answerObjectArray })
+    let answerObjectArray = [];
+    const answers = fire.database().ref('answers/');
+    const allAnswersDone = await answers.on('child_added', snapshot => {
+      answerObjectArray.push(snapshot.val())
+      answers.off('child_added', allAnswersDone)
+    })
+    this.setState({ topics: getAll, professionAnswers: answerObjectArray })
   }
 
   changeOption = (event) => {
@@ -62,33 +63,44 @@ class App extends React.Component {
     //updatedAnswers on uusi lista, joka luodaan this.state.answersien pohjalta filteröimällä answerObj.answer
     //- jos se on jo olemassa taulussa , ettei samaa vaihtoehtoa lisätä uudestaan!
     const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
-      console.log(answerObj, "ja sitten array", updatedAnswers)
+    console.log(answerObj, "ja sitten array", updatedAnswers)
     this.setState({ answers: updatedAnswers.concat(answerObj) })
   }
 
-  sendAnswers = (event) => {
-  event.preventDefault()
-  const answers = {}
-  const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
-  selectedTopics.forEach((topic) => {
-    let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a =>   a={answer: a.answer, value: a.value})
-    const dataObject = {Answers: answerSet, date: '28/9/2018'}
-    //tietokantaan ei saa syöttää tyhjiä vastauksia!
-    if (dataObject.Answers.length === 0) {
-      window.confirm(`${topic} must have answers!`)
-    } else {
-      answers[topic] = dataObject
+  handleChange = (event) => {
+    const answerObj = {
+      answer: event.target.name,
+      value: event.target.value,
     }
-  })
-  let key = ''
-  if (this.state.key === '') {
-    key = fire.database().ref().child('answers').push(answers)
-    this.setState({ key: key.key })
-  } else {
-    key = fire.database().ref('answers').child(this.state.key).set(answers);
+    console.log('this is ansobj', answerObj)
+    const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
+    this.setState({ answers: updatedAnswers.concat(answerObj) })
   }
-  this.moveForward()
-}
+
+
+  sendAnswers = (event) => {
+    event.preventDefault()
+    const answers = {}
+    const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
+    selectedTopics.forEach((topic) => {
+      let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
+      const dataObject = { Answers: answerSet, date: '28/9/2018' }
+      //tietokantaan ei saa syöttää tyhjiä vastauksia!
+      if (dataObject.Answers.length === 0) {
+        window.confirm(`${topic} must have answers!`)
+      } else {
+        answers[topic] = dataObject
+      }
+    })
+    let key = ''
+    if (this.state.key === '') {
+      key = fire.database().ref().child('answers').push(answers)
+      this.setState({ key: key.key })
+    } else {
+      key = fire.database().ref('answers').child(this.state.key).set(answers);
+    }
+    this.moveForward()
+  }
 
   changeProfessions = (item) => {
     //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
@@ -123,34 +135,34 @@ class App extends React.Component {
     }
   }
 
-    handleProfessionAnswers = (event) => {
-      event.preventDefault()
-      const professions = this.state.selectedTopics.map(t => t.topic)
-      const answerArray = []
-      this.state.professionAnswers.forEach((answers) => {
-        professions.forEach((profession, i) => {
-          if(answers[professions[i]]){
-            answerArray.push(answers[professions[i]])
-          }
-        })
+  handleProfessionAnswers = (event) => {
+    event.preventDefault()
+    const professions = this.state.selectedTopics.map(t => t.topic)
+    const answerArray = []
+    this.state.professionAnswers.forEach((answers) => {
+      professions.forEach((profession, i) => {
+        if (answers[professions[i]]) {
+          answerArray.push(answers[professions[i]])
+        }
       })
-      const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
-        const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
-        console.log('unique',uniqueAnswers)
-        const answerAverages = [];
-        uniqueAnswers.forEach((element) => {
-            const tempArr = onlyAnswers.filter((answer) =>
-                element === answer.answer);
-            const valueArr = tempArr.map((a) => parseInt(a.value));
-            var sum = valueArr.reduce((previous, current) => current + previous);
-            var avg = sum / valueArr.length;
-            answerAverages.push(avg);
-            return answerAverages;
-        });
-        const profAverages = {values: answerAverages, answers: uniqueAnswers}
+    })
+    const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
+    const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
+    console.log('unique', uniqueAnswers)
+    const answerAverages = [];
+    uniqueAnswers.forEach((element) => {
+      const tempArr = onlyAnswers.filter((answer) =>
+        element === answer.answer);
+      const valueArr = tempArr.map((a) => parseInt(a.value));
+      var sum = valueArr.reduce((previous, current) => current + previous);
+      var avg = sum / valueArr.length;
+      answerAverages.push(avg);
+      return answerAverages;
+    });
+    const profAverages = { values: answerAverages, answers: uniqueAnswers }
     this.setState({ profAverages, calculated: true })
     this.moveForward()
-    }
+  }
 
   //kutsutaan kun liikutaan statesta ylöspäin !!
   moveForward = () => {
@@ -192,7 +204,7 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} />
+            <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} handleChange={this.handleChange} />
 
             <Footer />
           </div>
@@ -203,7 +215,7 @@ class App extends React.Component {
         return (
           <div className="App">
             <Header />
-            <GeneralList topics={this.state.topics} moveForward={this.moveForward} subs={this.state.subtopics}/>
+            <GeneralList topics={this.state.topics} moveForward={this.moveForward} subs={this.state.subtopics} handleChange={this.handleChange} />
             <Footer />
           </div>
         )
@@ -234,11 +246,11 @@ class App extends React.Component {
       case this.state.states.PROFANSW: {
         return (
           <div className="Chart">
-          <div className="App">
-            <Header />
-            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
-            <Footer />
-          </div>
+            <div className="App">
+              <Header />
+              {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
+              <Footer />
+            </div>
           </div>
         )
       }
