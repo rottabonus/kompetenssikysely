@@ -1,19 +1,11 @@
 import React from 'react'
 
-const GeneralOptionOption = (option) => {
+const GeneralOptionOption = ({ option, changeOption, name, parent }) => {
 
-  if(option.option.text !== undefined){
-    return(
-      <div>
-        <p>{option.option.text}</p>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        <p>{option.option}</p>
-      </div>)
-  }
+	return (
+		<div>
+			<input type="radio" value={option.value} name={name} data-parent={parent} onChange={changeOption} />{option.text}
+		</div>)
 }
 
 export default GeneralOptionOption

@@ -18,7 +18,7 @@ class BarChart extends Component {
             "yAxisID": "A",
             "backgroundColor": "rgba(0, 159, 227, 0.7)",
             "borderColor": "rgba(53,81,103,.4)",
-            "data": this.props.answers.map((a) => a.value), //tähän käyttäjän vastaukset db:stä
+            "data": this.props.answers.map((a) => a.value).sort((a, b) => a - b).reverse(), //tähän käyttäjän vastaukset db:stä
             "borderWidth": "3",
                 "borderColor": "rgba(0, 159, 227, 1.0)",
         },{
@@ -33,6 +33,10 @@ class BarChart extends Component {
     }
     // Chartin asetukset
         var options = {
+            title: {
+                display: true,
+                text: "Test",
+            },
             scales: {
             yAxes: [{
                 stacked: true,
@@ -42,7 +46,7 @@ class BarChart extends Component {
                     beginAtZero: true,
                 },
                 maxBarThickness: 30,
-                categoryPercentage: 0.9, 
+                categoryPercentage: 0.9,
                 barPercentage: 0.9,
             }],
             xAxes: [{
@@ -50,8 +54,11 @@ class BarChart extends Component {
                 position: 'bottom',
                 ticks: {
                     beginAtZero: true,
+                    max: 5.0,
+                    min: 0,
+                    stepSize: 1.0,
                 }
-            }, 
+            },
             {
                 type: 'linear',
                 display: true,
@@ -60,20 +67,22 @@ class BarChart extends Component {
                     beginAtZero: true,
                     max: 5.0,
                     min: 0,
-                    stepSize: 0.5,
+                    stepSize: 1.0,
                 }
             }]
             },
         };
-      const ctx = document.getElementById("myChart");
-       const myChart = new Chart(ctx, {type: "horizontalBar",data:data, options:options});
+
+        // Luodaan uusi BarChart
+        const ctx = document.getElementById("myChart");
+        const myChart = new Chart(ctx, {type: "horizontalBar",data:data, options:options});
     }
 
 
     render() {
     return (
       <div>
-       <canvas id="myChart" width="300" height="300"></canvas>
+       <canvas id="myChart"></canvas>
       </div>
     );
   }

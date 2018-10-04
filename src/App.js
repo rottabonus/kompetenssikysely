@@ -137,7 +137,6 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
-
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
@@ -157,7 +156,6 @@ class App extends React.Component {
                     </div>
                 )
             }
-
             case this.state.states.WelcomePage: {
                 return (
                     <div className="App">
@@ -167,28 +165,24 @@ class App extends React.Component {
                     </div>
                 )
             }
-
             case this.state.states.General: {
                 return (
                     <div className="App">
                         <Header />
-                        <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} />
-
+                        <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
             }
-
             case this.state.states.General2: {
                 return (
                     <div className="App">
                         <Header />
-                        <GeneralList topics={this.state.topics} moveForward={this.moveForward} subs={this.state.subtopics}/>
+                        <GeneralList topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption}/>
                         <Footer />
                     </div>
                 )
             }
-
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">
@@ -209,7 +203,6 @@ class App extends React.Component {
                     </div>
                 )
             }
-
             // FIXME: calculated käyttö renderiin??
             case this.state.states.PROFANSW: {
                 return (
