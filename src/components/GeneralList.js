@@ -7,8 +7,6 @@ const GeneralList = ({ topics, moveForward, subs}) => {
 	const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
 	const generalTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object')
 	const generalSubTopics = generalTopics.filter(t => t.text !== 'Yleiset tiedot' && typeof t === 'object')
-	console.log(generalSubTopics)
-
 
 	return (
 			<div className="App">
