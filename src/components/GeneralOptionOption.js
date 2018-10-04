@@ -1,10 +1,10 @@
 import React from 'react'
 
-const GeneralOptionOption = ({ option, handleChange, name }) => {
+const GeneralOptionOption = ({ option, changeOption, name, parent }) => {
 
 	return (
 		<div>
-			<input type="radio" value={option.value} name={name} onChange={handleChange} />{option.text}
+			<input type="radio" value={option.value} name={name} data-parent={parent} onChange={changeOption} />{option.text}
 		</div>)
 }
 
