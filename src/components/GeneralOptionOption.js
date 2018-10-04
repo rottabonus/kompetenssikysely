@@ -1,11 +1,11 @@
 import React from 'react'
 
-const GeneralOptionOption = (option) => {
+const GeneralOptionOption = ({ option, handleChange, name }) => {
 
 	return (
 		<div>
-		<p>{option.option.text}</p>
+			<input type="radio" value={option.value} name={name} onChange={handleChange} />{option.text}
 		</div>)
-} 
+}
 
 export default GeneralOptionOption
