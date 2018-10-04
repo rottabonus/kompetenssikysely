@@ -9,6 +9,8 @@ import Footer from './components/Footer'
 import WelcomePage from './pages/WelcomePage'
 import SelectGeneral from './components/SelectGeneral'
 import GeneralList from './components/GeneralList'
+import topicService from './services/topics'
+import answerService from './services/answers'
 
 class App extends React.Component {
     constructor() {
@@ -37,19 +39,17 @@ class App extends React.Component {
 
 
    async componentDidMount() {
-    let getAll = []
-    const topics = fire.database().ref('topics')
-    const allTopicsDone = await topics.on('child_added', snapshot => {
-      getAll.push(snapshot.val())
-        topics.off('child_added', allTopicsDone)
+      const getAll = await topicService.getAll()
+        let allTopics = []
+  Object.values(getAll).forEach((elem) => {
+    allTopics.push(elem)
+  })
+  const getAllAnswers = await answerService.getAll()
+    let allAnswers = []
+    Object.values(getAllAnswers).forEach((elem) => {
+      allAnswers.push(elem)
     })
-        let answerObjectArray = [];
-        const answers = fire.database().ref('answers/');
-        const allAnswersDone = await answers.on('child_added', snapshot => {
-            answerObjectArray.push(snapshot.val())
-            answers.off('child_added', allAnswersDone)
-        })
-        this.setState({ topics: getAll, professionAnswers: answerObjectArray })
+        this.setState({ topics: allTopics, professionAnswers: allAnswers })
   }
 
   changeOption = (event) => {

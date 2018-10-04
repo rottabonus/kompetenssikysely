@@ -5,9 +5,8 @@ import GeneralTopic from './GeneralTopic';
 const SelectGeneral = ({ topics, moveForward }) => {
 
 	const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
-	const generalTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object')
-	const generalSubTopics = Object.values(generalTopics[0]).filter(t => t.category === 'Yleisettiedot' && typeof t === 'object')
-	
+	const generalTopics = Object.values(filterGeneral[0]).map(t=> t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
+
 	return (
 		<div className="App">
 			<div className="surveyContainer">
@@ -16,7 +15,7 @@ const SelectGeneral = ({ topics, moveForward }) => {
 				</div>
 				<div className="professionSelection">
 					<form>
-						{generalSubTopics.map((t, i) =>
+						{generalTopics.map((t, i) =>
 							<GeneralTopic key={i} generalSubTopics={t}></GeneralTopic>)}
 						<img src={jatka} id="cursor-hover" alt="Jatka" onClick={moveForward} />
 					</form>
