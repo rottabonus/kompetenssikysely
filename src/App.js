@@ -17,8 +17,6 @@ class App extends React.Component {
         super()
         this.state = {
             topics: [],
-            subtopics: [],
-            yleinen: {},
             key: '',
             answers: [],
             surveyState: 0,
@@ -33,12 +31,15 @@ class App extends React.Component {
             professionAnswers: [],
             selectedTopics: [],
             calculated: false,
-            profAverages: { values: [], answers: []}
+            profAverages: {
+                    values: [],
+                    answers: []
+                  }
         }
     }
 
     async componentDidMount() {
-        const topics = await topicService.getAll()
+        const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
         const professionAnswers = await answerService.getAll()
         this.setState({ topics, professionAnswers })
     }
@@ -50,17 +51,17 @@ class App extends React.Component {
             topic: event.target.dataset.parent
         }
         const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
-        console.log(answerObj, "ja sitten array", updatedAnswers)
         this.setState({ answers: updatedAnswers.concat(answerObj) })
     }
 
     sendAnswers = (event) => {
         event.preventDefault()
         const answers = {}
-        const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
-        selectedTopics.forEach((topic) => {
-            let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a =>   a={answer: a.answer, value: a.value})
-            const dataObject = {Answers: answerSet, date: '28/9/2018'}
+        const allTopics = this.state.answers.map(topic => topic.topic)
+        const uniqueAnswers = [...new Set(allTopics.map(a => a))] // Set on uusi JS ominaisuus, jolla voidaan luoda arraysta uusi versio jossa on vain uniikit arvot
+        uniqueAnswers.forEach((topic) => {
+            let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
+            const dataObject = {Answers: answerSet, date: '28/9/2018'} // päivämäärä on kovakoodattu !!
             if (dataObject.Answers.length === 0) {
                 window.confirm(`${topic} must have answers!`)
             } else {
@@ -78,15 +79,13 @@ class App extends React.Component {
     }
 
     changeProfessions = (item) => {
-        //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
-        const topicObject = {
+        const topicObject = { //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
             topic: item.text,
             subs: item.ST01
         }
         const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
-        // filteröidään pois topicit, jotka on jo valittu => eli checkboxia kuń painetaan uudestaan - se lähtee pois statesta!!!
-        if (selectedTopics.includes(topicObject.topic)) {
-            const updatedTopics = this.state.selectedTopics.filter(topic => topic.topic !== topicObject.topic)
+        if (selectedTopics.includes(topicObject.topic)) {   // filteröidään pois topicit, jotka on jo valittu =>
+            const updatedTopics = this.state.selectedTopics.filter(topic => topic.topic !== topicObject.topic) // kuń painetaan uudestaan - se lähtee pois statesta!!!
             this.setState({ selectedTopics: updatedTopics })
         } else {  // muussa tapauksessa lisätään topic listaan
             this.setState({ selectedTopics: [...this.state.selectedTopics, topicObject] })
@@ -107,27 +106,26 @@ class App extends React.Component {
         event.preventDefault()
         const professions = this.state.selectedTopics.map(t => t.topic)
         const answerArray = []
-        this.state.professionAnswers.forEach((answers) => {
+        this.state.professionAnswers.forEach((answers) => { //jokainen alkio sisältää vastauslistan
             professions.forEach((profession, i) => {
                 if(answers[professions[i]]){
-                    answerArray.push(answers[professions[i]])
+                    answerArray.push(answers[professions[i]]) //listaan lisätään kompetenssiin kuuluva vastauslista
                 }
             })
         })
-        const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b])
-        const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))]
-        console.log('unique',uniqueAnswers)
-        const answerAverages = [];
+        const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
+        const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
+        const answerAverages = []
         uniqueAnswers.forEach((element) => {
             const tempArr = onlyAnswers.filter((answer) =>
-                element === answer.answer);
+                element === answer.answer)
             const valueArr = tempArr.map((a) => parseInt(a.value));
-            var sum = valueArr.reduce((previous, current) => current + previous);
-            var avg = sum / valueArr.length;
-            answerAverages.push(avg);
-            return answerAverages;
+            var sum = valueArr.reduce((previous, current) => current + previous)
+            var avg = sum / valueArr.length
+            answerAverages.push(avg)
+            return answerAverages
         });
-        const profAverages = {values: answerAverages, answers: uniqueAnswers}
+        const profAverages = { values: answerAverages, answers: uniqueAnswers }
         this.setState({ profAverages, calculated: true })
         this.moveForward()
     }
@@ -149,10 +147,7 @@ class App extends React.Component {
             default: {
                 return (
                     <div className="App">
-                        <header className="App-header">
-                            <h1 className="App-title">if something went wrong</h1>
-                        </header>
-                        <h2> you will see this </h2>
+                        <h2> default </h2>
                     </div>
                 )
             }
@@ -203,7 +198,6 @@ class App extends React.Component {
                     </div>
                 )
             }
-            // FIXME: calculated käyttö renderiin??
             case this.state.states.PROFANSW: {
                 return (
                     <div className="Chart">

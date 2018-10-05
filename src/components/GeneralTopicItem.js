@@ -5,7 +5,6 @@ const GeneralTopicItem = ({ option, changeOption, parent }) => {
 
 	if(option.category === 'Yleisettiedot'){
 
-		console.log('name',option.text, 'parent', option.category, 'value', option)
     return (
       <div>
         <b>{option.text}</b>
