@@ -144,7 +144,7 @@ class App extends React.Component {
                 element === answer.answer);
             const valueArr = tempArr.map((a) => parseInt(a.value));
             var sum = valueArr.reduce((previous, current) => current + previous);
-            var avg = sum / valueArr.length;
+            var avg = (sum / valueArr.length).toFixed(2);
             answerAverages.push(avg);
             return answerAverages;
         });
