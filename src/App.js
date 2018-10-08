@@ -19,22 +19,22 @@ class App extends React.Component {
             topics: [],
             key: '',
             answers: [],
-            surveyState: 0,
+            surveyState: 1,
             states: {
-                WelcomePage: 0,
-                General: 1,
-                General2: 2,
-                SELECTPROF: 3,
-                PROFESSION: 4,
-                PROFANSW: 5,
+                WelcomePage: 1,
+                General: 2,
+                General2: 3,
+                SELECTPROF: 4,
+                PROFESSION: 5,
+                PROFANSW: 6,
             },
             professionAnswers: [],
             selectedTopics: [],
             calculated: false,
             profAverages: {
-                    values: [],
-                    answers: []
-                  }
+                values: [],
+                answers: []
+            }
         }
     }
 
@@ -61,9 +61,9 @@ class App extends React.Component {
         const uniqueAnswers = [...new Set(allTopics.map(a => a))] // Set on uusi JS ominaisuus, jolla voidaan luoda arraysta uusi versio jossa on vain uniikit arvot
         uniqueAnswers.forEach((topic) => {
             let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
-            const dataObject = {Answers: answerSet, date: '28/9/2018'} // päivämäärä on kovakoodattu !!
+            const dataObject = { Answers: answerSet, date: '28/9/2018' } // päivämäärä on kovakoodattu !!
             if (dataObject.Answers.length === 0) {
-                window.confirm({topic} + 'must have answers!')
+                window.confirm({ topic } + 'must have answers!')
             } else {
                 answers[topic] = dataObject
             }
@@ -108,7 +108,7 @@ class App extends React.Component {
         const answerArray = []
         this.state.professionAnswers.forEach((answers) => { //jokainen alkio sisältää vastauslistan
             professions.forEach((profession, i) => {
-                if(answers[professions[i]]){
+                if (answers[professions[i]]) {
                     answerArray.push(answers[professions[i]]) //listaan lisätään kompetenssiin kuuluva vastauslista
                 }
             })
@@ -132,6 +132,7 @@ class App extends React.Component {
 
     //kutsutaan kun liikutaan statesta ylöspäin !!
     moveForward = () => {
+        window.scrollTo(0, 0)
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
@@ -154,7 +155,8 @@ class App extends React.Component {
             case this.state.states.WelcomePage: {
                 return (
                     <div className="App">
-                        <Header />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+
                         <WelcomePage moveForward={this.moveForward} />
                         <Footer />
                     </div>
@@ -163,7 +165,8 @@ class App extends React.Component {
             case this.state.states.General: {
                 return (
                     <div className="App">
-                        <Header />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+
                         <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
@@ -172,8 +175,9 @@ class App extends React.Component {
             case this.state.states.General2: {
                 return (
                     <div className="App">
-                        <Header />
-                        <GeneralList topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption}/>
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+
+                        <GeneralList topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -181,9 +185,10 @@ class App extends React.Component {
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">
-                        <Header />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+
                         <SelectProfession topics={this.state.topics} handleProfessionsAndMove={this.handleProfessionAnswers}
-                                          selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
+                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
                         <Footer />
                     </div>
                 )
@@ -191,9 +196,10 @@ class App extends React.Component {
             case this.state.states.PROFESSION: {
                 return (
                     <div className="App">
-                        <Header />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+
                         <List topics={this.state.selectedTopics}
-                              changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
+                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
                         <Footer />
                     </div>
                 )
@@ -202,7 +208,8 @@ class App extends React.Component {
                 return (
                     <div className="Chart">
                         <div className="App">
-                            <Header />
+                            <Header surveyState={this.state.surveyState} states={this.state.states} />
+
                             {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
                             <Footer />
                         </div>
