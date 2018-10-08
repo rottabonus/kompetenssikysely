@@ -77,7 +77,7 @@ class BarChart extends Component {
                     beginAtZero: true,
                 },
                 maxBarThickness: 30,
-                categoryPercentage: 0.9, 
+                categoryPercentage: 0.9,
                 barPercentage: 0.9,
             }],
             xAxes: [{
@@ -89,7 +89,7 @@ class BarChart extends Component {
                     min: 0,
                     stepSize: 1.0,
                 }
-            }, 
+            },
             {
                 type: 'linear',
                 display: true,

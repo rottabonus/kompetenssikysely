@@ -1,5 +1,5 @@
 import React from 'react'
-import jatka from '../img/PNG/jatka.png';
+import jatka from '../img/PNG/jatka.png'
 
 const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove }) => {
 
@@ -12,7 +12,7 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
           <h2 className="text">ASIANTUNTIJAN OSAAMINEN</h2>
           <div><p>Asiantuntijan osaaminen on kuvattu neljän tyypillisen liiketoiminnan suuntautumisen suhteen.</p></div>
           <div><p>Kyselyyn on poimittu niitä osaamisia, joita ammattilaiselta odotetaan globaalissa ja digitalisoituvassa
-          työelämässä asiantuntijan roolissa.</p></div>
+                        työelämässä asiantuntijan roolissa.</p></div>
           <div><p>Valitse yksi tai useampi seuraavista alueista:</p></div>
         </div>
         <div className="professionSelection">
