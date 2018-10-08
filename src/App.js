@@ -14,6 +14,7 @@ class App extends React.Component {
     constructor() {
         super()
         this.state = {
+            canSubmit: false,
             topics: [],
             subtopics: [],
             yleinen: {},
@@ -226,7 +227,7 @@ class App extends React.Component {
           <div className="App">
             <Header />
             <List topics={this.state.selectedTopics} subs={this.state.subtopics} show={this.show}
-              changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
+              changeOption={this.changeOption} sendAnswers={this.sendAnswers} canSubmit={this.state.canSubmit} />
             <Footer />
           </div>
         )

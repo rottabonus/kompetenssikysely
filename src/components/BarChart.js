@@ -12,14 +12,35 @@ class BarChart extends Component {
     }
 
     componentDidMount(data){
-    var data = {labels: this.props.profAverages.answers.map((a) => a), //tähän kyssärit db:stä
+    var kusilistAvg = [];
+    var kusilistNam = [];
+    kusilistAvg = this.props.answers.map((a) => a.value);
+    kusilistNam = this.props.answers.map((a) => a.answer);
+    var twoDlist = [];
+    for (var i = 0; i < kusilistAvg.length && kusilistNam.length; i++){
+    } 
+        twoDlist[i] = [kusilistNam[i], [kusilistAvg[i]]];
+    /*joku kikka jolla saa profAveragen menemää samaan järkkään ton twoDlistin kanssa */
+    var profKusivalue = [];
+    var profKusinam = [];
+    profKusivalue = this.props.profAverages.values.map(a => a);
+    profKusinam = this.props.profAverages.answers.map(a => a);
+    var kusiDlist = [];
+    for (var i = 0; i < profKusivalue.length && profKusinam.lenght; i++){
+        kusiDlist[i] = [profKusinam[i], [profKusivalue[i]]];
+    }
+    /*vertailla näitä kahta 2dlarraytä toisiinsa ja pyörittää niin kauan että osuvat kohilleen [0] arvoilta*/
+    
+
+    console.log(kusilistAvg, kusilistNam, twoDlist);
+    var data = {labels: twoDlist.map((a) => a).sort((a, b) => a[1] - b[1]).reverse(), //tähän kyssärit db:stä
     datasets: [{
             "label": "Minun Kompetenssini",
             "yAxisID": "A",
             "backgroundColor": "rgba(0, 159, 227, 0.7)",
             "borderColor": "rgba(53,81,103,.4)",
             "data": this.props.answers.map((a) => a.value).sort((a, b) => a - b).reverse(), //tähän käyttäjän vastaukset db:stä
-            "borderWidth": "3",
+            "borderWidth": "3", 
                 "borderColor": "rgba(0, 159, 227, 1.0)",
         },{
             "label": "Kompetenssi keskiarvo",
