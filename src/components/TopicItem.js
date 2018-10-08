@@ -11,7 +11,7 @@ const TopicItem = ({ topic, changeOption, parent }) => {
       <fieldset>
         {optionValues.map((option, i) =>
           <div className="profOptions" key={i}><input type="radio" className="profOptionsRadio" name={topic.text} data-parent={parent}
-            onChange={changeOption} value={option.value} /><label className="profOptionsText">{option.text}</label></div>)}
+            onChange={changeOption} value={option.value} required/><label className="profOptionsText">{option.text}</label></div>)}
       </fieldset>
     </div>
   )
