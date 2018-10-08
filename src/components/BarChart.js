@@ -11,8 +11,10 @@ class BarChart extends Component {
     }
 
     componentDidMount(){
-
-        var myDataWithAnswers = this.props.answers.map((a) => a).sort((a, b) => a.value - b.value).reverse();
+        var selectedTopic = this.props.selectedTopics[0].topic;
+        console.log(selectedTopic);
+        var onlyProfessionAnswers = this.props.answers.filter((answer) => answer.topic === selectedTopic)
+        var myDataWithAnswers = onlyProfessionAnswers.map((a) => a).sort((a, b) => a.value - b.value).reverse();
         var myData = myDataWithAnswers.map((a) => a.value);
         var answerKeys = myDataWithAnswers.map((a) => a.answer);
         var items = [];
@@ -23,7 +25,6 @@ class BarChart extends Component {
             items[i] = [answerItems[i], [valueItems[i]]];
         }
 
-        //var labelArray = this.props.profAverages.answers.map((a) => a).sort((a, b) => a[1] - b[1]).reverse();
         var result = [];
         answerKeys.forEach(function(key) {
             var found = false;
@@ -36,7 +37,6 @@ class BarChart extends Component {
                 } else {
                     return true;
                 }
-                
             })
         })
         console.log("666" + result[0] + "777" + result[1]);

@@ -1,16 +1,17 @@
 import React from 'react';
 import './App.css';
-import fire from './fire'
-import List from './components/List'
-import SelectProfession from './components/SelectProfession'
+import fire from './fire';
+import List from './components/List';
+import SelectProfession from './components/SelectProfession';
 import BarChart from './components/BarChart';
-import Header from './components/Header'
-import Footer from './components/Footer'
-import WelcomePage from './pages/WelcomePage'
-import SelectGeneral from './components/SelectGeneral'
-import GeneralList from './components/GeneralList'
-import topicService from './services/topics'
-import answerService from './services/answers'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import WelcomePage from './pages/WelcomePage';
+import SelectGeneral from './components/SelectGeneral';
+import GeneralList from './components/GeneralList';
+import topicService from './services/topics';
+import answerService from './services/answers';
+import RadarChart from './components/RadarChart';
 
 class App extends React.Component {
     constructor() {
@@ -19,11 +20,12 @@ class App extends React.Component {
             topics: [],
             key: '',
             answers: [],
-            surveyState: 1,
+            surveyState: 0,
             states: {
-                WelcomePage: 1,
-                General: 2,
-                General2: 3,
+                WelcomePage: 0,
+                General: 1,
+                General2: 2,
+                Radar: 3,
                 SELECTPROF: 4,
                 PROFESSION: 5,
                 PROFANSW: 6,
@@ -182,6 +184,15 @@ class App extends React.Component {
                     </div>
                 )
             }
+            case this.state.states.Radar: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}></RadarChart>
+                        <Footer />
+                    </div>
+                )
+            }
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">
@@ -210,7 +221,7 @@ class App extends React.Component {
                         <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
 
-                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
+                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics}></BarChart>}
                             <Footer />
                         </div>
                     </div>
