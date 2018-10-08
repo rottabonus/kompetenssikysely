@@ -63,7 +63,7 @@ class App extends React.Component {
             let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
             const dataObject = {Answers: answerSet, date: '28/9/2018'} // päivämäärä on kovakoodattu !!
             if (dataObject.Answers.length === 0) {
-                window.confirm(`${topic} must have answers!`)
+                window.confirm({topic} + 'must have answers!')
             } else {
                 answers[topic] = dataObject
             }
@@ -120,10 +120,10 @@ class App extends React.Component {
             const tempArr = onlyAnswers.filter((answer) =>
                 element === answer.answer)
             const valueArr = tempArr.map((a) => parseInt(a.value));
-            var sum = valueArr.reduce((previous, current) => current + previous)
-            var avg = sum / valueArr.length
-            answerAverages.push(avg)
-            return answerAverages
+            var sum = valueArr.reduce((previous, current) => current + previous);
+            var avg = (sum / valueArr.length).toFixed(2);
+            answerAverages.push(avg);
+            return answerAverages;
         });
         const profAverages = { values: answerAverages, answers: uniqueAnswers }
         this.setState({ profAverages, calculated: true })
