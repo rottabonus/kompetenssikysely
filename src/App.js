@@ -40,6 +40,7 @@ class App extends React.Component {
         }
     }
 
+    //FIXME: Topicien filteröinti täällä?
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
         const professionAnswers = await answerService.getAll()
@@ -215,13 +216,16 @@ class App extends React.Component {
                     </div>
                 )
             }
+
+            // FIXME: Loading... jos ei calculated?
             case this.state.states.PROFANSW: {
                 return (
                     <div className="Chart">
                         <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
 
-                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics}></BarChart>}
+                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
+                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}></BarChart>}
                             <Footer />
                         </div>
                     </div>
