@@ -4,6 +4,7 @@ import GeneralTopic from './GeneralTopic'
 
 const SelectGeneral = ({ topics, moveForward, changeOption }) => {
 
+	// FIXME: tilojen käsittely app.js puolella?
 	const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
 	const generalTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
 

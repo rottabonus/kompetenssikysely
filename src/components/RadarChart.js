@@ -16,7 +16,7 @@ class ChartTest extends Component {
 
     componentDidMount(){
 
-        var answersWithoutGeneralQuestions = this.props.answers.filter((answer) => answer.topic != "Yleisettiedot");
+        var answersWithoutGeneralQuestions = this.props.answers.filter((answer) => answer.topic !== "Yleisettiedot");
         var problemSolving = [];
         var technicalComp = [];
         var careerControl = [];
@@ -64,14 +64,21 @@ class ChartTest extends Component {
                 datasets: [{
                     label: "Minun kompetenssini",
                     data: averageArray, 
-                backgroundColor: 'rgba(0, 159, 227, 0.7)',
+                    "backgroundColor": "rgba(0, 159, 227, 0.5)",
+                    "borderWidth": "2",
+                    "borderColor": "rgba(0, 159, 227, 1.0)",
                 },]
             },
             options : {
+                title: {
+                    display: true,
+                    text: "Yleisten kompetenssien palaute",
+                },
                 scale: {
                     ticks: {
                         beginAtZero: true,
-                        max: 5
+                        max: 5,
+                        stepSize: 1.0,
                     }
                 },
                 
@@ -296,7 +303,7 @@ class ChartTest extends Component {
     }
       render() {
     return (
-      <div>
+      <div className="chartContainer">
         <canvas id="myChart" width="100" height="60"></canvas> 
         <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
 
