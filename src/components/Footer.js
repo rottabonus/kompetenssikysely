@@ -9,7 +9,7 @@ import hh_logo from '../img/PNG/hh.jpg'
 class Footer extends React.Component {
     render() {
         return (
-            <footer>
+            <footer className="footer">
             <div className="footerImgDiv">
             <div>
                 <a href="https://www.facebook.com/HaagaHeliaAMK/?userLang=en" target="_blank" rel="noopener noreferrer">
