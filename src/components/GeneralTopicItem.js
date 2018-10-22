@@ -8,7 +8,11 @@ const GeneralTopicItem = ({ option, changeOption, parent }) => {
     return (
       <div>
         <b>{option.text}</b>
+<<<<<<< HEAD
         {option.Options.map((o, i) => <div key={i}><input type="radio" name={option.text} value={o} data-parent={option.category} onChange={changeOption} required></input>{o}</div>)}
+=======
+        {option.Options.map((o, i) => <div key={i}><input type="radio" name={option.text} value={o} data-parent={option.category} onChange={changeOption} ></input>{o}</div>)}
+>>>>>>> 27646e52d8ff0782cf0d078c5d574aae78e8a7db
       </div>
     )
   } else {
