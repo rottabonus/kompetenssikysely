@@ -175,10 +175,20 @@ p {
 }
 
 .palkki {
-  border-style: solid;
-  border-color: #E6007;
-  width: 5px;
-  height: 10px;
-  background-color: #E6007;
-  margin: 2px;
+  margin: 4px;
+}
+
+img {
+  padding-right: 10px;
+}
+
+.footerImgDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 33px 20px 33px;
+}
+
+.hhlogo {
+  align-self: flex-end;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import jatka from '../img/PNG/jatka.png';
+import palkki from '../img/PNG/palkki.png'
 
 class WelcomePage extends Component {
 
@@ -19,7 +20,7 @@ class WelcomePage extends Component {
 
                             Kyselymuotoisessa työkalussa on kaksi osiota: <br /><br /></p></div>
                             <div className="welcomePageTextDiv">
-                            <div>this is bar</div>
+                            <div><img src={palkki} height="120%" width="80%" /></div>
                             <div><p>
                             <b>A. YLEISET KOMPETENSSIT</b>, ja<br />
                             <b>B. ASIANTUNTIJAN OSAAMINEN</b>, joista voit valita markkinoinnin, myynnin, taloushallinnon tai henkilöstöhallinnon osiot.<br />
