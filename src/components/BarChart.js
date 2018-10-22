@@ -12,6 +12,8 @@ class BarChart extends Component {
 
     componentDidMount(){
 
+        var selectedProf = this.props.selectedTopics.map((a) => a.topic)
+        console.log(selectedProf);           
         var myDataWithAnswers = this.props.answers.map((a) => a).sort((a, b) => a.value - b.value).reverse();
         var myData = myDataWithAnswers.map((a) => a.value);
         var answerKeys = myDataWithAnswers.map((a) => a.answer);

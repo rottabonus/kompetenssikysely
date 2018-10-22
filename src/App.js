@@ -11,6 +11,7 @@ import SelectGeneral from './components/SelectGeneral'
 import GeneralList from './components/GeneralList'
 import topicService from './services/topics'
 import answerService from './services/answers'
+import RadarChart from './components/Chart'
 
 class App extends React.Component {
     constructor() {
@@ -25,9 +26,11 @@ class App extends React.Component {
                 WelcomePage: 0,
                 General: 1,
                 General2: 2,
-                SELECTPROF: 3,
-                PROFESSION: 4,
-                PROFANSW: 5,
+                RADAR: 3,
+                SELECTPROF: 4,
+                PROFESSION: 5,
+                PROFANSW: 6,
+                
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -179,6 +182,15 @@ class App extends React.Component {
                     </div>
                 )
             }
+            case this.state.states.RADAR : {
+              return (
+                <div className="App">
+                <Header/>
+                <RadarChart answers={this.state.answers}></RadarChart>
+                <Footer/>
+                </div>
+              )
+            }
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">
@@ -204,7 +216,7 @@ class App extends React.Component {
                     <div className="Chart">
                         <div className="App">
                             <Header />
-                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}></BarChart>}
+                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics}></BarChart>}
                             <Footer />
                         </div>
                     </div>
