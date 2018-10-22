@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import jatka from '../img/PNG/jatka.png';
 import Chart from 'chart.js';
 
 class BarChart extends Component {
@@ -29,7 +29,7 @@ class BarChart extends Component {
         answerKeys.forEach(function(key) {
             var found = false;
             items = items.filter(function(item) {
-                if (!found && item[0] == key) {
+                if (!found && item[0] === key) {
                     found = true;
                     console.log("222" + item);
                     result.push(item);
@@ -49,7 +49,7 @@ class BarChart extends Component {
         datasets: [{
                 "label": "Minun Kompetenssini",
                 "yAxisID": "A",
-                "backgroundColor": "rgba(0, 159, 227, 0.7)",
+                "backgroundColor": "rgba(0, 159, 227, 0.5)",
                 "data": myData, //tähän käyttäjän vastaukset db:stä
                 "borderWidth": "3",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
@@ -59,14 +59,14 @@ class BarChart extends Component {
                 "backgroundColor": "rgba(249, 176, 0, 0.7)",
                 "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
                 "borderWidth": "3",
-                    "borderColor": "rgba(249, 176, 0, 1.0)",
+                    "borderColor": "rgba(255, 80, 0, 1.0)",
             }]
         }
     // Chartin asetukset
         var options = {
             title: {
                 display: true,
-                text: "Test",
+                text: "Asiantuntijan osaamisen palaute",
             },
             scales: {
             yAxes: [{
@@ -112,8 +112,9 @@ class BarChart extends Component {
 
     render() {
     return (
-      <div>
+      <div className="chartContainer">
        <canvas id="myChart"></canvas>
+       <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
       </div>
     );
   }
