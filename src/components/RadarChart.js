@@ -48,7 +48,9 @@ class ChartTest extends Component {
                 datasets: [{
                     label: "Minun kompetenssini",
                     data: averageArray, 
-                backgroundColor: 'rgba(110, 42, 91, 0.7)',
+                    "backgroundColor": "rgba(0, 159, 227, 0.5)",
+                    "borderWidth": "2",
+                    "borderColor": "rgba(0, 159, 227, 1.0)",
                 },]
             },
             options : {

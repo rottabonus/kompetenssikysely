@@ -12,6 +12,7 @@ import GeneralList from './components/GeneralList';
 import topicService from './services/topics';
 import answerService from './services/answers';
 import RadarChart from './components/RadarChart';
+import Summary from './components/Summary';
 
 class App extends React.Component {
     constructor() {
@@ -29,6 +30,7 @@ class App extends React.Component {
                 SELECTPROF: 4,
                 PROFESSION: 5,
                 PROFANSW: 6,
+                SUMMARY: 7,
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -230,6 +232,18 @@ class App extends React.Component {
                         </div>
                     </div>
                 )
+            }
+
+            case this.state.states.SUMMARY: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+
+                        <Summary />
+                        <Footer />
+                    </div>
+                )
+
             }
         }
     }
