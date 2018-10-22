@@ -29,7 +29,7 @@ class BarChart extends Component {
         answerKeys.forEach(function(key) {
             var found = false;
             items = items.filter(function(item) {
-                if (!found && item[0] == key) {
+                if (!found && item[0] === key) {
                     found = true;
                     console.log("222" + item);
                     result.push(item);
@@ -112,7 +112,7 @@ class BarChart extends Component {
 
     render() {
     return (
-      <div>
+      <div className="chartContainer">
        <canvas id="myChart"></canvas>
        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
       </div>

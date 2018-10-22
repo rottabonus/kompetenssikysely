@@ -109,7 +109,7 @@
   cursor: pointer;
 }
 
-.Chart {
+.chartContainer {
   width: 65%;
   height: auto;
   margin-left: auto;
