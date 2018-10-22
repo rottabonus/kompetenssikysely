@@ -52,7 +52,19 @@
   border-style: solid;
   border-width: 0.5px;
   border-color: #DADADA;
-  margin: 80px;
+  margin: 0 80px 80px 80px;
+  padding-bottom: 40px;
+}
+
+.barContainer {
+    align-items: left;
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #DADADA;
+    padding-bottom: 40px;
+    margin: 0 80px 0 80px;
 }
 
 .selectionInput {
@@ -63,11 +75,6 @@
   margin-left: 300px;
   margin-top: 40px;
 
-}
-
-.topicContainer {
-
- 
 }
 
 .topicItemContainer {
@@ -135,5 +142,43 @@
 .bar {
 display: flex;
 padding-top: 30px;
- 
+}
+
+.header-logo {
+  margin: 10px 0 0 33px;
+  display: flex;
+}
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  color: #E6007E;
+  font-size: 300%;
+  font-weight: bolder;
+}
+
+h3 {
+  font-family: 'Roboto', sans-serif;
+  color: #3C3C3C;
+  font-size: 200%;
+  font-weight:bold;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  color: #3C3C3C;
+  font-size: 130%;
+}
+
+.welcomePageTextDiv  {
+  display:flex;
+  flex-direction: row;
+}
+
+.palkki {
+  border-style: solid;
+  border-color: #E6007;
+  width: 5px;
+  height: 10px;
+  background-color: #E6007;
+  margin: 2px;
 }
