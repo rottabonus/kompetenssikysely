@@ -3,8 +3,6 @@ import jatka from '../img/PNG/jatka.png'
 
 const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove }) => {
 
-  const topicObjects = topics.filter(t => typeof t === 'object')
-
   return (
     <div className="App">
       <div className="surveyContainer">
@@ -17,7 +15,7 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
         </div>
         <div className="professionSelection">
           <form>
-            {topicObjects.filter(t => t.text !== 'yleinen').map((topic, i) =>
+            {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
               <div key={i}><input onChange={() => changeProfessions(topic)} className="selectionInput" type="checkbox" />{topic.text}</div>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
             <input type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
