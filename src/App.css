@@ -245,8 +245,15 @@ img {
     text-align: center;
     margin-right: 50%;
   }
+<<<<<<< HEAD
+
+  .barContainer {
+    display: none;
+  }
+=======
   .surveyContainer {
     text-align: center;
   }
   
+>>>>>>> 7d3ffae4eab53c025811014f6656933a429bd70e
 }
