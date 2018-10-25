@@ -1,5 +1,6 @@
-import React from 'react'
-import Topic from './Topic'
+import React from 'react';
+import Topic from './Topic';
+
 
 const List = ({ topics, changeOption, sendAnswers }) => {
 
