@@ -195,7 +195,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}></RadarChart>
+                        <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics}></RadarChart>
                         <Footer />
                     </div>
                 )

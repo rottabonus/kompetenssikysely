@@ -3,7 +3,7 @@ import Chart from 'chart.js';
 import jatka from '../img/PNG/jatka.png';
 
 
-class ChartTest extends Component {
+class RadarChart extends Component {
   
     constructor(props){
         super(props);
@@ -14,12 +14,15 @@ class ChartTest extends Component {
 
     componentDidMount(){
 
-        var answersWithoutGeneralQuestions = this.props.answers.filter((answer) => answer.topic !== "Yleisettiedot");
+        var filteredAnswers = this.props.answers.filter((answer) => answer.topic !== "Yleisettiedot");
+        this.props.selectedTopics.forEach(function(element) {
+            filteredAnswers.filter((answer) => answer.topic !== element.topic);
+        })
         var problemSolving = [];
         var technicalComp = [];
         var careerControl = [];
         var interaction = [];
-        answersWithoutGeneralQuestions.forEach(function(element) {
+        filteredAnswers.forEach(function(element) {
             if (element.topic === "Itsensä johtaminen ja ongelmanratkaisu") {
                 problemSolving.push(element);
             } else if (element.topic === "Yleinen digiosaaminen") {
@@ -51,6 +54,7 @@ class ChartTest extends Component {
                     "backgroundColor": "rgba(0, 159, 227, 0.5)",
                     "borderWidth": "2",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
+                    "lineTension": "-0.1"
                 },]
             },
             options : {
@@ -81,4 +85,4 @@ class ChartTest extends Component {
   }
 }
 
-export default ChartTest;
+export default RadarChart;
