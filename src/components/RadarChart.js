@@ -58,8 +58,8 @@ class RadarChart extends Component {
             averageArray.push(avg);
         })
 
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx, {
+        var ctx = document.getElementById("radarChart");
+        var radarChart = new Chart(ctx, {
             type: 'radar', 
             data : {
                 labels: labelArray,
@@ -302,7 +302,7 @@ class RadarChart extends Component {
       render() {
     return (
       <div className="chartContainer">
-        <canvas id="myChart" width="100" height="60"></canvas> 
+        <canvas id="radarChart" width="100" height="60"></canvas> 
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
@@ -320,7 +320,11 @@ class RadarChart extends Component {
               : null
             }
         </div>
-        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+        { this.props.surveyState == 3
+            ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+            : null
+        }
+        
       </div>
     );
   }
