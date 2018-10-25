@@ -4,7 +4,7 @@ const ProgressBar = (props) => {
 
     const jotain = Object.values(props.states).map(i => i)
 
-    const percentage = (100 / jotain.length) * props.surveyState
+    const percentage = (100 / (jotain.length - 1)) * props.surveyState
 
     return (
         <div className="progress-bar">

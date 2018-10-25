@@ -116,7 +116,7 @@
   cursor: pointer;
 }
 
-.Chart {
+.chartContainer {
   width: 65%;
   height: auto;
   margin-left: auto;
@@ -197,4 +197,10 @@ img {
 
 .hhlogo {
   align-self: flex-end;
+}
+
+@media print {
+  a[href]:after {
+    content: none;
+  }
 }
