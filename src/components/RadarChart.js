@@ -38,7 +38,7 @@ class RadarChart extends Component {
         var high = [];
         var low = [];
        
-        answersWithoutGeneralQuestions.forEach(function(element){
+        filteredAnswers.forEach(function(element){
           if (element.value == 5) {
             high.push(element);
           }
