@@ -6,9 +6,11 @@ const Header = ({ surveyState, states }) => {
 
     return (
         <header>
-            <img src={taidottyohon} alt={taidottyohon} id="logo" /><br></br>
+            <img  className="header-logo" src={taidottyohon} alt={taidottyohon} id="logo" /><br></br>
+            <div className="barContainer">
             <div className="bar">
                 <ProgressBar surveyState={surveyState} states={states} />
+            </div>
             </div>
         </header>
     )
