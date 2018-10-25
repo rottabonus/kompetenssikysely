@@ -209,4 +209,8 @@ img {
     text-align: center;
     margin-right: 50%;
   }
+
+  .barContainer {
+    display: none;
+  }
 }
