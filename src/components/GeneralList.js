@@ -4,9 +4,6 @@ import jatka from '../img/PNG/jatka.png'
 
 const GeneralList = ({ topics, moveForward, changeOption }) => {
 
-  const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
-  const generalTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
-
 	return (
 		<div className="App">
 			<div className="surveyContainer">
@@ -14,7 +11,7 @@ const GeneralList = ({ topics, moveForward, changeOption }) => {
 				</div>
 				<div className="professionSelection">
 					<form>
-						{generalTopics.map((t, i) =>
+						{topics.map((t, i) =>
 							<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption}></GeneralTopic>)}
 						<img src={jatka} id="cursor-hover" alt="Jatka" onClick={moveForward} />
 					</form>

@@ -7,7 +7,6 @@ import BarChart from './components/BarChart';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WelcomePage from './pages/WelcomePage';
-import SelectGeneral from './components/SelectGeneral';
 import GeneralList from './components/GeneralList';
 import topicService from './services/topics';
 import answerService from './services/answers';
@@ -20,6 +19,9 @@ class App extends React.Component {
         this.state = {
             canSubmit: false,
             topics: [],
+            genTopics: [],
+            genGenTopics: [],
+            profTopics: [],
             key: '',
             answers: [],
             surveyState: 0,
@@ -47,7 +49,12 @@ class App extends React.Component {
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
         const professionAnswers = await answerService.getAll()
-        this.setState({ topics, professionAnswers })
+
+        const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
+          const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
+	           const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
+                const profTopics = topics.filter(t => typeof t === 'object')
+        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics })
     }
 
     changeOption = (event) => {
@@ -162,7 +169,6 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-
                         <WelcomePage moveForward={this.moveForward} />
                         <Footer />
                     </div>
@@ -172,8 +178,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-
-                        <SelectGeneral topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption} />
+                        <GeneralList topics={this.state.genGenTopics} moveForward={this.moveForward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -182,8 +187,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-
-                        <GeneralList topics={this.state.topics} moveForward={this.moveForward} changeOption={this.changeOption} />
+                        <GeneralList topics={this.state.genTopics} moveForward={this.moveForward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -210,8 +214,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-
-                        <SelectProfession topics={this.state.topics} handleProfessionsAndMove={this.handleProfessionAnswers}
+                        <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}
                             selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
                         <Footer />
                     </div>
@@ -221,7 +224,6 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-
                         <List topics={this.state.selectedTopics}
                             changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
                         <Footer />
@@ -235,7 +237,6 @@ class App extends React.Component {
                     <div className="chartContainer">
                         <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
-
                             {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
                             selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}></BarChart>}
                             <Footer />
