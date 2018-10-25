@@ -6,17 +6,19 @@ const GeneralTopicItem = ({ option, changeOption, parent }) => {
 	if(option.category === 'Yleisettiedot'){
 
     return (
-      <div>
-        <b>{option.text}</b>
-        {option.Options.map((o, i) => <div key={i}><input type="radio" name={option.text} value={o} data-parent={option.category} onChange={changeOption} ></input>{o}</div>)}
+      <div className="generalTopic">
+			<div className="topicFont">
+        <b>{option.text}</b></div>
+        {option.Options.map((o, i) => <div key={i}><input className="radioInput" type="radio" name={option.text} value={o} data-parent={option.category} onChange={changeOption} ></input><div className="topicTextValue">{o}</div></div>)}
       </div>
     )
   } else {
 
 		const options = Object.values(option).filter(option => typeof option === 'object')
 		return (
-			<div>
-				<b>{option.text}</b><fieldset>
+			<div className="generalTopic">
+			<div className="topicFont">
+				<b>{option.text}</b></div><fieldset>
 					{options.map((o, i) => <GeneralOptionOption key={i} option={o} changeOption={changeOption} parent={parent} name={option.text} ></GeneralOptionOption>)}
 				</fieldset>
 			</div>)

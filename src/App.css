@@ -1,6 +1,8 @@
 .App {
   text-align: center;
- /* background-image: url("./img/PNG/raita.png");*/
+  background-image: url("./img/PNG/raita.png");
+  background-repeat: repeat-y;
+  background-position: 93% 50%;
 }
 
 .App-logo {
@@ -31,7 +33,15 @@
 .text {
   color: #3C3C3C;
 }
-
+.jatkaButton {
+  text-align: center;
+  margin-left: 45%;
+  margin-top: 3%;
+}
+.generalTopic {
+  margin-left: 70px;
+  text-align: left;
+}
 
 .professionSelectionText {
   text-align: left;
@@ -40,8 +50,8 @@
 }
 
 .professionSelection {
-  text-align: left;
-  margin-left: 70px;
+  text-align: left; 
+  /*margin-left: 70px;*/
   margin-bottom: 40px;
 }
 
@@ -53,8 +63,9 @@
   border-style: solid;
   border-width: 0.5px;
   border-color: #DADADA;
-  margin: 0 80px 80px 80px;
+  margin: 0% 15% 0% 15%;
   padding-bottom: 40px;
+  background-color: rgba(255, 255, 255, 0.719);
 }
 
 .barContainer {
@@ -65,7 +76,8 @@
     border-width: 0.5px;
     border-color: #DADADA;
     padding-bottom: 40px;
-    margin: 0 80px 0 80px;
+    margin: 0 15% 0 15%;
+    background-color: white;
 }
 
 .selectionInput {
@@ -76,6 +88,26 @@
   margin-left: 300px;
   margin-top: 40px;
 
+}
+.topicContainer h2 {
+  background-color: #009FE3;
+  width: 100% !important;
+  padding: 0.3%;
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+
+}
+.radioInput {
+  margin-right: 50px;
+  padding-right: 50px;
+}
+.topicTextValue {
+  margin-left:1%;
+  display: inline-block;
+}
+
+.topicFont {
+  
 }
 
 .topicItemContainer {
@@ -187,6 +219,7 @@ img {
   border-style: solid;
   border-width: 0.5px;
   border-color: #DADADA;
+  background-color: white;
 }
 
 .footerImgDiv {
@@ -200,17 +233,27 @@ img {
   align-self: flex-end;
 }
 
+/*tulostus asettelut tähän*/
 @media print {
   a[href]:after {
     content: none;
   }
-
+  .barContainer {
+    display: none;
+  }
   .chartContainer {
     text-align: center;
     margin-right: 50%;
   }
+<<<<<<< HEAD
 
   .barContainer {
     display: none;
   }
+=======
+  .surveyContainer {
+    text-align: center;
+  }
+  
+>>>>>>> 7d3ffae4eab53c025811014f6656933a429bd70e
 }

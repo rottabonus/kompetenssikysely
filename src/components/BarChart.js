@@ -112,6 +112,7 @@ class BarChart extends Component {
 
     render() {
     return (
+    <div className="surveyContainer">
       <div className="chartContainer">
         <canvas id="myChart"></canvas>
         { this.props.surveyState == 6
@@ -119,6 +120,7 @@ class BarChart extends Component {
         : null
         }
        
+      </div>
       </div>
     );
   }
