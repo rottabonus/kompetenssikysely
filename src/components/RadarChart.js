@@ -3,7 +3,7 @@ import Chart from 'chart.js';
 import jatka from '../img/PNG/jatka.png';
 
 
-class ChartTest extends Component {
+class RadarChart extends Component {
   
     constructor(props){
         super(props);
@@ -16,13 +16,15 @@ class ChartTest extends Component {
 
     componentDidMount(){
 
-        var answersWithoutGeneralQuestions = this.props.answers.filter((answer) => answer.topic != "Yleisettiedot");
+        var filteredAnswers = this.props.answers.filter((answer) => answer.topic !== "Yleisettiedot");
+        this.props.selectedTopics.forEach(function(element) {
+            filteredAnswers.filter((answer) => answer.topic !== element.topic);
+        })
         var problemSolving = [];
         var technicalComp = [];
         var careerControl = [];
         var interaction = [];
-        console.log(this.state.answersWithoutGeneralQuestions)
-        answersWithoutGeneralQuestions.forEach(function(element) {
+        filteredAnswers.forEach(function(element) {
             if (element.topic === "Itsensä johtaminen ja ongelmanratkaisu") {
                 problemSolving.push(element);
             } else if (element.topic === "Yleinen digiosaaminen") {
@@ -36,7 +38,7 @@ class ChartTest extends Component {
         var high = [];
         var low = [];
        
-        answersWithoutGeneralQuestions.forEach(function(element){
+        filteredAnswers.forEach(function(element){
           if (element.value == 5) {
             high.push(element);
           }
@@ -56,15 +58,18 @@ class ChartTest extends Component {
             averageArray.push(avg);
         })
 
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx, {
+        var ctx = document.getElementById("radarChart");
+        var radarChart = new Chart(ctx, {
             type: 'radar', 
             data : {
                 labels: labelArray,
                 datasets: [{
                     label: "Minun kompetenssini",
                     data: averageArray, 
-                backgroundColor: 'rgba(0, 159, 227, 0.7)',
+                    "backgroundColor": "rgba(0, 159, 227, 0.5)",
+                    "borderWidth": "2",
+                    "borderColor": "rgba(0, 159, 227, 1.0)",
+                    "lineTension": "-0.1"
                 },]
             },
             options : {
@@ -298,7 +303,7 @@ class ChartTest extends Component {
     return (
       <div className="surveyContainer">
       <div className="chartContainer">
-        <canvas id="myChart" width="100" height="60"></canvas> 
+        <canvas id="radarChart" width="100" height="60"></canvas> 
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
@@ -316,10 +321,15 @@ class ChartTest extends Component {
               : null
             }
         </div>
-        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
-      </div></div>
+        { this.props.surveyState == 3
+            ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+            : null
+        }
+        
+      </div>
+      </div>
     );
   }
 }
 
-export default ChartTest;
+export default RadarChart;

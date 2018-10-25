@@ -114,8 +114,12 @@ class BarChart extends Component {
     return (
     <div className="surveyContainer">
       <div className="chartContainer">
-       <canvas id="myChart"></canvas>
-       <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+        <canvas id="myChart"></canvas>
+        { this.props.surveyState == 6
+        ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+        : null
+        }
+       
       </div>
       </div>
     );

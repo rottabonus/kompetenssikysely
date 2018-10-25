@@ -196,11 +196,13 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}></RadarChart>
+                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}
+                        selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}></RadarChart>
                         <Footer />
                     </div>
                 )
             }
+            
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">
@@ -228,7 +230,7 @@ class App extends React.Component {
                     <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
                             {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}></BarChart>}
+                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} surveyState={this.state.surveyState}></BarChart>}
                             <Footer />
                     </div>
                 )
@@ -238,7 +240,10 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-
+                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}
+                        selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}></RadarChart>
+                        <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
+                        selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} surveyState={this.state.surveyState}></BarChart>
                         <Summary />
                         <Footer />
                     </div>
