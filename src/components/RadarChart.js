@@ -296,10 +296,8 @@ class ChartTest extends Component {
     }
       render() {
     return (
-      <div>
+      <div className="chartContainer">
         <canvas id="myChart" width="100" height="60"></canvas> 
-        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
-
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
@@ -317,6 +315,7 @@ class ChartTest extends Component {
               : null
             }
         </div>
+        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
       </div>
     );
   }

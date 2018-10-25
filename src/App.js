@@ -234,13 +234,11 @@ class App extends React.Component {
             // FIXME: Loading... jos ei calculated?
             case this.state.states.PROFANSW: {
                 return (
-                    <div className="chartContainer">
-                        <div className="App">
+                    <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
                             {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
                             selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}></BarChart>}
                             <Footer />
-                        </div>
                     </div>
                 )
             }
