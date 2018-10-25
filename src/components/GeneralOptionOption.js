@@ -4,7 +4,7 @@ const GeneralOptionOption = ({ option, changeOption, name, parent }) => {
 
 	return (
 		<div>
-			<input type="radio" value={option.value} name={name} data-parent={parent} onChange={changeOption} />{option.text}
+			<input type="radio" value={option.value} name={name} data-parent={parent} onChange={changeOption} required/>{option.text}
 		</div>)
 }
 
