@@ -232,7 +232,7 @@ class App extends React.Component {
             // FIXME: Loading... jos ei calculated?
             case this.state.states.PROFANSW: {
                 return (
-                    <div className="Chart">
+                    <div className="chartContainer">
                         <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
 
