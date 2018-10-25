@@ -13,7 +13,7 @@ const GeneralList = ({ topics, moveForward, changeOption }) => {
 					<form>
 						{topics.map((t, i) =>
 							<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption}></GeneralTopic>)}
-						<img src={jatka} id="cursor-hover" alt="Jatka" onClick={moveForward} />
+						<img className="jatkaButton" src={jatka} id="cursor-hover" alt="Jatka" onClick={moveForward} />
 					</form>
 				</div></div></div>
 	)

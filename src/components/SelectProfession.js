@@ -18,7 +18,7 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
               <div key={i}><input onChange={() => changeProfessions(topic)} className="selectionInput" type="checkbox" />{topic.text}</div>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
-            <input type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
+            <input className="jatkaButton" type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
           </form>
         </div>
       </div>
