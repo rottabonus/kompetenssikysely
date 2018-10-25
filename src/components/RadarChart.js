@@ -296,6 +296,7 @@ class ChartTest extends Component {
     }
       render() {
     return (
+      <div className="surveyContainer">
       <div className="chartContainer">
         <canvas id="myChart" width="100" height="60"></canvas> 
         <div id="palaute">
@@ -316,7 +317,7 @@ class ChartTest extends Component {
             }
         </div>
         <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
-      </div>
+      </div></div>
     );
   }
 }

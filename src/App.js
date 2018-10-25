@@ -201,15 +201,6 @@ class App extends React.Component {
                     </div>
                 )
             }
-            case this.state.states.RADAR : {
-              return (
-                <div className="App">
-                <Header/>
-                <RadarChart answers={this.state.answers}></RadarChart>
-                <Footer/>
-                </div>
-              )
-            }
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">

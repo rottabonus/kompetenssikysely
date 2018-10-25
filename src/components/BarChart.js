@@ -112,9 +112,11 @@ class BarChart extends Component {
 
     render() {
     return (
+    <div className="surveyContainer">
       <div className="chartContainer">
        <canvas id="myChart"></canvas>
        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+      </div>
       </div>
     );
   }
