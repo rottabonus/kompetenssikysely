@@ -149,6 +149,14 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
+    //kutsutaan kun liikutaan statesta alaspäin
+    moveBackward = () => { 
+        this.setState((prevState) => {
+            return {surveyState: prevState.surveyState - 1}
+        });
+     
+     }
+
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
@@ -178,7 +186,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList topics={this.state.genGenTopics} moveForward={this.moveForward} changeOption={this.changeOption} />
+                        <GeneralList topics={this.state.genGenTopics} moveForward={this.moveForward}  moveBackward={this.moveBackward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -187,7 +195,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList topics={this.state.genTopics} moveForward={this.moveForward} changeOption={this.changeOption} />
+                        <GeneralList topics={this.state.genTopics} moveForward={this.moveForward}  moveBackward={this.moveBackward} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -196,7 +204,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}
+                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}  moveBackward={this.moveBackward}
                         selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}></RadarChart>
                         <Footer />
                     </div>
@@ -207,7 +215,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}
+                        <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}  moveBackward={this.moveBackward}
                             selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
                         <Footer />
                     </div>
@@ -218,7 +226,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <List topics={this.state.selectedTopics}
-                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} />
+                            changeOption={this.changeOption} sendAnswers={this.sendAnswers}  moveBackward={this.moveBackward} />
                         <Footer />
                     </div>
                 )
@@ -230,7 +238,7 @@ class App extends React.Component {
                     <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
                             {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} surveyState={this.state.surveyState}></BarChart>}
+                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}  surveyState={this.state.surveyState}></BarChart>}
                             <Footer />
                     </div>
                 )
@@ -243,7 +251,7 @@ class App extends React.Component {
                         <RadarChart answers={this.state.answers} moveForward={this.moveForward}
                         selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}></RadarChart>
                         <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                        selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} surveyState={this.state.surveyState}></BarChart>
+                        selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}  surveyState={this.state.surveyState}></BarChart>
                         <Summary />
                         <Footer />
                     </div>

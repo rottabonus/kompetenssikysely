@@ -37,10 +37,48 @@
   text-align: center;
   margin-left: 45%;
   margin-top: 3%;
+  background-color: #E6007E;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 15px;
 }
 .generalTopic {
   margin-left: 70px;
   text-align: left;
+}
+
+.buttonstyle {
+  background-color: #E6007E;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 15px;
+
+}
+
+.buttonstyleBackward {
+  margin-left: 70px;
+  background-color: #E6007E;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 15px;
+
 }
 
 .professionSelectionText {

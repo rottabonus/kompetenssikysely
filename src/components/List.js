@@ -2,7 +2,7 @@ import React from 'react';
 import Topic from './Topic';
 
 
-const List = ({ topics, changeOption, sendAnswers }) => {
+const List = ({ topics, changeOption, sendAnswers, moveBackward }) => {
 
   return (
     <div>
@@ -10,7 +10,8 @@ const List = ({ topics, changeOption, sendAnswers }) => {
         <form onSubmit={sendAnswers}>
           {topics.map((topic, i) =>
             <Topic key={i} topic={topic} changeOption={changeOption}></Topic>)}
-          <button type="submit">Send answers</button>
+         <button className="buttonstyle" type="submit">Send answers</button>
+          <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>
         </form>
       </div>
     </div>

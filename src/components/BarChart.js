@@ -116,8 +116,9 @@ class BarChart extends Component {
       <div className="chartContainer">
         <canvas id="myChart"></canvas>
         { this.props.surveyState == 6
-        ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+        ? <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button> 
         : null
+
         }
        
       </div>

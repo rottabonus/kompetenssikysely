@@ -322,8 +322,12 @@ class RadarChart extends Component {
             }
         </div>
         { this.props.surveyState == 3
-            ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+            ? <div>
+              <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button>
+               <button className="buttonstyleBackward" onClick={this.props.moveBackward}>Takaisin</button> 
+              </div>            
             : null
+
         }
         
       </div>
