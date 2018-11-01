@@ -4,7 +4,7 @@ import jatka from '../img/PNG/jatka.png';
 
 
 class ChartTest extends Component {
-  
+
     constructor(props){
         super(props);
         this.state={
@@ -42,12 +42,12 @@ class ChartTest extends Component {
 
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
-            type: 'radar', 
+            type: 'radar',
             data : {
                 labels: labelArray,
                 datasets: [{
                     label: "Minun kompetenssini",
-                    data: averageArray, 
+                    data: averageArray,
                     "backgroundColor": "rgba(0, 159, 227, 0.5)",
                     "borderWidth": "2",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
@@ -65,17 +65,17 @@ class ChartTest extends Component {
                         stepSize: 1.0,
                     }
                 },
-                
+
             }
         });
         }
-  
+
     render() {
     return (
       <div className="chartContainer">
-        <canvas id="myChart" width="100" height="60"></canvas> 
+        <canvas id="myChart" width="100" height="60"></canvas>
         <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
-
+        <button onClick={(e)=> this.props.moveBackward(e)}> takaisin </button>
       </div>
     );
   }

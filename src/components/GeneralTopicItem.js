@@ -1,23 +1,26 @@
 import React from 'react'
-import GeneralOptionOption from './GeneralOptionOption'
 
-const GeneralTopicItem = ({ option, changeOption, parent }) => {
+const GeneralTopicItem = ({ option, changeOption, parent, get }) => {
 
 	if(option.category === 'Yleisettiedot'){
 
     return (
       <div>
         <b>{option.text}</b>
-        {option.Options.map((o, i) => <div key={i}><input type="radio" name={option.text} value={o} data-parent={option.category} onChange={changeOption} ></input>{o}</div>)}
-      </div>
+				<fieldset>
+        {option.Options.map((o, i) => <div key={i}><input type="radio" name={option.text} data-aval={o} data-parent={option.category} checked={get('basic', o)} onChange={changeOption} required/>{o}</div>)}
+				</fieldset>
+			</div>
     )
   } else {
 
 		const options = Object.values(option).filter(option => typeof option === 'object')
+
 		return (
 			<div>
-				<b>{option.text}</b><fieldset>
-					{options.map((o, i) => <GeneralOptionOption key={i} option={o} changeOption={changeOption} parent={parent} name={option.text} ></GeneralOptionOption>)}
+				<b>{option.text}</b>
+				<fieldset>
+					{options.map((o, i) => <div key={i}><input type="radio" name={option.text} data-aval={o.value} data-parent={parent} checked={get(option.text, o.value)} onChange={changeOption} required/>{o.text}</div>)}
 				</fieldset>
 			</div>)
 	}

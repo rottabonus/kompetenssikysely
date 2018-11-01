@@ -20,7 +20,7 @@ class WelcomePage extends Component {
 
                             Kyselymuotoisessa työkalussa on kaksi osiota: <br /><br /></p></div>
                             <div className="welcomePageTextDiv">
-                            <div><img src={palkki} height="120%" width="80%" /></div>
+                            <div><img src={palkki} alt="palkkI" height="120%" width="80%" /></div>
                             <div><p>
                             <b>A. YLEISET KOMPETENSSIT</b>, ja<br />
                             <b>B. ASIANTUNTIJAN OSAAMINEN</b>, joista voit valita markkinoinnin, myynnin, taloushallinnon tai henkilöstöhallinnon osiot.<br />

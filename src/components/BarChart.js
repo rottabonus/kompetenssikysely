@@ -115,6 +115,7 @@ class BarChart extends Component {
       <div className="chartContainer">
        <canvas id="myChart"></canvas>
        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
+       <button onClick={(e)=> this.props.moveBackward(e)}> takaisin </button>
       </div>
     );
   }
