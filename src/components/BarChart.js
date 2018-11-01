@@ -116,11 +116,12 @@ class BarChart extends Component {
       <div className="chartContainer">
         <canvas id="myChart"></canvas>
         { this.props.surveyState == 6
-        ? <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button> 
+        ? <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button>
+
         : null
 
         }
-       
+
       </div>
       </div>
     );

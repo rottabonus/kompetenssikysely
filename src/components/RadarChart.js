@@ -4,7 +4,7 @@ import jatka from '../img/PNG/jatka.png';
 
 
 class RadarChart extends Component {
-  
+
     constructor(props){
         super(props);
         this.state={
@@ -37,7 +37,7 @@ class RadarChart extends Component {
         })
         var high = [];
         var low = [];
-       
+
         filteredAnswers.forEach(function(element){
           if (element.value == 5) {
             high.push(element);
@@ -60,12 +60,12 @@ class RadarChart extends Component {
 
         var ctx = document.getElementById("radarChart");
         var radarChart = new Chart(ctx, {
-            type: 'radar', 
+            type: 'radar',
             data : {
                 labels: labelArray,
                 datasets: [{
                     label: "Minun kompetenssini",
-                    data: averageArray, 
+                    data: averageArray,
                     "backgroundColor": "rgba(0, 159, 227, 0.5)",
                     "borderWidth": "2",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
@@ -79,12 +79,10 @@ class RadarChart extends Component {
                         max: 5
                     }
                 },
-                
+
             }
         });
-        
-  
-   
+
       var i = 0;
       var rows1 = [];
       var rows2 = [];
@@ -303,7 +301,7 @@ class RadarChart extends Component {
     return (
       <div className="surveyContainer">
       <div className="chartContainer">
-        <canvas id="radarChart" width="100" height="60"></canvas> 
+        <canvas id="radarChart" width="100" height="60"></canvas>
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
@@ -312,7 +310,7 @@ class RadarChart extends Component {
                 </div>
               : null
             }
-          
+
             { this.state.rows2.length > 0
               ? <div className="reviewtext">
                   <h3 className="aligncenter">Kehittääksesi osaamistasi sinun kannattaa huomioida: </h3>
@@ -321,15 +319,12 @@ class RadarChart extends Component {
               : null
             }
         </div>
-        { this.props.surveyState == 3
-            ? <div>
-              <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button>
-               <button className="buttonstyleBackward" onClick={this.props.moveBackward}>Takaisin</button> 
-              </div>            
-            : null
+        { this.props.surveyState !== 3
+            ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
 
+            : null
         }
-        
+
       </div>
       </div>
     );

@@ -29,7 +29,7 @@ class Footer extends React.Component {
                     </div>
 
                     <div className="hhlogo">
-                    <img src={hh_logo} />
+                    <img src={hh_logo} alt="HH-Logo"/>
                     </div>
                     </div>
             </footer>

@@ -5,31 +5,6 @@
   background-position: 93% 50%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .text {
   color: #3C3C3C;
 }
@@ -88,7 +63,7 @@
 }
 
 .professionSelection {
-  text-align: left; 
+  text-align: left;
   /*margin-left: 70px;*/
   margin-bottom: 40px;
 }
@@ -145,7 +120,7 @@
 }
 
 .topicFont {
-  
+
 }
 
 .topicItemContainer {
@@ -286,5 +261,5 @@ img {
   .surveyContainer {
     text-align: center;
   }
-  
+
 }
