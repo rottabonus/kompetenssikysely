@@ -18,6 +18,7 @@ class App extends React.Component {
     constructor() {
         super()
         this.state = {
+            canSubmit: false,
             topics: [],
             genTopics: [],
             genGenTopics: [],
@@ -224,11 +225,12 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart answers={this.state.answers} moveForward={this.moveForward} moveBackward={this.moveBackward}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} moveForward={this.moveForward} moveBackward={this.moveBackward}></RadarChart>
                         <Footer />
                     </div>
                 )
             }
+
             case this.state.states.SELECTPROF: {
                 return (
                     <div className="App">
@@ -253,13 +255,11 @@ class App extends React.Component {
 
             case this.state.states.PROFANSW: {
                 return (
-                    <div className="Chart">
-                        <div className="App">
+                    <div className="App">
                             <Header surveyState={this.state.surveyState} states={this.state.states} />
                             {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
                             selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} moveBackward={this.moveBackward}></BarChart>}
                             <Footer />
-                        </div>
                     </div>
                 )
             }

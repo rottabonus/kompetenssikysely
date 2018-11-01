@@ -4,7 +4,7 @@ const TopicItem = ({ topic, changeOption, parent, get }) => {
 
   // FIXME: filteröinti??
   const optionValues = Object.values(topic).map(option => option).filter(o => typeof o === 'object')
-
+  //validointi hoidettu tuolla "required", eli nyt näyttää puutuvat punaisella ja vie käyttäjän ensimmäisen uupuvan kohdalle...
   return (
     <div className="topicItemContainer">
       <p className="topicItemHeader">{topic.text}</p>

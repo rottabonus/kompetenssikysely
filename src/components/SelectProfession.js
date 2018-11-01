@@ -18,7 +18,8 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
               <div key={i}><input onChange={() => changeProfessions(topic)} className="selectionInput" type="checkbox" checked={getChecked(topic.text)}/>{topic.text}</div>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
-            <input type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
+            <button className="jatkaButton" onClick={handleProfessionsAndMove}>Jatka</button>
+            <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>
           </form>
           <button onClick={(e)=> moveBackward(e)}> takaisin </button>
         </div>

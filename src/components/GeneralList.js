@@ -14,7 +14,7 @@ const GeneralList = ({ topics, moveForward, changeOption, answers, moveBackward,
 						{topics.map((t, i) =>
 							<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption} answers={answers} get={getChecked}></GeneralTopic>)}
 						<button type="submit">Jatka</button>
-					</form>
+					</form>s
 					<button onClick={(e)=> moveBackward(e)}> takaisin </button>
 				</div></div></div>
 	)

@@ -28,7 +28,7 @@ class WelcomePage extends Component {
                     </div>
                     </div>
                     <Grid item xs={12}>
-                        <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} /></Grid>
+                    <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button></Grid>
                 </Grid>
             </div>
         )

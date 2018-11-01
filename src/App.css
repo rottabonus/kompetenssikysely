@@ -1,9 +1,59 @@
 .App {
   text-align: center;
+  background-image: url("./img/PNG/raita.png");
+  background-repeat: repeat-y;
+  background-position: 93% 50%;
 }
 
 .text {
   color: #3C3C3C;
+}
+.jatkaButton {
+  text-align: center;
+  margin-left: 45%;
+  margin-top: 3%;
+  background-color: #E6007E;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 15px;
+}
+.generalTopic {
+  margin-left: 70px;
+  text-align: left;
+}
+
+.buttonstyle {
+  background-color: #E6007E;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 15px;
+
+}
+
+.buttonstyleBackward {
+  margin-left: 70px;
+  background-color: #E6007E;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: 15px;
+
 }
 
 .professionSelectionText {
@@ -14,7 +64,7 @@
 
 .professionSelection {
   text-align: left;
-  margin-left: 70px;
+  /*margin-left: 70px;*/
   margin-bottom: 40px;
 }
 
@@ -26,8 +76,9 @@
   border-style: solid;
   border-width: 0.5px;
   border-color: #DADADA;
-  margin: 0 80px 80px 80px;
+  margin: 0% 15% 0% 15%;
   padding-bottom: 40px;
+  background-color: rgba(255, 255, 255, 0.719);
 }
 
 .barContainer {
@@ -38,7 +89,8 @@
     border-width: 0.5px;
     border-color: #DADADA;
     padding-bottom: 40px;
-    margin: 0 80px 0 80px;
+    margin: 0 15% 0 15%;
+    background-color: white;
 }
 
 .selectionInput {
@@ -48,6 +100,26 @@
 .selectionButton {
   margin-left: 300px;
   margin-top: 40px;
+
+}
+.topicContainer h2 {
+  background-color: #009FE3;
+  width: 100% !important;
+  padding: 0.3%;
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+
+}
+.radioInput {
+  margin-right: 50px;
+  padding-right: 50px;
+}
+.topicTextValue {
+  margin-left:1%;
+  display: inline-block;
+}
+
+.topicFont {
 
 }
 
@@ -160,6 +232,7 @@ img {
   border-style: solid;
   border-width: 0.5px;
   border-color: #DADADA;
+  background-color: white;
 }
 
 .footerImgDiv {
@@ -173,9 +246,20 @@ img {
   align-self: flex-end;
 }
 
+/*tulostus asettelut tähän*/
 @media print {
   a[href]:after {
     content: none;
+  }
+  .barContainer {
+    display: none;
+  }
+  .chartContainer {
+    text-align: center;
+    margin-right: 50%;
+  }
+  .surveyContainer {
+    text-align: center;
   }
 
 }
