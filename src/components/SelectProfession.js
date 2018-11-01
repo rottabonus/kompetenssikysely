@@ -7,7 +7,7 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
     <div className="App">
       <div className="surveyContainer">
         <div className="professionSelectionText">
-          <h2 className="text">ASIANTUNTIJAN OSAAMINEN</h2>
+          <h3>ASIANTUNTIJAN OSAAMINEN</h3>
           <div><p>Asiantuntijan osaaminen on kuvattu neljän tyypillisen liiketoiminnan suuntautumisen suhteen.</p></div>
           <div><p>Kyselyyn on poimittu niitä osaamisia, joita ammattilaiselta odotetaan globaalissa ja digitalisoituvassa
                         työelämässä asiantuntijan roolissa.</p></div>
@@ -16,14 +16,17 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
         <div className="professionSelection">
           <form>
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
-              <div key={i}><input onChange={() => changeProfessions(topic)} className="selectionInput" type="checkbox" checked={getChecked(topic.text)}/>{topic.text}</div>)}
+              <label className="topicItemOptions" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" checked={getChecked(topic.text)} /><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
-            <button className="jatkaButton" onClick={handleProfessionsAndMove}>Jatka</button>
-            <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>
+
+            {/*   <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>*/}
           </form>
-          <button onClick={(e)=> moveBackward(e)}> takaisin </button>
+
         </div>
+        <button className="buttonBackward" onClick={(e) => moveBackward(e)}>Takaisin</button>
+        <button className="buttonForward" onClick={handleProfessionsAndMove}>Jatka</button>
       </div>
+
     </div>
   )
 }

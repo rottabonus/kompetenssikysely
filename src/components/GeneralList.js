@@ -7,16 +7,16 @@ const GeneralList = ({ topics, moveForward, changeOption, answers, moveBackward,
 	return (
 		<div className="App">
 			<div className="surveyContainer">
-				<div className="professionSelectionText">
-				</div>
-				<div className="professionSelection">
-					<form onSubmit={moveForward}>
-						{topics.map((t, i) =>
-							<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption} answers={answers} get={getChecked}></GeneralTopic>)}
-						<button type="submit">Jatka</button>
-					</form>s
-					<button onClick={(e)=> moveBackward(e)}> takaisin </button>
-				</div></div></div>
+
+
+				<form onSubmit={moveForward}>
+					{topics.map((t, i) =>
+						<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption} answers={answers} get={getChecked}></GeneralTopic>)}
+					<button className="buttonBackward" onClick={(e) => moveBackward(e)}> Takaisin </button>
+					<button className="buttonForward" type="submit">Jatka</button>
+				</form>
+
+			</div></div>
 	)
 }
 
