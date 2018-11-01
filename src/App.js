@@ -14,6 +14,7 @@ import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
 import backGround from './img/PNG/raita.png'
 
+
 class App extends React.Component {
     constructor() {
         super()
@@ -25,7 +26,7 @@ class App extends React.Component {
             profTopics: [],
             key: '',
             answers: [],
-            surveyState: 1,
+            surveyState: 0,
             states: {
                 WelcomePage: 0,
                 General: 1,
@@ -51,9 +52,9 @@ class App extends React.Component {
         const professionAnswers = await answerService.getAll()
 
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
-          const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
-	           const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
-                const profTopics = topics.filter(t => typeof t === 'object')
+        const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
+        const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
+        const profTopics = topics.filter(t => typeof t === 'object')
         this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics })
     }
 
@@ -68,19 +69,19 @@ class App extends React.Component {
     }
 
     getChecked = (x, item) => {
-      if(x === 'basic'){
-        const found = this.state.answers.filter(a => a.value === item)
-        return found.length === 1
-      } else {
-        const filterAnswers = this.state.answers.filter(a => a.answer === x)
-        const found = filterAnswers.filter(a => parseInt(a.value) === item)
-        return found.length === 1
-      }
+        if (x === 'basic') {
+            const found = this.state.answers.filter(a => a.value === item)
+            return found.length === 1
+        } else {
+            const filterAnswers = this.state.answers.filter(a => a.answer === x)
+            const found = filterAnswers.filter(a => parseInt(a.value) === item)
+            return found.length === 1
+        }
     }
 
     getSelected = (x) => {
-      const found = this.state.selectedTopics.filter(a => a.topic === x)
-      return found.length === 1
+        const found = this.state.selectedTopics.filter(a => a.topic === x)
+        return found.length === 1
     }
 
     sendAnswers = (event) => {
@@ -160,7 +161,7 @@ class App extends React.Component {
 
     //kutsutaan kun liikutaan statesta ylöspäin !!
     moveForward = (e) => {
-      e.preventDefault()
+        e.preventDefault()
         window.scrollTo(0, 0)
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
@@ -171,7 +172,7 @@ class App extends React.Component {
     }
 
     moveBackward = (e) => {
-      e.preventDefault()
+        e.preventDefault()
         window.scrollTo(0, 0)
         this.setState({ surveyState: this.state.surveyState - 1 })
     }
@@ -193,19 +194,19 @@ class App extends React.Component {
 
             case this.state.states.WelcomePage: {
                 return (
-                      <div className="App">
+                    <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <WelcomePage moveForward={this.moveForward} />
                         <Footer />
-                        </div>
-                      )
+                    </div>
+                )
             }
 
             case this.state.states.General: {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} moveForward={this.moveForward} changeOption={this.changeOption} moveBackward={this.moveBackward}/>
+                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} moveForward={this.moveForward} changeOption={this.changeOption} moveBackward={this.moveBackward} />
                         <Footer />
                     </div>
                 )
@@ -236,7 +237,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}
-                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} moveBackward={this.moveBackward}/>
+                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} moveBackward={this.moveBackward} />
                         <Footer />
                     </div>
                 )
@@ -256,10 +257,10 @@ class App extends React.Component {
             case this.state.states.PROFANSW: {
                 return (
                     <div className="App">
-                            <Header surveyState={this.state.surveyState} states={this.state.states} />
-                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
                             selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} moveBackward={this.moveBackward}></BarChart>}
-                            <Footer />
+                        <Footer />
                     </div>
                 )
             }
@@ -268,6 +269,10 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <div className="summaryPageCharts">
+                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} />
+                            <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} moveForward={this.state.moveForward}
+                                surveyState={this.state.surveyState} /></div>
                         <Summary />
                         <Footer />
                     </div>
