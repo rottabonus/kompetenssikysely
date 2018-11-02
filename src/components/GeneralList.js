@@ -2,18 +2,18 @@ import React from 'react'
 import GeneralTopic from './GeneralTopic'
 import jatka from '../img/PNG/jatka.png'
 
-const GeneralList = ({ topics, moveForward, changeOption, answers, moveBackward, getChecked }) => {
+const GeneralList = ({ topics, move, changeOption, answers, getChecked }) => {
 
 	return (
 		<div className="App">
 			<div className="surveyContainer">
 
 
-				<form onSubmit={moveForward}>
+				<form>
 					{topics.map((t, i) =>
 						<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption} answers={answers} get={getChecked}></GeneralTopic>)}
-					<button className="buttonBackward" onClick={(e) => moveBackward(e)}> Takaisin </button>
-					<button className="buttonForward" type="submit">Jatka</button>
+					<button className="buttonBackward" onClick={(e) => move(e, -1)}> Takaisin </button>
+					<button className="buttonForward" onClick={(e) => move(e, 1)}>Jatka</button>
 				</form>
 
 			</div></div>

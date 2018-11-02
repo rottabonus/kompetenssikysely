@@ -3,7 +3,7 @@ import Chart from 'chart.js';
 
 
 class RadarChart extends Component {
-  
+
     constructor(props){
         super(props);
         this.state={
@@ -12,25 +12,22 @@ class RadarChart extends Component {
     }
 
     componentDidMount(){
-    var answersWithoutYleisettiedot = this.props.answers.filter((answer) => answer.topic != "Yleisettiedot");   
+    var answersWithoutYleisettiedot = this.props.answers.filter((answer) => answer.topic != "Yleisettiedot");
     var avgItsensaJohtaminen = this.props.answers.filter((answer) => answer.topic === "Itsensä johtaminen ja ongelmanratkaisu").reduce((previous, current) => current + previous);
     var avgYleinenDigi = this.props.answers.filter((answer) => answer.topic === "Yleinen digiosaaminen");
     var avgUranhallinta = this.props.answers.filter((answer) => answer.topic === "Uranhallinta");
     var avgVuorovaikutus = this.props.answers.filter((answer) => answer.topic === "Vuorovaikutus");
     
-
-
-
     var usersData = answersWithoutYleisettiedot.map((a) => a.value);
     var labels = answersWithoutYleisettiedot.map((a) => a.topic);
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
-        type: 'radar', 
+        type: 'radar',
         data : {
             labels: labels,
             datasets: [{
                 label: "Minun Yleisetkompetenssini",
-                data: usersData, 
+                data: usersData,
             backgroundColor: 'rgba(110, 42, 91, 0.7)',
             }]
         },
@@ -41,11 +38,11 @@ class RadarChart extends Component {
                     max: 5
                 }
             },
-            
+
         }
     });
     }
-  
+
     render() {/*
         var i = 0;
         var rows1 = [];
@@ -233,9 +230,9 @@ class RadarChart extends Component {
             },
           ]
         };
-        
+
         for(i = 0; i < this.state.data.high.length; i++){
-          
+
           var helper = helpertext.High.filter((a) => a.name == this.state.data.high[i].question)
           for (let b in helper){
             rows1.push(<p key={b}><span className="bold">{helper[b].name}, </span>{helper[b].text}</p>)
@@ -246,7 +243,7 @@ class RadarChart extends Component {
           for (let b in helper){
             rows2.push(<p key={b}><span className="bold">{helper[b].name}, </span>{helper[b].text}</p>)
           }*/
-        
+
     return (
       <div>
        <canvas id="myChart" width="100" height="60"></canvas>

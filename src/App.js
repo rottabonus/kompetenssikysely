@@ -160,10 +160,10 @@ class App extends React.Component {
     }
 
     //kutsutaan kun liikutaan statesta ylöspäin !!
-    moveForward = (e) => {
+    move = (e, x) => {
         e.preventDefault()
         window.scrollTo(0, 0)
-        this.setState({ surveyState: this.state.surveyState + 1 })
+        this.setState({ surveyState: this.state.surveyState + x })
     }
 
     moveForwardProf = () => {
@@ -171,11 +171,6 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
-    moveBackward = (e) => {
-        e.preventDefault()
-        window.scrollTo(0, 0)
-        this.setState({ surveyState: this.state.surveyState - 1 })
-    }
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
@@ -196,7 +191,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <WelcomePage moveForward={this.moveForward} />
+                        <WelcomePage moveForward={this.move} />
                         <Footer />
                     </div>
                 )
@@ -206,7 +201,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} moveForward={this.moveForward} changeOption={this.changeOption} moveBackward={this.moveBackward} />
+                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} move={this.move} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -216,7 +211,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList topics={this.state.genTopics} getChecked={this.getChecked} moveForward={this.moveForward} changeOption={this.changeOption} moveBackward={this.moveBackward} />
+                        <GeneralList topics={this.state.genTopics} getChecked={this.getChecked} move={this.move} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -226,7 +221,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} moveForward={this.moveForward} moveBackward={this.moveBackward}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move}></RadarChart>
                         <Footer />
                     </div>
                 )
@@ -237,7 +232,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}
-                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} moveBackward={this.moveBackward} />
+                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} move={this.move} />
                         <Footer />
                     </div>
                 )
@@ -248,7 +243,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <List topics={this.state.selectedTopics} getChecked={this.getChecked}
-                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} moveBackward={this.moveBackward} />
+                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} move={this.move} />
                         <Footer />
                     </div>
                 )
@@ -259,7 +254,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} moveBackward={this.moveBackward}></BarChart>}
+                            selectedTopics={this.state.selectedTopics} move={this.move}></BarChart>}
                         <Footer />
                     </div>
                 )
@@ -271,7 +266,7 @@ class App extends React.Component {
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <div className="summaryPageCharts">
                             <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} />
-                            <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} moveForward={this.state.moveForward}
+                            <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} move={this.state.move}
                                 surveyState={this.state.surveyState} /></div>
                         <Summary />
                         <Footer />

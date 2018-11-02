@@ -320,8 +320,8 @@ class RadarChart extends Component {
           </div>
           {this.props.surveyState !== 3
             ? <div>
-              <button className="buttonBackward" onClick={(e) => this.props.moveBackward(e)}> Takaisin </button>
-              <button className="buttonForward" onClick={this.props.moveForward}>Jatka</button>
+              <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}> Takaisin </button>
+              <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
             </div>
 
             : null

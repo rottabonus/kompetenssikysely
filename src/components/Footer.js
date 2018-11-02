@@ -1,13 +1,17 @@
 import React from 'react';
-import TT_facebook from '../img/PNG/TT_facebook.png'
-import TT_youtube from '../img/PNG/TT_youtube.png'
-import TT_insta from '../img/PNG/TT_insta.png'
-import TT_twitter from '../img/PNG/TT_twitter.png'
-import TT_linkedin from '../img/PNG/TT_linkedin.png'
-import hh_logo from '../img/PNG/hh.jpg'
+import TT_facebook from '../img/PNG/facebook-24.png'
+import TT_youtube from '../img/PNG/youtube-24.png'
+import TT_insta from '../img/PNG/instagram-24.png'
+import TT_twitter from '../img/PNG/twitter-24.png'
+import TT_linkedin from '../img/PNG/linkedin-24.png'
+import hh_logo from '../img/PNG/hh_tunnus.png'
 
-class Footer extends React.Component {
-    render() {
+const Footer = () => {
+
+  const hhStyle= {
+    width: '50%',
+    height: '50%'
+  }
         return (
             <footer className="footer">
             <div className="footerImgDiv">
@@ -29,12 +33,12 @@ class Footer extends React.Component {
                     </div>
 
                     <div className="hhlogo">
-                    <img src={hh_logo} alt="HH-Logo"/>
+                    <a href="http://www.haaga-helia.fi/en/frontpage" target="_blank" rel="noopener noreferrer">
+                    <img src={hh_logo} style={hhStyle} alt="HH-Logo"/></a>
                     </div>
                     </div>
             </footer>
         )
-    }
 }
 
 export default Footer;
