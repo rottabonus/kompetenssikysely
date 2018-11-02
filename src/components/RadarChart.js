@@ -46,8 +46,7 @@ class RadarChart extends Component {
             low.push(element);
           }
         })
-        console.log("Get High 420" + high);
-        console.log("Get Loooow" + low);
+
         var labelArray = [problemSolving[0].topic, technicalComp[0].topic, careerControl[0].topic, interaction[0].topic];
         var answerArray = [problemSolving, technicalComp, careerControl, interaction];
         var averageArray = [];
@@ -76,7 +75,8 @@ class RadarChart extends Component {
                 scale: {
                     ticks: {
                         beginAtZero: true,
-                        max: 5
+                        max: 5,
+                        stepSize: 1.0,
                     }
                 },
                 
@@ -283,8 +283,6 @@ class RadarChart extends Component {
       var b = 0;
       var x = 0;
       for(i = 0; i < high.length; i++){
-        console.log(high[i].answer)
-        console.log(helpertext.High[i].name)
         var helper = helpertext.High.filter((a) => a.name == high[i].answer)
         for (b = 0; b < helper.length; b++){
           rows1.push(<p key={b}><span className="bold">{helper[b].name}, </span>{helper[b].text}</p>)
