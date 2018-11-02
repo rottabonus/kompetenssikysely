@@ -1,7 +1,7 @@
 import React from 'react'
 import jatka from '../img/PNG/jatka.png'
 
-const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove, getChecked, moveBackward }) => {
+const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove, getChecked, move }) => {
 
   return (
     <div className="App">
@@ -16,14 +16,14 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
         <div className="professionSelection">
           <form>
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
-              <label className="topicItemOptions" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" checked={getChecked(topic.text)} /><span className="checkmark"></span>{topic.text}</label>)}
+              <label className="topicItemOptions" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" checked={getChecked(topic.text)}/><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
 
             {/*   <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>*/}
           </form>
 
         </div>
-        <button className="buttonBackward" onClick={(e) => moveBackward(e)}>Takaisin</button>
+        <button className="buttonBackward" onClick={(e) => move(e, -1)}>Takaisin</button>
         <button className="buttonForward" onClick={handleProfessionsAndMove}>Jatka</button>
       </div>
 

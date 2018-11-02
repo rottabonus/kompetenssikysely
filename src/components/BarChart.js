@@ -118,8 +118,8 @@ class BarChart extends Component {
                     <canvas id="myChart"></canvas>
                     {this.props.surveyState !== 6
                         ? <div>
-                            <button className="buttonBackward" onClick={(e) => this.props.moveBackward(e)}> Takaisin </button>
-                            <button className="buttonForward" onClick={this.props.moveForward}>Jatka</button></div>
+                            <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}> Takaisin </button>
+                            <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button></div>
                         : null
 
                     }

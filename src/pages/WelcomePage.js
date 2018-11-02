@@ -27,7 +27,7 @@ class WelcomePage extends Component {
                     </div>
                 </div>
 
-                <button className="buttonBegin" onClick={this.props.moveForward}>Aloita kysely</button>
+                <button className="buttonBegin" onClick={(e) =>this.props.moveForward(e, 1)}>Aloita kysely</button>
 
             </div>
         )

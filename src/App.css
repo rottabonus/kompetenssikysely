@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,900" rel="stylesheet'); 
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,900" rel="stylesheet');
 @font-face {
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif;
   src: url('https://fonts.googleapis.com/css?family=Roboto:400,900" rel="stylesheet');
 }
 
 /* YLEINEN FONTTI */
 .body, div {
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif;
 }
 
 .App {
@@ -57,7 +57,7 @@
     font-family: 'Arial';
     font-weight: bold;
     font-size: 15px;
-  } 
+  }
 
    /*JATKA-nappula*/
   .buttonForward {
@@ -96,14 +96,14 @@
    /*ASIANTUNTIJAN OSAAMINEN -intron tekstit*/
   .professionSelectionText {
     text-align: left;
-    margin-left: 50px; 
+    margin-left: 50px;
     margin-bottom: 40px;
   }
-  
+
   /*ASIANTUNTIJAN OSAAMINEN -intron checkbox*/
   .professionSelection {
-    text-align: left; 
-    margin-left: 70px; 
+    text-align: left;
+    margin-left: 70px;
     margin-bottom: 40px;
   }
 
@@ -177,7 +177,7 @@
       margin: 0 15% 0 15%;
       background-color: white;
   }
- 
+
   /*Kategorian otsikko*/
   .topicContainer h2 {
     background-color: #009FE3;
@@ -186,7 +186,7 @@
     color: #ffffff;
     text-align: left;
   }
-  
+
   /*Kategorian alaotsikko ja vastausvaihtoehdot*/
   .topicItemContainer {
     margin-top: 17px;
@@ -241,7 +241,7 @@
   .topicItemOptions input:checked ~ .checkmark {
     background-color: #E6007E;
   }
-   
+
   /*Ammattikyselyn radiot*/
   .profOptionsRadio{
       display: block;
@@ -288,7 +288,7 @@
   }
   h1 {
     color: #E6007E;
-    font-size: 300%; 
+    font-size: 300%;
     font-weight: bolder;
   }
   h3 {
@@ -302,7 +302,7 @@
 
   .welcomePageText {
     text-align: left;
-    margin-left: 50px; 
+    margin-left: 50px;
     margin-bottom: 40px;
   }
 
@@ -328,6 +328,7 @@
     border-width: 0.5px;
     border-color: #DADADA;
     background-color: white;
+    margin-top: 33px;
   }
   .footerImgDiv {
     display: flex;
@@ -353,5 +354,5 @@
     .surveyContainer {
       text-align: center;
     }
-    
+
   }
