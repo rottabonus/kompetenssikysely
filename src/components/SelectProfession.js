@@ -13,10 +13,10 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
                         työelämässä asiantuntijan roolissa.</p></div>
           <div><p>Valitse yksi tai useampi seuraavista alueista:</p></div>
         </div>
-        <div className="professionSelection">
+        <div className="professionSelection2">
           <form>
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
-              <div key={i}><input onChange={() => changeProfessions(topic)} className="selectionInput" type="checkbox" />{topic.text}</div>)}
+              <label className="container" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox"/><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
             <input className="jatkaButton" type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
           </form>
