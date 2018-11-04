@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TopicItem = ({ topic, changeOption, parent }) => {
+const TopicItem = ({ topic, changeOption, parent, get }) => {
 
   // FIXME: filteröinti??
   const optionValues = Object.values(topic).map(option => option).filter(o => typeof o === 'object')
@@ -10,8 +10,8 @@ const TopicItem = ({ topic, changeOption, parent }) => {
       <p className="topicItemHeader">{topic.text}</p>
       <fieldset>
         {optionValues.map((option, i) =>
-          <div className="profOptions" key={i}><input type="radio" className="profOptionsRadio" name={topic.text} data-parent={parent}
-          onChange={changeOption} value={option.value} required/><label className="profOptionsText">{option.text}</label></div>)}
+          <label className="topicItemOptions" key={i}><input type="radio" className="profOptionsRadio" name={topic.text} data-parent={parent}
+            onChange={changeOption} data-aval={option.value} checked={get(topic.text, option.value)} required /><span className="checkmark"></span>{option.text}</label>)}
       </fieldset>
     </div>
   )

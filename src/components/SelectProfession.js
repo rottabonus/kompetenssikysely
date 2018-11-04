@@ -1,13 +1,13 @@
 import React from 'react'
 import jatka from '../img/PNG/jatka.png'
 
-const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove }) => {
+const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove, getChecked, move }) => {
 
   return (
     <div className="App">
       <div className="surveyContainer">
         <div className="professionSelectionText">
-          <h2 className="text">ASIANTUNTIJAN OSAAMINEN</h2>
+          <h3>ASIANTUNTIJAN OSAAMINEN</h3>
           <div><p>Asiantuntijan osaaminen on kuvattu neljän tyypillisen liiketoiminnan suuntautumisen suhteen.</p></div>
           <div><p>Kyselyyn on poimittu niitä osaamisia, joita ammattilaiselta odotetaan globaalissa ja digitalisoituvassa
                         työelämässä asiantuntijan roolissa.</p></div>
@@ -18,10 +18,15 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
               <label className="container" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox"/><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
-            <input className="jatkaButton" type="image" src={jatka} id="cursor-hover" alt="Jatka" onClick={handleProfessionsAndMove} />
+
+            {/*   <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>*/}
           </form>
+
         </div>
+        <button className="buttonBackward" onClick={(e) => move(e, -1)}>Takaisin</button>
+        <button className="buttonForward" onClick={handleProfessionsAndMove}>Jatka</button>
       </div>
+
     </div>
   )
 }
