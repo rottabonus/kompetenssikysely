@@ -173,7 +173,6 @@
       border-style: solid;
       border-width: 0.5px;
       border-color: #DADADA;
-      padding-bottom: 40px;
       margin: 0 15% 0 15%;
       background-color: white;
   }
@@ -279,8 +278,10 @@
     transition: width .2s ease-in;
   }
   .bar {
-  display: flex;
-  padding-top: 30px;
+    padding: 5px 0 5px 0;
+  }
+  .bar img {
+    max-height: 150px;
   }
   .header-logo {
     margin: 10px 0 0 33px;
