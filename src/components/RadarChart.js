@@ -319,10 +319,10 @@ class RadarChart extends Component {
               : null
             }
         </div>
-        { this.props.surveyState == 3
+        { this.props.surveyState !== 3
             ? <div>
-              <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button>
-               <button className="buttonstyleBackward" onClick={this.props.moveBackward}>Takaisin</button> 
+              <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button> 
+              <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
               </div>            
             : null
 

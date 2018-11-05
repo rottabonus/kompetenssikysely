@@ -12,6 +12,8 @@ import topicService from './services/topics';
 import answerService from './services/answers';
 import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
+import backGround from './img/PNG/raita.png'
+
 
 class App extends React.Component {
     constructor() {
@@ -45,26 +47,41 @@ class App extends React.Component {
         }
     }
 
-    //FIXME: Topicien filteröinti täällä?
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
         const professionAnswers = await answerService.getAll()
 
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
-          const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
-	           const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
-                const profTopics = topics.filter(t => typeof t === 'object')
+        const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
+        const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
+        const profTopics = topics.filter(t => typeof t === 'object')
         this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics })
     }
 
     changeOption = (event) => {
         const answerObj = {
             answer: event.target.name,
-            value: event.target.value,
+            value: event.target.dataset.aval,
             topic: event.target.dataset.parent
         }
         const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
         this.setState({ answers: updatedAnswers.concat(answerObj) })
+    }
+
+    getChecked = (x, item) => {
+        if (x === 'basic') {
+            const found = this.state.answers.filter(a => a.value === item)
+            return found.length === 1
+        } else {
+            const filterAnswers = this.state.answers.filter(a => a.answer === x)
+            const found = filterAnswers.filter(a => parseInt(a.value) === item)
+            return found.length === 1
+        }
+    }
+
+    getSelected = (x) => {
+        const found = this.state.selectedTopics.filter(a => a.topic === x)
+        return found.length === 1
     }
 
     sendAnswers = (event) => {
@@ -81,14 +98,13 @@ class App extends React.Component {
                 answers[topic] = dataObject
             }
         })
-        let key = ''
         if (this.state.key === '') {
-            key = fire.database().ref().child('answers').push(answers)
+            let key = fire.database().ref().child('answers').push(answers)
             this.setState({ key: key.key })
         } else {
-            key = fire.database().ref('answers').child(this.state.key).set(answers);
+            let key = fire.database().ref('answers').child(this.state.key).set(answers);
         }
-        this.moveForward()
+        this.moveForwardProf()
     }
 
     changeProfessions = (item) => {
@@ -140,28 +156,25 @@ class App extends React.Component {
         });
         const profAverages = { values: answerAverages, answers: uniqueAnswers }
         this.setState({ profAverages, calculated: true })
-        this.moveForward()
+        this.moveForwardProf()
     }
 
     //kutsutaan kun liikutaan statesta ylöspäin !!
-    moveForward = () => {
+    move = (e, x) => {
+        e.preventDefault()
+        window.scrollTo(0, 0)
+        this.setState({ surveyState: this.state.surveyState + x })
+    }
+
+    moveForwardProf = () => {
         window.scrollTo(0, 0)
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
-
-    //kutsutaan kun liikutaan statesta alaspäin
-    moveBackward = () => { 
-        this.setState((prevState) => {
-            return {surveyState: prevState.surveyState - 1}
-        });
-     
-     }
 
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
         this.handleProfessionAnswers()
-        this.moveForward()
     }
 
     render() {
@@ -173,73 +186,76 @@ class App extends React.Component {
                     </div>
                 )
             }
+
             case this.state.states.WelcomePage: {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <WelcomePage moveForward={this.moveForward} />
-                        <Footer />
-                    </div>
-                )
-            }
-            case this.state.states.General: {
-                return (
-                    <div className="App">
-                        <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList topics={this.state.genGenTopics} moveForward={this.moveForward}  moveBackward={this.moveBackward} changeOption={this.changeOption} />
-                        <Footer />
-                    </div>
-                )
-            }
-            case this.state.states.General2: {
-                return (
-                    <div className="App">
-                        <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList topics={this.state.genTopics} moveForward={this.moveForward}  moveBackward={this.moveBackward} changeOption={this.changeOption} />
-                        <Footer />
-                    </div>
-                )
-            }
-            case this.state.states.Radar: {
-                return (
-                    <div className="App">
-                        <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}  moveBackward={this.moveBackward}
-                        selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}></RadarChart>
-                        <Footer />
-                    </div>
-                )
-            }
-            
-            case this.state.states.SELECTPROF: {
-                return (
-                    <div className="App">
-                        <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}  moveBackward={this.moveBackward}
-                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} />
-                        <Footer />
-                    </div>
-                )
-            }
-            case this.state.states.PROFESSION: {
-                return (
-                    <div className="App">
-                        <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <List topics={this.state.selectedTopics}
-                            changeOption={this.changeOption} sendAnswers={this.sendAnswers}  moveBackward={this.moveBackward} />
+                        <WelcomePage moveForward={this.move} />
                         <Footer />
                     </div>
                 )
             }
 
-            // FIXME: Loading... jos ei calculated?
+            case this.state.states.General: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} move={this.move} changeOption={this.changeOption} />
+                        <Footer />
+                    </div>
+                )
+            }
+
+            case this.state.states.General2: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <GeneralList topics={this.state.genTopics} getChecked={this.getChecked} move={this.move} changeOption={this.changeOption} />
+                        <Footer />
+                    </div>
+                )
+            }
+
+            case this.state.states.Radar: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move}></RadarChart>
+                        <Footer />
+                    </div>
+                )
+            }
+
+            case this.state.states.SELECTPROF: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}
+                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} move={this.move} />
+                        <Footer />
+                    </div>
+                )
+            }
+
+            case this.state.states.PROFESSION: {
+                return (
+                    <div className="App">
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <List topics={this.state.selectedTopics} getChecked={this.getChecked}
+                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} move={this.move} />
+                        <Footer />
+                    </div>
+                )
+            }
+
             case this.state.states.PROFANSW: {
                 return (
                     <div className="App">
-                            <Header surveyState={this.state.surveyState} states={this.state.states} />
-                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}  surveyState={this.state.surveyState}></BarChart>}
-                            <Footer />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
+                            selectedTopics={this.state.selectedTopics} move={this.move}></BarChart>}
+                        <Footer />
                     </div>
                 )
             }
@@ -248,18 +264,16 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart answers={this.state.answers} moveForward={this.moveForward}
-                        selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}></RadarChart>
-                        <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                        selectedTopics={this.state.selectedTopics} moveForward={this.moveForward}  surveyState={this.state.surveyState}></BarChart>
+                        <div className="summaryPageCharts">
+                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} />
+                            <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} move={this.state.move}
+                                surveyState={this.state.surveyState} /></div>
                         <Summary />
                         <Footer />
                     </div>
                 )
-
             }
         }
     }
 }
-
 export default App;

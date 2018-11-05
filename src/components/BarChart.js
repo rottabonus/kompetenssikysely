@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 
 class BarChart extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state={
             canvases : [],
@@ -56,55 +56,55 @@ class BarChart extends Component {
                 "backgroundColor": "rgba(0, 159, 227, 0.5)",
                 "data": myData, //tähän käyttäjän vastaukset db:stä
                 "borderWidth": "3",
-                    "borderColor": "rgba(0, 159, 227, 1.0)",
-            },{
+                "borderColor": "rgba(0, 159, 227, 1.0)",
+            }, {
                 "label": "Kompetenssi keskiarvo",
                 "yAxisID": "A",
                 "backgroundColor": "rgba(249, 176, 0, 0.7)",
                 "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
                 "borderWidth": "3",
-                    "borderColor": "rgba(255, 80, 0, 1.0)",
+                "borderColor": "rgba(255, 80, 0, 1.0)",
             }]
         }
-    // Chartin asetukset
+        // Chartin asetukset
         var options = {
             title: {
                 display: true,
                 text: "Asiantuntijan osaamisen palaute",
             },
             scales: {
-            yAxes: [{
-                stacked: true,
-                id: 'A',
-                position: 'left',
-                ticks: {
-                    beginAtZero: true,
+                yAxes: [{
+                    stacked: true,
+                    id: 'A',
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    maxBarThickness: 30,
+                    categoryPercentage: 0.9,
+                    barPercentage: 0.9,
+                }],
+                xAxes: [{
+                    display: true,
+                    position: 'bottom',
+                    ticks: {
+                        beginAtZero: true,
+                        max: 5.0,
+                        min: 0,
+                        stepSize: 1.0,
+                    }
                 },
-                maxBarThickness: 30,
-                categoryPercentage: 0.9,
-                barPercentage: 0.9,
-            }],
-            xAxes: [{
-                display: true,
-                position: 'bottom',
-                ticks: {
-                    beginAtZero: true,
-                    max: 5.0,
-                    min: 0,
-                    stepSize: 1.0,
-                }
-            },
-            {
-                type: 'linear',
-                display: true,
-                position: 'top',
-                ticks: {
-                    beginAtZero: true,
-                    max: 5.0,
-                    min: 0,
-                    stepSize: 1.0,
-                }
-            }]
+                {
+                    type: 'linear',
+                    display: true,
+                    position: 'top',
+                    ticks: {
+                        beginAtZero: true,
+                        max: 5.0,
+                        min: 0,
+                        stepSize: 1.0,
+                    }
+                }]
             },
         };
 
@@ -129,16 +129,19 @@ class BarChart extends Component {
       {this.state.canvases.map((canvas) =>
             <canvas id={canvas} key={canvas}></canvas>)}
         {/*<canvas id="myChart"></canvas>*/}
-        { this.props.surveyState == 6
-        ? <button className="buttonstyle" onClick={this.props.moveForward}>Jatka</button> 
+        { this.props.surveyState !== 6
+        ? <div>
+        <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button> 
+        <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
+        </div> 
         : null
 
-        }
-       
-      </div>
-      </div>
-    );
-  }
+                    }
+
+                </div>
+            </div>
+        );
+    }
 }
 
 export default BarChart;
