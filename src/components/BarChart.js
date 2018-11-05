@@ -6,48 +6,51 @@ class BarChart extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state={
+            canvases : [],
         };
     }
 
-    componentDidMount() {
-        var selectedTopic = this.props.selectedTopics[0].topic;
-        console.log(selectedTopic);
-        var onlyProfessionAnswers = this.props.answers.filter((answer) => answer.topic === selectedTopic)
-        var myDataWithAnswers = onlyProfessionAnswers.map((a) => a).sort((a, b) => a.value - b.value).reverse();
-        var myData = myDataWithAnswers.map((a) => a.value);
-        var answerKeys = myDataWithAnswers.map((a) => a.answer);
-        var items = [];
-        var answerItems = this.props.profAverages.answers;
-        var valueItems = this.props.profAverages.values;
-        console.log(valueItems[0] + answerItems[0]);
-        for (var i = 0; i < answerItems.length; i++) {
-            items[i] = [answerItems[i], [valueItems[i]]];
-        }
+    async componentDidMount(){
+        let chartConfig = [];
+        let canvases = [];
+        let answers = this.props.answers;
+        let profAverages = this.props.profAverages;
+        let selectedTopics = this.props.selectedTopics;
+        selectedTopics.forEach(function(topic, y) {
+            var onlyProfessionAnswers = answers.filter((answer) => answer.topic === topic.topic)
+            var myDataWithAnswers = onlyProfessionAnswers.map((a) => a).sort((a, b) => a.value - b.value).reverse();
+            var myData = myDataWithAnswers.map((a) => a.value);
+            var answerKeys = myDataWithAnswers.map((a) => a.answer);
+            var items = [];
+            var answerItems = profAverages.answers;
+            var valueItems = profAverages.values;
+            console.log("val+answ" + valueItems[0] + answerItems[0]);
+            for (var i = 0; i < answerItems.length; i++) {
+                items[i] = [answerItems[i], [valueItems[i]]];
+            }
 
-        var result = [];
-        answerKeys.forEach(function (key) {
-            var found = false;
-            items = items.filter(function (item) {
-                if (!found && item[0] === key) {
-                    found = true;
-                    console.log("222" + item);
-                    result.push(item);
-                    return false;
-                } else {
-                    return true;
-                }
+            var result = [];
+            answerKeys.forEach(function(key) {
+                var found = false;
+                items = items.filter(function(item) {
+                    if (!found && item[0] === key) {
+                        found = true;
+                        console.log("222" + item);
+                        result.push(item);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })
             })
-        })
-        console.log("666" + result[0] + "777" + result[1]);
-        console.log("555" + result);
-        var resultMultiD = result.map((a) => a[1]);
-        var avgData = resultMultiD.flat();
-        console.log(avgData);
-
-        var data = {
-            labels: answerKeys, //tähän kyssärit db:stä
-            datasets: [{
+            var resultMultiD = result.map((a) => a[1]);
+            var avgData = resultMultiD.flat();
+            console.log("my" + myData);
+            console.log("avg" + avgData);
+            
+            var data = {labels: answerKeys, //tähän kyssärit db:stä
+        datasets: [{
                 "label": "Minun Kompetenssini",
                 "yAxisID": "A",
                 "backgroundColor": "rgba(0, 159, 227, 0.5)",
@@ -106,21 +109,32 @@ class BarChart extends Component {
         };
 
         // Luodaan uusi BarChart
-        const ctx = document.getElementById("myChart");
-        const myChart = new Chart(ctx, { type: "horizontalBar", data: data, options: options });
+        let chartName = "myChart" + y;
+        console.log(chartName);
+        chartConfig.push([chartName, data, options]);
+        canvases = [...canvases, chartName];
+        })
+        await this.setState({canvases : canvases});
+        console.log("canvases:" + this.state.canvases);
+        console.log(chartConfig[0]);
+        canvases.forEach(function(canvas, index) {
+            const myChart = new Chart(canvas, {type: "horizontalBar",data:chartConfig[index][1], options:chartConfig[index][2]});
+        })
     }
 
-
     render() {
-        return (
-            <div className="surveyContainer">
-                <div className="chartContainer">
-                    <canvas id="myChart"></canvas>
-                    {this.props.surveyState !== 6
-                        ? <div>
-                            <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}> Takaisin </button>
-                            <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button></div>
-                        : null
+    return (
+    <div className="surveyContainer">
+      <div className="chartContainer">
+      {this.state.canvases.map((canvas) =>
+            <canvas id={canvas} key={canvas}></canvas>)}
+        {/*<canvas id="myChart"></canvas>*/}
+        { this.props.surveyState !== 6
+        ? <div>
+        <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button> 
+        <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
+        </div> 
+        : null
 
                     }
 
