@@ -16,7 +16,7 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
         <div className="professionSelection">
           <form onSubmit={handleProfessionsAndMove}>
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
-              <label className="container" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox"/><span className="checkmark"></span>{topic.text}</label>)}
+              <label className="topicItemOptions" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" /><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
 
             {/*   <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>*/}
