@@ -159,7 +159,7 @@ class App extends React.Component {
         this.moveForwardProf()
     }
 
-    //kutsutaan kun liikutaan statesta ylöspäin !!
+    //kutsutaan kun liikutaan statesta ylös- tai alaspäin !!
     move = (e, x) => {
         e.preventDefault()
         window.scrollTo(0, 0)

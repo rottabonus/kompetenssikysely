@@ -248,90 +248,111 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-#cursor-hover {  /* MUUTTAA KURSORIN KUN HOVEROI JATKA-NAPIN YLLE */
-  cursor: pointer;
-}
-.chartContainer {
-  width: 65%;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
-}
-.progress-bar {
-  height: 15px;
-  width: 500px;
-  border-radius: 40px;
-  border: 0.7px solid #3C3C3C;
-  margin: auto;
-  background-color: rgb(236, 236, 236);
-}
-.filler {
-  background: rgb(0, 159, 227);
-  height: 100%;
-  border-radius: inherit;
-  transition: width .2s ease-in;
-}
-.bar {
-display: flex;
-padding-top: 30px;
-}
-.header-logo {
-  margin: 10px 0 0 33px;
-  display: flex;
-}
-h1 {
-  font-family: 'Roboto', sans-serif;
-  color: #E6007E;
-  font-size: 300%; 
-  font-weight: bolder;
-}
-h3 {
-  font-family: 'Roboto', sans-serif;
-  color: #3C3C3C;
-  font-size: 150%;
-  font-weight:bold;
-}
-p {
-  font-family: 'Roboto', sans-serif;
-  color: #3C3C3C;
- /*font-size: 130%;  */
-}
-.welcomePageTextDiv  {
-  display:flex;
-  flex-direction: row;
-}
-.palkki {
-  margin: 4px;
-}
-.palaute {
-  text-align: left;
-}
-.reviewText {
-  text-align: left;
-}
-img {
-  padding-right: 10px
-}
-.footer {
-  border-style: solid;
-  border-width: 0.5px;
-  border-color: #DADADA;
-  background-color: white;
-}
-.footerImgDiv {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 20px 33px 20px 33px;
-}
-.hhlogo {
-  align-self: flex-end;
-}
-/*tulostus asettelut tähän*/
-@media print {
-  a[href]:after {
-    content: none;
+  }
+  .topicItemOptions input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .topicItemOptions:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  /* When the checkbox is checked, add a blue background */
+  .topicItemOptions input:checked ~ .checkmark {
+    background-color: #E6007E;
+  }
+
+  /*Ammattikyselyn radiot*/
+  .profOptionsRadio{
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-weight: normal;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+  #cursor-hover {  /* MUUTTAA KURSORIN KUN HOVEROI JATKA-NAPIN YLLE */
+    cursor: pointer;
+  }
+  .chartContainer {
+    width: 65%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .progress-bar {
+    height: 15px;
+    width: 500px;
+    border-radius: 40px;
+    border: 0.7px solid #3C3C3C;
+    margin: auto;
+    background-color: rgb(236, 236, 236);
+  }
+  .filler {
+    background: rgb(0, 159, 227);
+    height: 100%;
+    border-radius: inherit;
+    transition: width .2s ease-in;
+  }
+  .bar {
+    padding: 5px 0 5px 0;
+  }
+  .bar img {
+    max-height: 150px;
+  }
+  .header-logo {
+    margin: 10px 0 0 33px;
+    display: flex;
+  }
+  h1 {
+    color: #E6007E;
+    font-size: 300%;
+    font-weight: bolder;
+  }
+  h3 {
+    color: #3C3C3C;
+    font-size: 150%;
+    font-weight:bold;
+  }
+  p {
+    color: #3C3C3C;
+  }
+
+  .welcomePageText {
+    text-align: left;
+    margin-left: 50px;
+    margin-bottom: 40px;
+  }
+
+  .welcomePageTextDiv  {
+    display:flex;
+    flex-direction: row;
+  }
+  .palkki {
+    margin: 4px;
+  }
+  .palaute {
+    display: block;
+    text-align: left;
+  }
+  .reviewtext {
+    text-align: left;
+  }
+  img {
+    padding-right: 10px
+  }
+  .footer {
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #DADADA;
+    background-color: white;
+    margin-top: 33px;
   }
   .barContainer {
     display: none;

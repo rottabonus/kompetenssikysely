@@ -13,18 +13,19 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
                         työelämässä asiantuntijan roolissa.</p></div>
           <div><p>Valitse yksi tai useampi seuraavista alueista:</p></div>
         </div>
-        <div className="professionSelection2">
-          <form>
+        <div className="professionSelection">
+          <form onSubmit={handleProfessionsAndMove}>
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
               <label className="container" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox"/><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
 
             {/*   <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>*/}
+            <button className="buttonBackward" onClick={(e) => move(e, -1)}>Takaisin</button>
+            <button className="buttonForward" type="submit">Jatka</button>
           </form>
 
         </div>
-        <button className="buttonBackward" onClick={(e) => move(e, -1)}>Takaisin</button>
-        <button className="buttonForward" onClick={handleProfessionsAndMove}>Jatka</button>
+
       </div>
 
     </div>

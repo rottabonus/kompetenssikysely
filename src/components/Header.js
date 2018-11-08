@@ -8,7 +8,7 @@ const Header = ({ surveyState, states }) => {
             <img  className="header-logo" src={taidottyohon} alt={taidottyohon} id="logo" /><br></br>
             <div className="barContainer">
             <div className="bar">
-                <ProgressBar2 src = {surveyState}/>
+                <ProgressBar2 src={surveyState} states={states} />
             </div>
             </div>
         </header>
