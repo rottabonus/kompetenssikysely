@@ -86,7 +86,7 @@
     <g
        id="g820-6-1"
        transform="matrix(0.51202829,0,0,0.98980996,63.5,0.00678859)"
-       style="opacity:0;fill:#e6007e;fill-opacity:1">
+       style="opacity:0.1;fill:#e6007e;fill-opacity:1">
       <rect
          y="0.66666669"
          x="0"
@@ -98,7 +98,7 @@
     <g
        id="g820-6-1-2"
        transform="matrix(0.51202832,0,0,0.98980996,95.249999,0.00678859)"
-       style="opacity:0;fill:#f9b000;fill-opacity:1"
+       style="opacity:0.1;fill:#f9b000;fill-opacity:1"
        inkscape:transform-center-x="11.528274"
        inkscape:transform-center-y="3.7352938">
       <rect
@@ -112,7 +112,7 @@
     <g
        id="g820-5"
        transform="matrix(0.51202831,0,0,0.98980996,127,0.00678859)"
-       style="opacity:0">
+       style="opacity:0.1">
       <rect
          y="0.66666669"
          x="0"
@@ -124,7 +124,7 @@
     <g
        id="g820-6-3"
        transform="matrix(0.51202831,0,0,0.98980992,158.75,0.00679336)"
-       style="opacity:0;fill:#8e0066;fill-opacity:1">
+       style="opacity:0.1;fill:#8e0066;fill-opacity:1">
       <rect
          y="0.66666669"
          x="0"
@@ -143,7 +143,7 @@
     <g
        id="g820-6-1-2-7"
        transform="matrix(0.51202829,0,0,0.98980992,222.25,0.00679336)"
-       style="opacity:0;fill:#f9b000;fill-opacity:1"
+       style="opacity:0.1;fill:#f9b000;fill-opacity:1"
        inkscape:transform-center-x="11.528274"
        inkscape:transform-center-y="3.7352938">
       <rect
@@ -281,7 +281,7 @@
     <g
        id="g820-6-1-9"
        transform="matrix(0.51202831,0,0,0.98980997,190.5,0.00678859)"
-       style="display:inline;opacity:0;fill:#e6007e;fill-opacity:1">
+       style="display:inline;opacity:0.1;fill:#e6007e;fill-opacity:1">
       <rect
          y="0.66666669"
          x="0"

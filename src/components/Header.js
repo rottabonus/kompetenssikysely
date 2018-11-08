@@ -3,7 +3,6 @@ import taidottyohon from '../img/PNG/taidottyohon.png'
 import ProgressBar2 from './ProgressBar2'
 
 const Header = ({ surveyState, states }) => {
-
     return (
         <header>
             <img  className="header-logo" src={taidottyohon} alt={taidottyohon} id="logo" /><br></br>
