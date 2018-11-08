@@ -132,6 +132,7 @@ class App extends React.Component {
     }
 
     handleProfessionAnswers = (event) => {
+        try{
         event.preventDefault()
         const professions = this.state.selectedTopics.map(t => t.topic)
         const answerArray = []
@@ -158,7 +159,11 @@ class App extends React.Component {
         this.setState({ profAverages, calculated: true })
         this.moveForwardProf()
     }
-
+    
+    catch(err) {
+        
+    }
+      }
     //kutsutaan kun liikutaan statesta ylös- tai alaspäin !!
     move = (e, x) => {
         e.preventDefault()

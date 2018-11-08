@@ -107,26 +107,8 @@
     margin-bottom: 40px;
   }
 
-   /*RADIO JA CHECKBOX -tyylit*/
-   .container {
-    display: block;
-    position: relative;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-weight: normal;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  /* Hide the browser's default checkbox */
-  .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
+
+
   /* Create a custom checkbox */
   .checkmark {
     position: absolute;
@@ -137,14 +119,7 @@
     background-color: #eee;
     border-radius: 50%;
   }
-  /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
-    background-color: #ccc;
-  }
-  /* When the checkbox is checked, add a blue background */
-  .container input:checked ~ .checkmark {
-    background-color: #E6007E;
-  }
+ 
   /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
     content: "";
@@ -164,6 +139,14 @@
     padding-bottom: 40px;
     background-color: rgba(255, 255, 255, 0.719);
   }
+
+/* Luo validointi-merkin checkboxiin*/
+  .topicItemOptions input:invalid:focus ~ .checkmark {
+    outline: 2px solid red;
+
+  }
+
+ 
 
   /**/
   .barContainer {
