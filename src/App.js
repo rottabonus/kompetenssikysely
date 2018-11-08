@@ -12,7 +12,9 @@ import topicService from './services/topics';
 import answerService from './services/answers';
 import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
-import backGround from './img/PNG/raita.png'
+import backGround from './img/PNG/raita.png';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import test from './components/test';
 
 
 class App extends React.Component {
@@ -36,6 +38,7 @@ class App extends React.Component {
                 PROFESSION: 5,
                 PROFANSW: 6,
                 SUMMARY: 7,
+                ADMIN: 10
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -141,7 +144,7 @@ class App extends React.Component {
                     answerArray.push(answers[professions[i]]) //listaan lisätään kompetenssiin kuuluva vastauslista
                 }
             })
-        })
+        })//trycatch here
         const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
         const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
         const answerAverages = []
@@ -171,6 +174,10 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
+    adminState = () => {
+        this.setState({surveyState : 10})
+    }
+
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
@@ -189,7 +196,7 @@ class App extends React.Component {
 
             case this.state.states.WelcomePage: {
                 return (
-                    <div className="App">
+                    <div className="App">                   
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <WelcomePage moveForward={this.move} />
                         <Footer />
@@ -270,6 +277,13 @@ class App extends React.Component {
                                 surveyState={this.state.surveyState} /></div>
                         <Summary />
                         <Footer />
+                    </div>
+                )
+            }
+            case this.state.states.ADMIN: {
+                return (
+                    <div className="App">
+                    <h1>NY ON ADMIN JMLATA!!!</h1>
                     </div>
                 )
             }
