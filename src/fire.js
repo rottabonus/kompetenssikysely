@@ -1,4 +1,5 @@
-import firebase from 'firebase'
+import firebase from 'firebase';
+import firebaseui from 'firebaseui';
 
 var config = {
     apiKey: "AIzaSyB5vqwusAIVlRNqDhNHTej34XqO6g5jCwA",
@@ -21,6 +22,14 @@ var config = {
   }*/
 
 
-  var fire = firebase.initializeApp(config)
+  var fire = firebase.initializeApp(config);
+  //var ui = new firebaseui.auth.AuthUI(firebase.auth());
+/*
+  ui.start('#firebaseui-auth-container', {
+    signInOptions: [
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ],
+    // Other config options...
+  });*/
 
-export default fire
+export default fire;
