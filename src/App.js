@@ -48,29 +48,29 @@ class App extends React.Component {
                 values: [],
                 answers: []
             },
-            banswers: [{answer: "Strateginen johtaminen",value: "1"},
-            {answer: "Strateginen HR", value: "5"},
-            {answer: "Päätöksenteon valmistelu",value: "3"},
-            {answer: "Henkilöstöresurssien hallinta",value: "3"},
-            {answer: "Digitaalinen osaamisen kehittäminen",value: "1"},
-            {answer: "Oppimismenetelmät", value: "3"},
-            {answer: "Työnantajaimagon rakentaminen",value: "5"},
-            {answer: "Rekrytointi",value: "1"},
-            {answer: "Vaikuttamisviestintä",value: "3"},
-            {answer: "HR-verkostot",value: "1"},
-            {answer: "Työhyvinvointi",value: "5"},
-            {answer: "Sitouttaminen",value: "3"},
-            {answer: "Diversiteetin huomioiminen",value: "5"},
-            {answer: "Monikulttuurinen HR-viestintä",value: "3"},
-            {answer: "Kansainvälinen HRM",value: "3"},
-            {answer: "Muutoksen organisointi",value: "1"},
-            {answer: "Muutosagentit",value: "1"},
+            banswers: [{ answer: "Strateginen johtaminen", value: "1" },
+            { answer: "Strateginen HR", value: "5" },
+            { answer: "Päätöksenteon valmistelu", value: "3" },
+            { answer: "Henkilöstöresurssien hallinta", value: "3" },
+            { answer: "Digitaalinen osaamisen kehittäminen", value: "1" },
+            { answer: "Oppimismenetelmät", value: "3" },
+            { answer: "Työnantajaimagon rakentaminen", value: "5" },
+            { answer: "Rekrytointi", value: "1" },
+            { answer: "Vaikuttamisviestintä", value: "3" },
+            { answer: "HR-verkostot", value: "1" },
+            { answer: "Työhyvinvointi", value: "5" },
+            { answer: "Sitouttaminen", value: "3" },
+            { answer: "Diversiteetin huomioiminen", value: "5" },
+            { answer: "Monikulttuurinen HR-viestintä", value: "3" },
+            { answer: "Kansainvälinen HRM", value: "3" },
+            { answer: "Muutoksen organisointi", value: "1" },
+            { answer: "Muutosagentit", value: "1" },
 
-            {answer:"Arvojen huomioiminen",value:"1",topic:"Uranhallinta"},
-            {answer:"Uransuunnittelu",value:"5",topic:"Uranhallinta"},
-            {answer:"Tiedonhankinta",value:"3",topic:"Uranhallinta"},
-            {answer:"Työnhaku",value:"1",topic:"Uranhallinta"},
-            {answer:"Verkostoituminen",value:"5",topic:"Uranhallinta"}],
+            { answer: "Arvojen huomioiminen", value: "1", topic: "Uranhallinta" },
+            { answer: "Uransuunnittelu", value: "5", topic: "Uranhallinta" },
+            { answer: "Tiedonhankinta", value: "3", topic: "Uranhallinta" },
+            { answer: "Työnhaku", value: "1", topic: "Uranhallinta" },
+            { answer: "Verkostoituminen", value: "5", topic: "Uranhallinta" }],
         }
     }
 
@@ -117,8 +117,9 @@ class App extends React.Component {
         const allTopics = this.state.answers.map(topic => topic.topic)
         const uniqueAnswers = [...new Set(allTopics.map(a => a))] // Set on uusi JS ominaisuus, jolla voidaan luoda arraysta uusi versio jossa on vain uniikit arvot
         uniqueAnswers.forEach((topic) => {
+            let dateSet = new Date().toLocaleDateString('fi-FI')
             let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
-            const dataObject = { Answers: answerSet, date: '28/9/2018' } // päivämäärä on kovakoodattu !!
+            const dataObject = { Answers: answerSet, date: dateSet }
             if (dataObject.Answers.length === 0) {
                 window.confirm({ topic } + 'must have answers!')
             } else {
@@ -170,29 +171,29 @@ class App extends React.Component {
                 }
             })
         })
-        if(answerArray.length === 0) {
-          const profAverages = { values: [], answers: []}
-          window.alert('congratulations! You are the first answerer, please contact gay.fagala@felix.com for 1000 billion dollar!! $$$')
-          this.setState({ profAverages })
-          this.moveForwardProf()
+        if (answerArray.length === 0) {
+            const profAverages = { values: [], answers: [] }
+            window.alert('congratulations! You are the first answerer, please contact gay.fagala@felix.com for 1000 billion dollar!! $$$')
+            this.setState({ profAverages })
+            this.moveForwardProf()
         } else {
-        const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
-        const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
-        const answerAverages = []
-        uniqueAnswers.forEach((element) => {
-            const tempArr = onlyAnswers.filter((answer) =>
-                element === answer.answer)
-            const valueArr = tempArr.map((a) => parseInt(a.value));
-            var sum = valueArr.reduce((previous, current) => current + previous);
-            var avg = (sum / valueArr.length).toFixed(2);
-            answerAverages.push(avg);
-            return answerAverages;
-        });
-        const profAverages = { values: answerAverages, answers: uniqueAnswers }
-        this.setState({ profAverages, calculated: true })
-        this.moveForwardProf()
+            const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
+            const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
+            const answerAverages = []
+            uniqueAnswers.forEach((element) => {
+                const tempArr = onlyAnswers.filter((answer) =>
+                    element === answer.answer)
+                const valueArr = tempArr.map((a) => parseInt(a.value));
+                var sum = valueArr.reduce((previous, current) => current + previous);
+                var avg = (sum / valueArr.length).toFixed(2);
+                answerAverages.push(avg);
+                return answerAverages;
+            });
+            const profAverages = { values: answerAverages, answers: uniqueAnswers }
+            this.setState({ profAverages, calculated: true })
+            this.moveForwardProf()
+        }
     }
-  }
     //kutsutaan kun liikutaan statesta ylös- tai alaspäin !!
     move = (e, x) => {
         e.preventDefault()
@@ -206,7 +207,7 @@ class App extends React.Component {
     }
 
     adminState = () => {
-        this.setState({surveyState : 10})
+        this.setState({ surveyState: 10 })
     }
 
     //tämä siirtää eteenpäin prof-selectistä
@@ -315,8 +316,8 @@ class App extends React.Component {
             case this.state.states.IMPROV: {
                 return (
                     <div className="App">
-                        <Header  />
-                        <Improvement answers={this.state.answers}/>
+                        <Header />
+                        <Improvement answers={this.state.answers} />
                         <Footer />
                     </div>
                 )
@@ -324,7 +325,7 @@ class App extends React.Component {
             case this.state.states.ADMIN: {
                 return (
                     <div className="App">
-                    <h1>NY ON ADMIN JMLATA!!!</h1>
+                        <h1>NY ON ADMIN JMLATA!!!</h1>
                     </div>
                 )
             }
