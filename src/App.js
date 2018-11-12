@@ -15,7 +15,7 @@ import Summary from './components/Summary';
 import backGround from './img/PNG/raita.png';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 import test from './components/test';
-
+import Improvement from './components/Improvement';
 
 class App extends React.Component {
     constructor() {
@@ -38,6 +38,7 @@ class App extends React.Component {
                 PROFESSION: 5,
                 PROFANSW: 6,
                 SUMMARY: 7,
+                IMPROV: 8,
                 ADMIN: 10
             },
             professionAnswers: [],
@@ -46,7 +47,30 @@ class App extends React.Component {
             profAverages: {
                 values: [],
                 answers: []
-            }
+            },
+            banswers: [{answer: "Strateginen johtaminen",value: "1"},
+            {answer: "Strateginen HR", value: "5"},
+            {answer: "Päätöksenteon valmistelu",value: "3"},
+            {answer: "Henkilöstöresurssien hallinta",value: "3"},
+            {answer: "Digitaalinen osaamisen kehittäminen",value: "1"},
+            {answer: "Oppimismenetelmät", value: "3"},
+            {answer: "Työnantajaimagon rakentaminen",value: "5"},
+            {answer: "Rekrytointi",value: "1"},
+            {answer: "Vaikuttamisviestintä",value: "3"},
+            {answer: "HR-verkostot",value: "1"},
+            {answer: "Työhyvinvointi",value: "5"},
+            {answer: "Sitouttaminen",value: "3"},
+            {answer: "Diversiteetin huomioiminen",value: "5"},
+            {answer: "Monikulttuurinen HR-viestintä",value: "3"},
+            {answer: "Kansainvälinen HRM",value: "3"},
+            {answer: "Muutoksen organisointi",value: "1"},
+            {answer: "Muutosagentit",value: "1"},
+
+            {answer:"Arvojen huomioiminen",value:"1",topic:"Uranhallinta"},
+            {answer:"Uransuunnittelu",value:"5",topic:"Uranhallinta"},
+            {answer:"Tiedonhankinta",value:"3",topic:"Uranhallinta"},
+            {answer:"Työnhaku",value:"1",topic:"Uranhallinta"},
+            {answer:"Verkostoituminen",value:"5",topic:"Uranhallinta"}],
         }
     }
 
@@ -135,7 +159,7 @@ class App extends React.Component {
     }
 
     handleProfessionAnswers = (event) => {
-        try{
+
         event.preventDefault()
         const professions = this.state.selectedTopics.map(t => t.topic)
         const answerArray = []
@@ -145,7 +169,13 @@ class App extends React.Component {
                     answerArray.push(answers[professions[i]]) //listaan lisätään kompetenssiin kuuluva vastauslista
                 }
             })
-        })//trycatch here
+        })
+        if(answerArray.length === 0) {
+          const profAverages = { values: [], answers: []}
+          window.alert('congratulations! You are the first answerer, please contact gay.fagala@felix.com for 1000 billion dollar!! $$$')
+          this.setState({ profAverages })
+          this.moveForwardProf()
+        } else {
         const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
         const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
         const answerAverages = []
@@ -162,11 +192,7 @@ class App extends React.Component {
         this.setState({ profAverages, calculated: true })
         this.moveForwardProf()
     }
-
-    catch(err) {
-
-    }
-      }
+  }
     //kutsutaan kun liikutaan statesta ylös- tai alaspäin !!
     move = (e, x) => {
         e.preventDefault()
@@ -190,8 +216,6 @@ class App extends React.Component {
     }
 
     render() {
-
-      const value1List = this.state.answers.filter(a => a.value === 1 )
 
         switch (this.state.surveyState) {
             default: {
@@ -283,7 +307,16 @@ class App extends React.Component {
                             <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} />
                             <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} move={this.state.move}
                                 surveyState={this.state.surveyState} /></div>
-                        <Summary />
+                        <Summary moveForward={this.moveForwardProf} />
+                        <Footer />
+                    </div>
+                )
+            }
+            case this.state.states.IMPROV: {
+                return (
+                    <div className="App">
+                        <Header  />
+                        <Improvement answers={this.state.answers}/>
                         <Footer />
                     </div>
                 )
