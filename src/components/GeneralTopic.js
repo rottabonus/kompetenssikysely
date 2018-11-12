@@ -12,5 +12,4 @@ const GeneralTopic = ({ generalSubTopics, changeOption, answers, get }) => {
         )
 }
 
-
 export default GeneralTopic
