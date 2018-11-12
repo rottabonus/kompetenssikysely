@@ -2,7 +2,7 @@ import React from 'react'
 import GeneralTopic from './GeneralTopic'
 import jatka from '../img/PNG/jatka.png'
 
-const GeneralList = ({ topics, moveForward, changeOption, answers, moveBackward, getChecked }) => {
+const GeneralList = ({ topics, moveForward, changeOption, moveBackward, getChecked }) => {
 
 	return (
 		<div className="App">
@@ -12,7 +12,7 @@ const GeneralList = ({ topics, moveForward, changeOption, answers, moveBackward,
 				<div className="professionSelection">
 					<form onSubmit={moveForward}>
 						{topics.map((t, i) =>
-							<GeneralTopic key={i} generalSubTopics={t} changeOption={changeOption} answers={answers} get={getChecked}></GeneralTopic>)}
+							<GeneralTopic key={i} topics={t} changeOption={changeOption} get={getChecked}></GeneralTopic>)}
 						<button type="submit">Jatka</button>
 					</form>s
 					<button onClick={(e)=> moveBackward(e)}> takaisin </button>
