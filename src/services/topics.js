@@ -1,7 +1,10 @@
 import axios from 'axios'
+import database from '../fire'
 
 const getAll = async () => {
-  const response = await axios.get('https://surveydev-740fb.firebaseio.com/topics/.json')
+    const url = 'https://'+database.options.projectId+'.firebaseio.com/topics/.json'
+    console.log(url)
+  const response = await axios.get(url)
   let allTopics = []
   Object.values(response.data).forEach((elem) => {
     allTopics.push(elem)

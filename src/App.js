@@ -12,7 +12,10 @@ import topicService from './services/topics';
 import answerService from './services/answers';
 import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
-import backGround from './img/PNG/raita.png'
+import backGround from './img/PNG/raita.png';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import test from './components/test';
+
 
 class App extends React.Component {
     constructor() {
@@ -25,7 +28,7 @@ class App extends React.Component {
             profTopics: [],
             key: '',
             answers: [],
-            surveyState: 1,
+            surveyState: 0,
             states: {
                 WelcomePage: 0,
                 General: 1,
@@ -35,6 +38,7 @@ class App extends React.Component {
                 PROFESSION: 5,
                 PROFANSW: 6,
                 SUMMARY: 7,
+                ADMIN: 10
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -51,9 +55,9 @@ class App extends React.Component {
         const professionAnswers = await answerService.getAll()
 
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
-          const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
-	           const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
-                const profTopics = topics.filter(t => typeof t === 'object')
+        const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
+        const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
+        const profTopics = topics.filter(t => typeof t === 'object')
         this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics })
     }
 
@@ -68,19 +72,19 @@ class App extends React.Component {
     }
 
     getChecked = (x, item) => {
-      if(x === 'basic'){
-        const found = this.state.answers.filter(a => a.value === item)
-        return found.length === 1
-      } else {
-        const filterAnswers = this.state.answers.filter(a => a.answer === x)
-        const found = filterAnswers.filter(a => parseInt(a.value) === item)
-        return found.length === 1
-      }
+        if (x === 'basic') {
+            const found = this.state.answers.filter(a => a.value === item)
+            return found.length === 1
+        } else {
+            const filterAnswers = this.state.answers.filter(a => a.answer === x)
+            const found = filterAnswers.filter(a => parseInt(a.value) === item)
+            return found.length === 1
+        }
     }
 
     getSelected = (x) => {
-      const found = this.state.selectedTopics.filter(a => a.topic === x)
-      return found.length === 1
+        const found = this.state.selectedTopics.filter(a => a.topic === x)
+        return found.length === 1
     }
 
     sendAnswers = (event) => {
@@ -131,6 +135,7 @@ class App extends React.Component {
     }
 
     handleProfessionAnswers = (event) => {
+        try{
         event.preventDefault()
         const professions = this.state.selectedTopics.map(t => t.topic)
         const answerArray = []
@@ -140,7 +145,7 @@ class App extends React.Component {
                     answerArray.push(answers[professions[i]]) //listaan lisätään kompetenssiin kuuluva vastauslista
                 }
             })
-        })
+        })//trycatch here
         const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
         const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
         const answerAverages = []
@@ -158,11 +163,15 @@ class App extends React.Component {
         this.moveForwardProf()
     }
 
-    //kutsutaan kun liikutaan statesta ylöspäin !!
-    moveForward = (e) => {
-      e.preventDefault()
+    catch(err) {
+
+    }
+      }
+    //kutsutaan kun liikutaan statesta ylös- tai alaspäin !!
+    move = (e, x) => {
+        e.preventDefault()
         window.scrollTo(0, 0)
-        this.setState({ surveyState: this.state.surveyState + 1 })
+        this.setState({ surveyState: this.state.surveyState + x })
     }
 
     moveForwardProf = () => {
@@ -170,11 +179,10 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
-    moveBackward = (e) => {
-      e.preventDefault()
-        window.scrollTo(0, 0)
-        this.setState({ surveyState: this.state.surveyState - 1 })
+    adminState = () => {
+        this.setState({surveyState : 10})
     }
+
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
@@ -182,6 +190,9 @@ class App extends React.Component {
     }
 
     render() {
+
+      const value1List = this.state.answers.filter(a => a.value === 1 )
+
         switch (this.state.surveyState) {
             default: {
                 return (
@@ -193,19 +204,19 @@ class App extends React.Component {
 
             case this.state.states.WelcomePage: {
                 return (
-                      <div className="App">
+                    <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <WelcomePage moveForward={this.moveForward} />
+                        <WelcomePage moveForward={this.move} />
                         <Footer />
-                        </div>
-                      )
+                    </div>
+                )
             }
 
             case this.state.states.General: {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} moveForward={this.moveForward} changeOption={this.changeOption} moveBackward={this.moveBackward}/>
+                        <GeneralList getChecked={this.getChecked} topics={this.state.genGenTopics} move={this.move} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -215,7 +226,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <GeneralList topics={this.state.genTopics} getChecked={this.getChecked} moveForward={this.moveForward} changeOption={this.changeOption} moveBackward={this.moveBackward} />
+                        <GeneralList topics={this.state.genTopics} getChecked={this.getChecked} move={this.move} changeOption={this.changeOption} />
                         <Footer />
                     </div>
                 )
@@ -225,7 +236,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} moveForward={this.moveForward} moveBackward={this.moveBackward}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move}></RadarChart>
                         <Footer />
                     </div>
                 )
@@ -236,7 +247,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <SelectProfession topics={this.state.profTopics} handleProfessionsAndMove={this.handleProfessionAnswers}
-                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} moveBackward={this.moveBackward}/>
+                            selectedTopics={this.state.selectedTopics} changeProfessions={this.changeProfessions} getChecked={this.getSelected} move={this.move} />
                         <Footer />
                     </div>
                 )
@@ -247,7 +258,7 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <List topics={this.state.selectedTopics} getChecked={this.getChecked}
-                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} moveBackward={this.moveBackward} />
+                            changeOption={this.changeOption} sendAnswers={this.sendAnswers} move={this.move} />
                         <Footer />
                     </div>
                 )
@@ -256,10 +267,10 @@ class App extends React.Component {
             case this.state.states.PROFANSW: {
                 return (
                     <div className="App">
-                            <Header surveyState={this.state.surveyState} states={this.state.states} />
-                            {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
-                            selectedTopics={this.state.selectedTopics} moveForward={this.moveForward} moveBackward={this.moveBackward}></BarChart>}
-                            <Footer />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        {!this.state.calculated ? null : <BarChart answers={this.state.answers} profAverages={this.state.profAverages}
+                            selectedTopics={this.state.selectedTopics} move={this.move}></BarChart>}
+                        <Footer />
                     </div>
                 )
             }
@@ -268,8 +279,19 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
+                        <div className="summaryPageCharts">
+                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} />
+                            <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} move={this.state.move}
+                                surveyState={this.state.surveyState} /></div>
                         <Summary />
                         <Footer />
+                    </div>
+                )
+            }
+            case this.state.states.ADMIN: {
+                return (
+                    <div className="App">
+                    <h1>NY ON ADMIN JMLATA!!!</h1>
                     </div>
                 )
             }

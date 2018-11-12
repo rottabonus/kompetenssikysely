@@ -4,7 +4,7 @@ import jatka from '../img/PNG/jatka.png';
 
 
 class RadarChart extends Component {
-
+  
     constructor(props){
         super(props);
         this.state={
@@ -37,7 +37,7 @@ class RadarChart extends Component {
         })
         var high = [];
         var low = [];
-
+       
         filteredAnswers.forEach(function(element){
           if (element.value == 5) {
             high.push(element);
@@ -46,8 +46,7 @@ class RadarChart extends Component {
             low.push(element);
           }
         })
-        console.log("Get High 420" + high);
-        console.log("Get Loooow" + low);
+
         var labelArray = [problemSolving[0].topic, technicalComp[0].topic, careerControl[0].topic, interaction[0].topic];
         var answerArray = [problemSolving, technicalComp, careerControl, interaction];
         var averageArray = [];
@@ -60,12 +59,12 @@ class RadarChart extends Component {
 
         var ctx = document.getElementById("radarChart");
         var radarChart = new Chart(ctx, {
-            type: 'radar',
+            type: 'radar', 
             data : {
                 labels: labelArray,
                 datasets: [{
                     label: "Minun kompetenssini",
-                    data: averageArray,
+                    data: averageArray, 
                     "backgroundColor": "rgba(0, 159, 227, 0.5)",
                     "borderWidth": "2",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
@@ -76,13 +75,16 @@ class RadarChart extends Component {
                 scale: {
                     ticks: {
                         beginAtZero: true,
-                        max: 5
+                        max: 5,
+                        stepSize: 1.0,
                     }
                 },
-
+                
             }
         });
-
+        
+  
+   
       var i = 0;
       var rows1 = [];
       var rows2 = [];
@@ -281,8 +283,6 @@ class RadarChart extends Component {
       var b = 0;
       var x = 0;
       for(i = 0; i < high.length; i++){
-        console.log(high[i].answer)
-        console.log(helpertext.High[i].name)
         var helper = helpertext.High.filter((a) => a.name == high[i].answer)
         for (b = 0; b < helper.length; b++){
           rows1.push(<p key={b}><span className="bold">{helper[b].name}, </span>{helper[b].text}</p>)
@@ -301,7 +301,7 @@ class RadarChart extends Component {
     return (
       <div className="surveyContainer">
       <div className="chartContainer">
-        <canvas id="radarChart" width="100" height="60"></canvas>
+        <canvas id="radarChart" width="100" height="60"></canvas> 
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
@@ -310,7 +310,7 @@ class RadarChart extends Component {
                 </div>
               : null
             }
-
+          
             { this.state.rows2.length > 0
               ? <div className="reviewtext">
                   <h3 className="aligncenter">Kehittääksesi osaamistasi sinun kannattaa huomioida: </h3>
@@ -320,11 +320,14 @@ class RadarChart extends Component {
             }
         </div>
         { this.props.surveyState !== 3
-            ? <img src={jatka} id="cursor-hover" alt="Jatka" onClick={this.props.moveForward} />
-
+            ? <div>
+              <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button> 
+              <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
+              </div>            
             : null
-        }
 
+        }
+        
       </div>
       </div>
     );

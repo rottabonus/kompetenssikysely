@@ -1,7 +1,7 @@
 import React from 'react';
 import Topic from './Topic';
 
-const List = ({ topics, changeOption, sendAnswers, moveBackward, getChecked }) => {
+const List = ({ topics, changeOption, sendAnswers, move, getChecked }) => {
 
   return (
     <div>
@@ -9,10 +9,11 @@ const List = ({ topics, changeOption, sendAnswers, moveBackward, getChecked }) =
         <form onSubmit={sendAnswers}>
           {topics.map((topic, i) =>
             <Topic key={i} topic={topic} changeOption={changeOption} get={getChecked}></Topic>)}
-         <button className="buttonstyle" type="submit">Send answers</button>
-          <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>
+          <button className="buttonBackward" onClick={(e) => move(e, -1)}>Takaisin</button>
+          <button className="buttonForward" type="submit">Lähetä vastaukset</button>
+          {/* <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button> */}
         </form>
-        <button onClick={(e)=> moveBackward(e)}> takaisin </button>
+
       </div>
     </div>
   )
