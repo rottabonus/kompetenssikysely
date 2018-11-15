@@ -20,20 +20,27 @@ class RadarChart extends Component {
         this.props.selectedTopics.forEach(function(element) {
             filteredAnswers.filter((answer) => answer.topic !== element.topic);
         })
-        var problemSolving = [];
-        var technicalComp = [];
-        var careerControl = [];
-        var interaction = [];
+
+        var genTopics = this.props.getGenTopics();
         filteredAnswers.forEach(function(element) {
-            if (element.topic === "Itsensä johtaminen ja ongelmanratkaisu") {
-                problemSolving.push(element);
-            } else if (element.topic === "Yleinen digiosaaminen") {
-                technicalComp.push(element);
-            } else if (element.topic === "Uranhallinta") {
-                careerControl.push(element);
-            } else if (element.topic === "Vuorovaikutus") {
-                interaction.push(element);
+            genTopics.forEach(function(topic) {
+              if (element.topic === topic) {
+                
+              }
+            })
+        })
+
+        var answerArray = [];
+        var labelArray = [];
+        genTopics.forEach(function(topic){
+          var topicArray = [];
+          filteredAnswers.forEach(function(element) {
+            if (element.topic === topic) {
+              topicArray.push(element);
             }
+          })
+          answerArray.push(topicArray);
+          labelArray.push(topic);
         })
         var high = [];
         var low = [];
@@ -47,8 +54,6 @@ class RadarChart extends Component {
           }
         })
 
-        var labelArray = [problemSolving[0].topic, technicalComp[0].topic, careerControl[0].topic, interaction[0].topic];
-        var answerArray = [problemSolving, technicalComp, careerControl, interaction];
         var averageArray = [];
         answerArray.forEach(function(element) {
             var answerValues = element.map((a) => parseInt(a.value));
