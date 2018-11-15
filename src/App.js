@@ -211,6 +211,11 @@ class App extends React.Component {
         this.handleProfessionAnswers()
     }
 
+    getGenTopics = () => {
+        let topics = this.state.genTopics.map(a => a.text);
+        return topics;
+    }
+
     render() {
 
         switch (this.state.surveyState) {
@@ -256,7 +261,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move} getGenTopics={this.getGenTopics}></RadarChart>
                         <Footer />
                     </div>
                 )
