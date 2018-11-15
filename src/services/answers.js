@@ -1,12 +1,15 @@
 import axios from 'axios'
+import database from '../fire'
 
 const getAll = async () => {
-  const response = await axios.get('https://surveydev-740fb.firebaseio.com/answers.json')
-  let allAnswers = []
+    const url = 'https://'+database.options.projectId+'.firebaseio.com/answers/.json'
+    console.log(url)
+  const response = await axios.get(url)
+  let allTopics = []
   Object.values(response.data).forEach((elem) => {
-    allAnswers.push(elem)
+    allTopics.push(elem)
   })
-  return allAnswers
+  return allTopics
 }
 
 export default { getAll }

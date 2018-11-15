@@ -11,12 +11,12 @@ const SelectProfession = ({ topics, selectedTopics, changeProfessions, handlePro
           <div><p>Asiantuntijan osaaminen on kuvattu neljän tyypillisen liiketoiminnan suuntautumisen suhteen.</p></div>
           <div><p>Kyselyyn on poimittu niitä osaamisia, joita ammattilaiselta odotetaan globaalissa ja digitalisoituvassa
                         työelämässä asiantuntijan roolissa.</p></div>
-          <div><p>Valitse yksi tai useampi seuraavista alueista:</p></div>
+          <div><b>Valitse yksi tai useampi seuraavista alueista:</b></div>
         </div>
         <div className="professionSelection">
           <form onSubmit={handleProfessionsAndMove}>
             {topics.filter(t => t.text !== 'yleinen').map((topic, i) =>
-              <label className="container" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox"/><span className="checkmark"></span>{topic.text}</label>)}
+              <label className="topicItemOptions" key={i}><input onChange={() => changeProfessions(topic)} type="checkbox" checked={getChecked(topic.text)} /><span className="checkmark"></span>{topic.text}</label>)}
             {/*<button className="selectionButton" type="submit">Select</button>*/}
 
             {/*   <button className="buttonstyleBackward" onClick={moveBackward}>Takaisin</button>*/}

@@ -7,7 +7,7 @@ import prog5 from '../img/bar5.svg'
 import prog6 from '../img/bar6.svg'
 import prog7 from '../img/bar7.svg'
 import prog8 from '../img/bar8.svg'
-//vaiha img/bar --> img/prog 
+//vaiha img/bar --> img/prog
 
 const ProgressBar2 = ({src}) => {
 var src2 = src + 1;
@@ -40,11 +40,11 @@ console.log(progress)
             { src == 3
               ? <img src={prog4}></img>
               :null
-            }       
+            }
             { src == 4
               ? <img src={prog5}></img>
               :null
-            }  
+            }
             { src == 5
               ? <img src={prog6}></img>
               :null

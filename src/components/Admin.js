@@ -9,6 +9,7 @@ class test extends Component {
         this.state = {
             topics : [],
             newProf : "",
+            optionValues: "",
         }
     }
     uusAmmatti = (event) => {
@@ -41,20 +42,20 @@ deleteProf = (event) => {
     console.log("To be DELETED: " + JSON.stringify(delArray));
     axios.put('https://surveydev-740fb.firebaseio.com/topics.json', tobeDEL);
 }
+
+showQuestions = (event) => {
+    const index = event.target.id;
+    var profArray = this.state.topics.filter(t => t.text == index);
+    var optionValues = Object.values(profArray).map(option => option).filter(o => typeof o === 'object')
+    console.log(optionValues);
+    
+}
 //nyt delete toimii ihan mitensattuu tolla indexillä, eli filsuttaa topic.text avulla poistettu pois ja puskea jäljellejääneet topicsit kantaan
     render() {
         return (
             <div className="surveyContainer">
 
-                <h1>ASIANTUNTIJAN KOMPETENSSITYÖKALU-adminFuker</h1>
-                    <ul>
-                    <li>Tänne siis admin asiaa</li>
-                    <li>Tämä endpoint muuttaa "/admin", joka tarjoo login pagen</li>
-                    <li>Login menee authUI setillä ehkä....?</li>
-                    <li>SignIn authUI tänne tai fire.js filuun?</li>
-                    <li>Sit joku formitus.......</li>
-                    <li>Jos tässä vaan vois lisätä uuden amatin/poistaa amatin ja esim. klikkaamalla päästä muokkaamaan kyseisen amatin kysymyksiä ja lisäämään uusia?</li>
-                    </ul>
+                <h1>ASIANTUNTIJANTYÖKALU KOMPETENSSITYÖKALUN-AdminTyökalu</h1>
             <div>
                 <form className="adminForm">
                     <label>Ammatti ryhmä: </label> 
@@ -74,10 +75,23 @@ deleteProf = (event) => {
                 <td>
                     <button id={topic.text} onClick={this.deleteProf}>Delete</button>
                 </td>
+                <td>
+                    <button id={topic.text} onClick={this.showQuestions}>Edit</button>
+                </td>
                 </tr>
                 ))}
                     </tbody>
                 </table>
+
+                <p>Kyssärit: </p>
+              {this.optionValues != null &&
+                <fieldset>
+                    {this.optionValues.map((option, i) =>
+                      <label key={i}>
+                      {option.text}
+                      </label>
+                      )}
+                </fieldset>}
             </div>
             
             </div>

@@ -17,12 +17,6 @@ class BarChart extends Component {
         let answers = this.props.answers;
         let profAverages = this.props.profAverages;
         let selectedTopics = this.props.selectedTopics;
-        if (answers.length === 0) {
-
-        }
-        else {
-            
-        }
         selectedTopics.forEach(function(topic, y) {
             var onlyProfessionAnswers = answers.filter((answer) => answer.topic === topic.topic)
             var myDataWithAnswers = onlyProfessionAnswers.map((a) => a).sort((a, b) => a.value - b.value).reverse();

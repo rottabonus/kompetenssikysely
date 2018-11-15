@@ -13,7 +13,7 @@ class WelcomePage extends Component {
 
                 <div className="welcomePageText">
                     <h3>TERVETULOA KARTOITTAMAAN OMAA OSAAMISTASI JA TUNNISTAMAAN KEHITTYMISTARPEITASI SUHTEESSA TÄMÄN PÄIVÄN TYÖELÄMÄÄN. </h3><br /><br />
-                    <div>  <p>
+                    <div>  <p>Kompetenssityökalu on toteutettu osana Taidot Työhön –hanketta, jota on rahoittanut Strategisen tutkimuksen neuvoston vuosina 2016-2019. Haaga-Helia ammattikorkeakoulu ylläpitää työkalua ja niihin liittyviä nettisivuja. <br /><br />
                         Tässä työkalussa voit testata, miten yleiset kompetenssisi ja asiantuntijan osaamisesi asettuvat
                             suhteessa tämän päivän tradenomien osaamisvaatimuksiin.<br /><br />
 
