@@ -10,6 +10,7 @@ import WelcomePage from './pages/WelcomePage';
 import GeneralList from './components/GeneralList';
 import topicService from './services/topics';
 import answerService from './services/answers';
+import feedbackService from './services/feedback'
 import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
 import backGround from './img/PNG/raita.png';
@@ -26,6 +27,7 @@ class App extends React.Component {
             genTopics: [],
             genGenTopics: [],
             profTopics: [],
+            feedback: [],
             key: '',
             answers: [],
             surveyState: 0,
@@ -76,12 +78,13 @@ class App extends React.Component {
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
         const professionAnswers = await answerService.getAll()
-
+          const feedback = await feedbackService.getAll()
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
         const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
         const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
         const profTopics = topics.filter(t => typeof t === 'object')
-        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics })
+
+        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics, feedback })
     }
 
     changeOption = (event) => {
@@ -261,7 +264,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move} getGenTopics={this.getGenTopics}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move} getGenTopics={this.getGenTopics} feedback={this.state.feedback}></RadarChart>
                         <Footer />
                     </div>
                 )
