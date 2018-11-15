@@ -38,7 +38,6 @@ class App extends React.Component {
                 PROFESSION: 5,
                 PROFANSW: 6,
                 SUMMARY: 7,
-                ADMIN: 10
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -174,10 +173,6 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
-    adminState = () => {
-        this.setState({surveyState : 10})
-    }
-
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
@@ -277,13 +272,6 @@ class App extends React.Component {
                                 surveyState={this.state.surveyState} /></div>
                         <Summary />
                         <Footer />
-                    </div>
-                )
-            }
-            case this.state.states.ADMIN: {
-                return (
-                    <div className="App">
-                    <h1>NY ON ADMIN JMLATA!!!</h1>
                     </div>
                 )
             }
