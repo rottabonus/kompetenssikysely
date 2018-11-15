@@ -39,7 +39,6 @@ class App extends React.Component {
                 PROFANSW: 6,
                 SUMMARY: 7,
                 IMPROV: 8,
-                ADMIN: 10
             },
             professionAnswers: [],
             selectedTopics: [],
@@ -206,14 +205,15 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
-    adminState = () => {
-        this.setState({ surveyState: 10 })
-    }
-
     //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
         this.handleProfessionAnswers()
+    }
+
+    getGenTopics = () => {
+        let topics = this.state.genTopics.map(a => a.text);
+        return topics;
     }
 
     render() {
@@ -261,7 +261,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move} getGenTopics={this.getGenTopics}></RadarChart>
                         <Footer />
                     </div>
                 )
@@ -319,13 +319,6 @@ class App extends React.Component {
                         <Header />
                         <Improvement answers={this.state.answers} />
                         <Footer />
-                    </div>
-                )
-            }
-            case this.state.states.ADMIN: {
-                return (
-                    <div className="App">
-                        <h1>NY ON ADMIN JMLATA!!!</h1>
                     </div>
                 )
             }
