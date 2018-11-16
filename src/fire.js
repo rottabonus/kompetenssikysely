@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import firebaseui from 'firebaseui';
+//import firebaseui from 'firebaseui';
 
 /*var config = {
     apiKey: "AIzaSyB5vqwusAIVlRNqDhNHTej34XqO6g5jCwA",

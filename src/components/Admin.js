@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import fire from '../fire';
 import topicService from '../services/topics';
-import axios from 'axios'
 
 class test extends Component {
     constructor(props){
@@ -20,27 +18,28 @@ class test extends Component {
     this.setState({topics : await topicService.getAll()});
     console.log(topics);
     console.log(JSON.stringify(this.state.topics));
-}   
-newProfToDB = (event) => {
+}
+newProfToDB = async (event) => {
    var i = this.state.topics.length + 1;
    console.log("tpoics pituus" + i)
-   var topicnmbr = "T0"+i; 
+   var topicnmbr = "T0"+i;
    var jsondata = {
             category : "ammatti",
             ST01 : "",
             text : this.state.newProf
     }
     console.log("Kohti kantaa ja sen yli..." + jsondata);
-  axios.put('https://surveydev-740fb.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
+  await topicService.newTopic(jsondata, topicnmbr)
     console.log(JSON.stringify(this.state.topics));
 }
-deleteProf = (event) => {
+deleteProf = async (event) => {
     const index = event.target.id;
+    console.log(index)
    var delArray = this.state.topics.filter(t => t.text !== index);
     var topicnmbr = "T0"+index;
-    var tobeDEL = JSON.stringify(delArray); 
+    var tobeDEL = JSON.stringify(delArray);
     console.log("To be DELETED: " + JSON.stringify(delArray));
-    axios.put('https://surveydev-740fb.firebaseio.com/topics.json', tobeDEL);
+    await topicService.removeTopic(tobeDEL)
 }
 
 showQuestions = (event) => {
@@ -48,9 +47,10 @@ showQuestions = (event) => {
     var profArray = this.state.topics.filter(t => t.text == index);
     var optionValues = Object.values(profArray).map(option => option).filter(o => typeof o === 'object')
     console.log(optionValues);
-    
+
 }
 //nyt delete toimii ihan mitensattuu tolla indexillä, eli filsuttaa topic.text avulla poistettu pois ja puskea jäljellejääneet topicsit kantaan
+//^ nyt toi näyttää toimivan ihan OK ?
     render() {
         return (
             <div className="surveyContainer">
@@ -58,10 +58,10 @@ showQuestions = (event) => {
                 <h1>ASIANTUNTIJANTYÖKALU KOMPETENSSITYÖKALUN-AdminTyökalu</h1>
             <div>
                 <form className="adminForm">
-                    <label>Ammatti ryhmä: </label> 
+                    <label>Ammatti ryhmä: </label>
                     <input type="text" id="ammattiRyhma" value={this.state.newProf} onChange={this.uusAmmatti}></input>
 
-                   
+
                 </form>
                 <button onClick={this.newProfToDB}>Lähetä</button>
             </div>
@@ -93,7 +93,7 @@ showQuestions = (event) => {
                       )}
                 </fieldset>}
             </div>
-            
+
             </div>
         )
     }
