@@ -10,6 +10,7 @@ import WelcomePage from './pages/WelcomePage';
 import GeneralList from './components/GeneralList';
 import topicService from './services/topics';
 import answerService from './services/answers';
+import feedbackService from './services/feedback'
 import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
 import backGround from './img/PNG/raita.png';
@@ -26,7 +27,7 @@ class App extends React.Component {
             genTopics: [],
             genGenTopics: [],
             profTopics: [],
-            key: '',
+            feedback: [],
             answers: [],
             surveyState: 0,
             states: {
@@ -46,42 +47,20 @@ class App extends React.Component {
             profAverages: {
                 values: [],
                 answers: []
-            },
-            banswers: [{ answer: "Strateginen johtaminen", value: "1" },
-            { answer: "Strateginen HR", value: "5" },
-            { answer: "Päätöksenteon valmistelu", value: "3" },
-            { answer: "Henkilöstöresurssien hallinta", value: "3" },
-            { answer: "Digitaalinen osaamisen kehittäminen", value: "1" },
-            { answer: "Oppimismenetelmät", value: "3" },
-            { answer: "Työnantajaimagon rakentaminen", value: "5" },
-            { answer: "Rekrytointi", value: "1" },
-            { answer: "Vaikuttamisviestintä", value: "3" },
-            { answer: "HR-verkostot", value: "1" },
-            { answer: "Työhyvinvointi", value: "5" },
-            { answer: "Sitouttaminen", value: "3" },
-            { answer: "Diversiteetin huomioiminen", value: "5" },
-            { answer: "Monikulttuurinen HR-viestintä", value: "3" },
-            { answer: "Kansainvälinen HRM", value: "3" },
-            { answer: "Muutoksen organisointi", value: "1" },
-            { answer: "Muutosagentit", value: "1" },
-
-            { answer: "Arvojen huomioiminen", value: "1", topic: "Uranhallinta" },
-            { answer: "Uransuunnittelu", value: "5", topic: "Uranhallinta" },
-            { answer: "Tiedonhankinta", value: "3", topic: "Uranhallinta" },
-            { answer: "Työnhaku", value: "1", topic: "Uranhallinta" },
-            { answer: "Verkostoituminen", value: "5", topic: "Uranhallinta" }],
+            }
         }
     }
 
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
-        const professionAnswers = await answerService.getAll()
+          const professionAnswers = await answerService.getAll()
 
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
         const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
         const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
         const profTopics = topics.filter(t => typeof t === 'object')
-        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics })
+
+        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics, feedback : await feedbackService.getAll() })
     }
 
     changeOption = (event) => {
@@ -110,7 +89,7 @@ class App extends React.Component {
         return found.length === 1
     }
 
-    sendAnswers = (event) => {
+    sendAnswers = async (event) => {
         event.preventDefault()
         const answers = {}
         const allTopics = this.state.answers.map(topic => topic.topic)
@@ -119,26 +98,14 @@ class App extends React.Component {
             let dateSet = new Date().toLocaleDateString('fi-FI')
             let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
             const dataObject = { Answers: answerSet, date: dateSet }
-            if (dataObject.Answers.length === 0) {
-                window.confirm({ topic } + 'must have answers!')
-            } else {
                 answers[topic] = dataObject
-            }
         })
-        if (this.state.key === '') {
-            let key = fire.database().ref().child('answers').push(answers)
-            this.setState({ key: key.key })
-        } else {
-            let key = fire.database().ref('answers').child(this.state.key).set(answers);
-        }
-        this.moveForwardProf()
+                await answerService.sendAnswers(answers)
+                  this.moveForwardProf()
     }
 
     changeProfessions = (item) => {
-        const topicObject = { //topicObject ottaa arvot checkBoxissa valitun objectin attribuuteista
-            topic: item.text,
-            subs: item.ST01
-        }
+        const topicObject = { topic: item.text,subs: item.ST01 }
         const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
         if (selectedTopics.includes(topicObject.topic)) {   // filteröidään pois topicit, jotka on jo valittu =>
             const updatedTopics = this.state.selectedTopics.filter(topic => topic.topic !== topicObject.topic) // kuń painetaan uudestaan - se lähtee pois statesta!!!
@@ -148,18 +115,7 @@ class App extends React.Component {
         }
     }
 
-    show = (event, item) => {
-        event.preventDefault()
-        const subtopics = Object.values(item).map(topic => topic).filter(o => typeof o === 'object')
-        if (this.state.subtopics.length === 0) {
-            this.setState({ subtopics })
-        } else {
-            this.setState({ subtopics: [] })
-        }
-    }
-
     handleProfessionAnswers = (event) => {
-
         event.preventDefault()
         const professions = this.state.selectedTopics.map(t => t.topic)
         const answerArray = []
@@ -183,8 +139,7 @@ class App extends React.Component {
                 const tempArr = onlyAnswers.filter((answer) =>
                     element === answer.answer)
                 const valueArr = tempArr.map((a) => parseInt(a.value));
-                var sum = valueArr.reduce((previous, current) => current + previous);
-                var avg = (sum / valueArr.length).toFixed(2);
+                var avg = valueArr.reduce((previous, current) => current + previous, 0 ) / valueArr.length.toFixed(2)
                 answerAverages.push(avg);
                 return answerAverages;
             });
@@ -193,7 +148,7 @@ class App extends React.Component {
             this.moveForwardProf()
         }
     }
-    //kutsutaan kun liikutaan statesta ylös- tai alaspäin !!
+
     move = (e, x) => {
         e.preventDefault()
         window.scrollTo(0, 0)
@@ -205,15 +160,13 @@ class App extends React.Component {
         this.setState({ surveyState: this.state.surveyState + 1 })
     }
 
-    //tämä siirtää eteenpäin prof-selectistä
     selectProfessions = (event) => {
         event.preventDefault()
         this.handleProfessionAnswers()
     }
 
     getGenTopics = () => {
-        let topics = this.state.genTopics.map(a => a.text);
-        return topics;
+        return this.state.genTopics.map(a => a.text);
     }
 
     render() {
@@ -261,7 +214,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
-                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move} getGenTopics={this.getGenTopics}></RadarChart>
+                        <RadarChart selectedTopics={this.state.selectedTopics} answers={this.state.answers} move={this.move} getGenTopics={this.getGenTopics} feedback={this.state.feedback}></RadarChart>
                         <Footer />
                     </div>
                 )

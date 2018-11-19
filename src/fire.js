@@ -1,16 +1,25 @@
 import firebase from 'firebase';
-import firebaseui from 'firebaseui';
+//import firebaseui from 'firebaseui';
 
+<<<<<<< HEAD
 /*
 var config = {
+=======
+/*var config = {
+>>>>>>> 56dcdee2afc2a33a7426a751bd0ace64cbd9a072
     apiKey: "AIzaSyB5vqwusAIVlRNqDhNHTej34XqO6g5jCwA",
     authDomain: "surveydev-740fb.firebaseapp.com",
     databaseURL: "https://surveydev-740fb.firebaseio.com",
     projectId: "surveydev-740fb",
     storageBucket: "surveydev-740fb.appspot.com",
     messagingSenderId: "22198431343"
+<<<<<<< HEAD
   }
 */
+=======
+  }*/
+
+>>>>>>> 56dcdee2afc2a33a7426a751bd0ace64cbd9a072
 
   var config = {
     apiKey: "AIzaSyDYnJ1qxhietDQ9X3F3fD0a1Aohli23DJc",
