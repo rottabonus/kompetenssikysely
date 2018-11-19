@@ -10,9 +10,7 @@ class test extends Component {
             optionValues: "",
         }
     }
-    uusAmmatti = (event) => {
-        this.setState({newProf : event.target.value})
-    }
+
  async componentDidMount() {
      var topics;
     this.setState({topics : await topicService.getAll()});
