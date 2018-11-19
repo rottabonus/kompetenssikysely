@@ -139,7 +139,7 @@ class App extends React.Component {
                 const tempArr = onlyAnswers.filter((answer) =>
                     element === answer.answer)
                 const valueArr = tempArr.map((a) => parseInt(a.value));
-                var avg = valueArr.reduce((previous, current) => current + previous, 0 ) / valueArr.length.toFixed(2)
+                var avg = (valueArr.reduce((previous, current) => current + previous, 0 ) / valueArr.length).toFixed(2)
                 answerAverages.push(avg);
                 return answerAverages;
             });

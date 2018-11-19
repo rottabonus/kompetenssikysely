@@ -109,8 +109,9 @@ class RadarChart extends Component {
       render() {
     return (
       <div className="surveyContainer">
-      <div className="chartContainer">
+      <div className="radarChartContainer">
         <canvas id="radarChart" width="100" height="60"></canvas>
+        </div>
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
@@ -137,7 +138,6 @@ class RadarChart extends Component {
 
         }
 
-      </div>
       </div>
     );
   }

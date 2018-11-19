@@ -53,14 +53,14 @@ class BarChart extends Component {
         datasets: [{
                 "label": "Minun Kompetenssini",
                 "yAxisID": "A",
-                "backgroundColor": "rgba(0, 159, 227, 0.5)",
+                "backgroundColor": "rgba(0, 159, 227, 0.2)",
                 "data": myData, //tähän käyttäjän vastaukset db:stä
-                "borderWidth": "3",
+                "borderWidth": "2",
                 "borderColor": "rgba(0, 159, 227, 1.0)",
             }, {
                 "label": "Kompetenssi keskiarvo",
                 "yAxisID": "A",
-                "backgroundColor": "rgba(249, 176, 0, 0.7)",
+                "backgroundColor": "rgba(249, 176, 0, 0.6)",
                 "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
                 "borderWidth": "3",
                 "borderColor": "rgba(255, 80, 0, 1.0)",
@@ -70,7 +70,7 @@ class BarChart extends Component {
         var options = {
             title: {
                 display: true,
-                text: "Asiantuntijan osaamisen palaute",
+                text: topic.topic,
             },
             scales: {
                 yAxes: [{
@@ -113,7 +113,8 @@ class BarChart extends Component {
         console.log(chartName);
         chartConfig.push([chartName, data, options]);
         canvases = [...canvases, chartName];
-        })
+        }) // End of forEach loop for multi-charts
+
         await this.setState({canvases : canvases});
         console.log("canvases:" + this.state.canvases);
         console.log(chartConfig[0]);
@@ -125,10 +126,9 @@ class BarChart extends Component {
     render() {
     return (
     <div className="surveyContainer">
-      <div className="chartContainer">
+      <div className="barChartContainer">
       {this.state.canvases.map((canvas) =>
-            <canvas id={canvas} key={canvas}></canvas>)}
-        {/*<canvas id="myChart"></canvas>*/}
+            <canvas class="barCanvas" id={canvas} key={canvas}></canvas>)}
         { this.props.surveyState !== 6
         ? <div>
         <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button> 
