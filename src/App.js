@@ -258,10 +258,11 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <div className="summaryPageCharts">
-                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} />
+                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} 
+                            getGenTopics={this.getGenTopics} feedback={this.state.feedback}/>
                             <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} move={this.state.move}
-                                surveyState={this.state.surveyState} /></div>
-                        <Summary moveForward={this.moveForwardProf} />
+                                surveyState={this.state.surveyState} getGenTopics={this.getGenTopics}/></div>
+                        <Summary moveForward={this.moveForwardProf} feedback={this.state.feedback}/>
                         <Footer />
                     </div>
                 )
