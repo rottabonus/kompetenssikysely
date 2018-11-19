@@ -216,12 +216,20 @@
   #cursor-hover {  /* MUUTTAA KURSORIN KUN HOVEROI JATKA-NAPIN YLLE */
     cursor: pointer;
   }
-  .chartContainer {
-    width: 65%;
+  .barChartContainer {
+    width: 80%;
     height: auto;
     margin-left: auto;
     margin-right: auto;
   }
+
+  .radarChartContainer {
+    width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .progress-bar {
     height: 15px;
     width: 500px;
@@ -273,10 +281,10 @@
   }
   .palaute {
     display: block;
-    text-align: left;
+    text-align: center;
   }
   .reviewtext {
-    text-align: left;
+    text-align: center;
   }
   img {
     padding-right: 10px
@@ -303,14 +311,37 @@
     a[href]:after {
       content: none;
     }
+
     .barContainer {
       display: none;
     }
-    .chartContainer {
-      text-align: center;
-      margin-right: 50%;
+
+    .summaryPrint {
+      display: none;
     }
+
+    .barChartContainer {
+      text-align: center;
+      width: 50%;
+      margin-right: 80%;
+    }
+    
+    .barCanvas {
+      width: 50%;
+    }
+
+    .radarChartContainer {
+      text-align: center;
+      margin-right: 25%;
+    }
+
     .surveyContainer {
+      text-align: center;
+      width: 100%;
+      margin-left: 0%;
+    }
+
+    .reviewtext {
       text-align: center;
     }
   }
