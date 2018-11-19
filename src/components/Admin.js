@@ -12,15 +12,18 @@ class test extends Component {
             optionValues: "",
         }
     }
-    uusAmmatti = (event) => {
-        this.setState({newProf : event.target.value})
-    }
+
  async componentDidMount() {
      var topics;
     this.setState({topics : await topicService.getAll()});
     console.log(topics);
     console.log(JSON.stringify(this.state.topics));
 }   
+
+uusAmmatti = (event) => {
+    this.setState({newProf : event.target.value})
+}
+
 newProfToDB = (event) => {
    var i = this.state.topics.length + 1;
    console.log("tpoics pituus" + i)
@@ -31,7 +34,7 @@ newProfToDB = (event) => {
             text : this.state.newProf
     }
     console.log("Kohti kantaa ja sen yli..." + jsondata);
-  axios.put('https://surveydev-740fb.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
+    axios.put('https://surveydev-740fb.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
     console.log(JSON.stringify(this.state.topics));
 }
 deleteProf = (event) => {
@@ -50,7 +53,7 @@ showQuestions = (event) => {
     console.log(optionValues);
     
 }
-//nyt delete toimii ihan mitensattuu tolla indexillä, eli filsuttaa topic.text avulla poistettu pois ja puskea jäljellejääneet topicsit kantaan
+
     render() {
         return (
             <div className="surveyContainer">

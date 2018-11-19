@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import firebaseui from 'firebaseui';
 
+/*
 var config = {
     apiKey: "AIzaSyB5vqwusAIVlRNqDhNHTej34XqO6g5jCwA",
     authDomain: "surveydev-740fb.firebaseapp.com",
@@ -9,8 +10,8 @@ var config = {
     storageBucket: "surveydev-740fb.appspot.com",
     messagingSenderId: "22198431343"
   }
+*/
 
-/*
   var config = {
     apiKey: "AIzaSyDYnJ1qxhietDQ9X3F3fD0a1Aohli23DJc",
     authDomain: "surveydev2-a3cc7.firebaseapp.com",
