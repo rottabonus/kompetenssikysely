@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import topicService from '../services/topics';
+import AdminList from './AdminList'
 
 class test extends Component {
     constructor(props){
@@ -8,17 +9,24 @@ class test extends Component {
             topics : [],
             newProf : "",
             optionValues: "",
+            questions: [],
+            edit0: "",
+            edit1:"",
+            edit2:"",
+            key: ""
         }
     }
+
     uusAmmatti = (event) => {
         this.setState({newProf : event.target.value})
     }
+
  async componentDidMount() {
-     var topics;
-    this.setState({topics : await topicService.getAll()});
-    console.log(topics);
-    console.log(JSON.stringify(this.state.topics));
+   const allTopics =  await topicService.getAll()
+   const topics = allTopics.filter(t => typeof t === 'object')
+    this.setState({ topics });
 }
+
 newProfToDB = async (event) => {
    var i = this.state.topics.length + 1;
    console.log("tpoics pituus" + i)
@@ -28,26 +36,53 @@ newProfToDB = async (event) => {
             ST01 : "",
             text : this.state.newProf
     }
-    console.log("Kohti kantaa ja sen yli..." + jsondata);
   await topicService.newTopic(jsondata, topicnmbr)
-    console.log(JSON.stringify(this.state.topics));
 }
+
 deleteProf = async (event) => {
     const index = event.target.id;
-    console.log(index)
    var delArray = this.state.topics.filter(t => t.text !== index);
     var topicnmbr = "T0"+index;
     var tobeDEL = JSON.stringify(delArray);
-    console.log("To be DELETED: " + JSON.stringify(delArray));
     await topicService.removeTopic(tobeDEL)
 }
 
 showQuestions = (event) => {
     const index = event.target.id;
     var profArray = this.state.topics.filter(t => t.text == index);
-    var optionValues = Object.values(profArray).map(option => option).filter(o => typeof o === 'object')
-    console.log(optionValues);
+    var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
+    if(this.state.questions.length > 0){
+      this.setState({ questions: []})
+    } else {
+        this.setState({ questions })
+    }
+}
 
+changeValue = (event ) => {
+  console.log(event.target.dataset.bame)
+  const key = event.target.dataset.bame
+  this.setState({ [event.target.name]: event.target.value, key})
+}
+
+saveChanges = (item) => {
+  console.log('clicked',item)
+  const values = this.state.key.split(":")
+  const updatedArray = this.state.questions.filter(q => q.text !== values[0])
+
+  const editedObject = {
+    text: values[0],
+    option1: { text: this.state.edit0 !=="" ? this.state.edit0 :  item.option1.text, value: 1},
+    option3: { text: this.state.edit1 !=="" ? this.state.edit1 : item.option3.text, value: 3},
+    option5: { text: this.state.edit2 !=="" ? this.state.edit2 : item.option5.text, value: 5}
+  }
+
+  this.setState({ questions : updatedArray.concat(editedObject),
+                  edit0: "", edit1: "", edit2: ""})
+}
+
+click = (event) => {
+  event.preventDefault()
+  console.log('item clicked, input name:', event.target.name)
 }
 //nyt delete toimii ihan mitensattuu tolla indexillä, eli filsuttaa topic.text avulla poistettu pois ja puskea jäljellejääneet topicsit kantaan
 //^ nyt toi näyttää toimivan ihan OK ?
@@ -55,45 +90,20 @@ showQuestions = (event) => {
         return (
             <div className="surveyContainer">
 
-                <h1>ASIANTUNTIJANTYÖKALU KOMPETENSSITYÖKALUN-AdminTyökalu</h1>
+                <h1>AdminTyökalu</h1>
             <div>
                 <form className="adminForm">
-                    <label>Ammatti ryhmä: </label>
+                    <label>Kompetenssi: </label>
                     <input type="text" id="ammattiRyhma" value={this.state.newProf} onChange={this.uusAmmatti}></input>
-
-
                 </form>
                 <button onClick={this.newProfToDB}>Lähetä</button>
             </div>
             <div>
                 <table>
-                    <tbody>
-                {this.state.topics.filter(t => t.text !== 'yleinen').map((topic, i) => (
-                <tr key={i} >
-                <td>{topic.text}</td>
-                <td>{i}</td>
-                <td>
-                    <button id={topic.text} onClick={this.deleteProf}>Delete</button>
-                </td>
-                <td>
-                    <button id={topic.text} onClick={this.showQuestions}>Edit</button>
-                </td>
-                </tr>
-                ))}
-                    </tbody>
+                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
+                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}/>
                 </table>
-
-                <p>Kyssärit: </p>
-              {this.optionValues != null &&
-                <fieldset>
-                    {this.optionValues.map((option, i) =>
-                      <label key={i}>
-                      {option.text}
-                      </label>
-                      )}
-                </fieldset>}
             </div>
-
             </div>
         )
     }

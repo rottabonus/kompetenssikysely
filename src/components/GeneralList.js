@@ -4,12 +4,12 @@ import jatka from '../img/PNG/jatka.png'
 
 const GeneralList = ({ topics, move, changeOption, answers, getChecked }) => {
 
-	console.log(answers)
+
+
 
 	return (
 		<div className="App">
 			<div className="surveyContainer">
-
 
 				<form onSubmit={(e) => move(e, 1)}>
 					{topics.map((t, i) =>
