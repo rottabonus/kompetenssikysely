@@ -156,7 +156,7 @@ newQuestiontoDB = (event) => {
                     <label>Ammatti ryhmä: </label>
                     <input type="text" id="ammattiRyhma" value={this.state.newProf} onChange={this.uusAmmatti}></input>
 
-                <input type="submit" onSubmit={this.newProfToDB} value="Lähetä"/>
+                <input type="submit" onClick={this.newProfToDB} value="Lähetä"/>
                 </form>
                 
             </div>
