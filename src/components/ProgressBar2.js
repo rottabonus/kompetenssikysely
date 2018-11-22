@@ -1,12 +1,12 @@
 import React from 'react';
-import prog1 from '../img/bar1.svg'
-import prog2 from '../img/bar2.svg'
-import prog3 from '../img/bar3.svg'
-import prog4 from '../img/bar4.svg'
-import prog5 from '../img/bar5.svg'
-import prog6 from '../img/bar6.svg'
-import prog7 from '../img/bar7.svg'
-import prog8 from '../img/bar8.svg'
+import prog1 from '../img/prog1.svg'
+import prog2 from '../img/prog2.svg'
+import prog3 from '../img/prog3.svg'
+import prog4 from '../img/prog4.svg'
+import prog5 from '../img/prog5.svg'
+import prog6 from '../img/prog6.svg'
+import prog7 from '../img/prog7.svg'
+import prog8 from '../img/prog8.svg'
 //vaiha img/bar --> img/prog
 
 const ProgressBar2 = ({src}) => {
