@@ -11,7 +11,7 @@ var config = {
     messagingSenderId: "22198431343"
   }
 */
-
+/* DEVAUS:
   var config = {
     apiKey: "AIzaSyDYnJ1qxhietDQ9X3F3fD0a1Aohli23DJc",
     authDomain: "surveydev2-a3cc7.firebaseapp.com",
@@ -19,7 +19,17 @@ var config = {
     projectId: "surveydev2-a3cc7",
     storageBucket: "surveydev2-a3cc7.appspot.com",
     messagingSenderId: "604182612489"
-  }
+  }*/
+
+  // TUOTANTO
+  var config = {
+    apiKey: "AIzaSyDS-MRiDe76I3ctfc90sXtZPcjXRzO48IA",
+    authDomain: "deploymentdb-eb155.firebaseapp.com",
+    databaseURL: "https://deploymentdb-eb155.firebaseio.com",
+    projectId: "deploymentdb-eb155",
+    storageBucket: "deploymentdb-eb155.appspot.com",
+    messagingSenderId: "901006585179"
+  };
 
 /*
 var config = {
