@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AdminTopicItem = ({ topic, iteration, click,changeValue, saveChanges, editQuestions }) => {
+const AdminTopicItem = ({ topic, iteration,changeValue, saveChanges, editQuestions }) => {
 
  const optionValues = Object.values(topic).map(option => option).filter(o => typeof o === 'object')
  //data-bame splitillä saada topic-text ja i 
