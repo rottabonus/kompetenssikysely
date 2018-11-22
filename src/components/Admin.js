@@ -24,14 +24,18 @@ class test extends Component {
         }
     }
 
- async componentDidMount() {
+async componentDidMount() {
      var topics;
     this.setState({topics : await topicService.getAll()});
     console.log(topics);
     console.log(JSON.stringify(this.state.topics));
   
 }   
- newProfToDB = (event) => {
+uusAmmatti = (event) => {
+    this.setState({newProf : event.target.value})
+}
+newProfToDB = async(event) => {
+    event.preventDefault();
    var i = this.state.topics.length + 1;
    console.log("tpoics pituus" + i)
    var topicnmbr = "T0"+i;
@@ -41,13 +45,13 @@ class test extends Component {
             text : this.state.newProf
     }
     console.log("Kohti kantaa ja sen yli..." + jsondata);
-    axios.put('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
+   await axios.put('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
       console.log(JSON.stringify(this.state.topics));
 }
 deleteProf = async (event) => {
     const index = event.target.id;
     console.log(index)
-   var delArray = this.state.topics.filter(t => t.text !== index);
+    var delArray = this.state.topics.filter(t => t.text !== index);
     var topicnmbr = "T0"+index;
     var tobeDEL = JSON.stringify(delArray);
     console.log("To be DELETED: " + JSON.stringify(delArray));
@@ -57,22 +61,29 @@ editQuestions = (event) => {
    //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
    //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
 }
+
 changeValue = (event) => {
     console.log(event.target.dataset.bame);
     var vaihtoehto = event.target.dataset.options.split(":");
     var splitText = event.target.dataset.bame.split(":")
-    var subsubtopic = event.target.dataset.iteration;
-    this.setState({quesnmb: parseInt(subsubtopic) + 1 });
-    console.log(this.state.quesnmb);
+    var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
+    if (subsubtopic < 10) {
+        this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });    
+    }
+    else {
+        this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+    }
+    
+    console.log("Question number is: "+ this.state.quesnmb)
     this.setState({text: splitText[0]})
     if (vaihtoehto[1] == 0){
-    this.setState({option1 : vaihtoehto})
+    this.setState({option1 : vaihtoehto[0]})
     }
     if (vaihtoehto[1] == 1){
-        this.setState({option3 : vaihtoehto})
+        this.setState({option3 : vaihtoehto[0]})
     }
     if (vaihtoehto[1] == 2){
-        this.setState({option5 : vaihtoehto})
+        this.setState({option5 : vaihtoehto[0]})
     }
 }
 showQuestions = (event) => {
@@ -80,7 +91,20 @@ showQuestions = (event) => {
     const index = event.target.id;
    var profArray = this.state.topics.filter(t => t.text == index);
    var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
+   if (questions.length === 0 ){
+       var subtopicnumber = "SST01";
+       this.setState({quesnmb : subtopicnumber});
+   } 
+        else if (questions.length > 10) {
+            var subtopicnumber = "SST" + parseInt(questions.length + 1);
+            this.setState({quesnmb : subtopicnumber});
+            }
+            else {
+                var subtopicnumber = "SST0" + parseInt(questions.length + 1);
+                this.setState({quesnmb : subtopicnumber});  
+            }
    console.log(profArray);
+   console.log(subtopicnumber);
    if(this.state.questions.length > 0){
      this.setState({ questions: []})
    } else {
@@ -98,21 +122,15 @@ showQuestions = (event) => {
     this.setState({topicnmb : key[0]});
         console.log("TopicNumero: " + this.state.topicnmb) 
    }
-   console.log("TestFunk says: " + key)
-/* tää rikkoo nyt for some reason, joku taas pitää vissiin saada toimimaan asyncillä orsutin?
-   this.setState({topicnmb : this.key[0]});
-   console.log("TopicNumero: " + this.state.topicnmb)
-*/
-this.setState({topicnmb : key[0]});
-console.log("TopicNumero: " + this.state.topicnmb)
 }
+
 inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
   };
 
 newQuestiontoDB = (event) => {
     var topicnmb = this.state.topicnmb;
-    var quesnmb = this.state.quesnmb; //tälle tehdä käsittelyä kattoo paljonko näitä on vai onko yhtään ja luoda SST[numero] tyylinen parsetus
+    var quesnmb = this.state.quesnmb;
     var option1 = this.state.option1;
     var option3 = this.state.option3;
     var option5 = this.state.option5;
@@ -138,27 +156,11 @@ newQuestiontoDB = (event) => {
                     <label>Ammatti ryhmä: </label>
                     <input type="text" id="ammattiRyhma" value={this.state.newProf} onChange={this.uusAmmatti}></input>
 
-
+                <input type="submit" onSubmit={this.newProfToDB} value="Lähetä"/>
                 </form>
-                <button onClick={this.newProfToDB}>Lähetä</button>
+                
             </div>
-            <div>{/*
-                <table>
-                    <tbody>
-                {this.state.topics.filter(t => t.text !== 'yleinen').map((topic, i) => (
-                <tr key={i} >
-                <td>{topic.text}</td>
-                <td>{i}</td>
-                <td>
-                    <button id={topic.text} onClick={this.deleteProf}>Delete</button>
-                </td>
-                <td>
-                    <button id={topic.text} onClick={this.showQuestions}>Edit</button>
-                </td>
-                </tr>
-                ))}
-                    </tbody>
-                </table>*/}
+            <div>
 
                 <p>Kyssärit: </p>
                 <table>

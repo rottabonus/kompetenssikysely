@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminTopicItem from './AdminTopicItem'
 
-const AdminList = ({ topics, deleteProf, showQuestions, questions, saveChanges, click, changeValue, editQuestions }) => {
+const AdminList = ({ topics, deleteProf, showQuestions, questions, saveChanges, changeValue, editQuestions }) => {
 
 
  if (topics.topic === questions.text ) {
@@ -17,7 +17,7 @@ const AdminList = ({ topics, deleteProf, showQuestions, questions, saveChanges, 
      ))}
 
      {questions.map((a, i) =>
-       <AdminTopicItem key={i} topic={a} iteration={i} click={click} saveChanges={saveChanges} changeValue={changeValue} 
+       <AdminTopicItem key={i} topic={a} iteration={i} saveChanges={saveChanges} changeValue={changeValue} 
        editQuestions={editQuestions}/>
        )}
 </tbody>
