@@ -53,21 +53,23 @@ class App extends React.Component {
 
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
-          const professionAnswers = await answerService.getAll()
+        const professionAnswers = await answerService.getAll()
 
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
         const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
         const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
         const profTopics = topics.filter(t => typeof t === 'object')
 
-        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics, feedback : await feedbackService.getAll() })
+        this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics, feedback: await feedbackService.getAll() })
     }
 
     changeOption = (event) => {
         const answerObj = {
             answer: event.target.name,
             value: event.target.dataset.aval,
-            topic: event.target.dataset.parent
+            topic: event.target.dataset.parent,
+            text: event.target.dataset.atext,
+            category: event.target.dataset.acat
         }
         const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
         this.setState({ answers: updatedAnswers.concat(answerObj) })
@@ -98,14 +100,14 @@ class App extends React.Component {
             let dateSet = new Date().toLocaleDateString('fi-FI')
             let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
             const dataObject = { Answers: answerSet, date: dateSet }
-                answers[topic] = dataObject
+            answers[topic] = dataObject
         })
-                await answerService.sendAnswers(answers)
-                  this.moveForwardProf()
+        await answerService.sendAnswers(answers)
+        this.moveForwardProf()
     }
 
     changeProfessions = (item) => {
-        const topicObject = { topic: item.text,subs: item.ST01 }
+        const topicObject = { topic: item.text, subs: item.ST01 }
         const selectedTopics = this.state.selectedTopics.map(topic => topic.topic)
         if (selectedTopics.includes(topicObject.topic)) {   // filteröidään pois topicit, jotka on jo valittu =>
             const updatedTopics = this.state.selectedTopics.filter(topic => topic.topic !== topicObject.topic) // kuń painetaan uudestaan - se lähtee pois statesta!!!
@@ -139,7 +141,7 @@ class App extends React.Component {
                 const tempArr = onlyAnswers.filter((answer) =>
                     element === answer.answer)
                 const valueArr = tempArr.map((a) => parseInt(a.value));
-                var avg = valueArr.reduce((previous, current) => current + previous, 0 ) / valueArr.length.toFixed(2)
+                var avg = (valueArr.reduce((previous, current) => current + previous, 0) / valueArr.length).toFixed(2)
                 answerAverages.push(avg);
                 return answerAverages;
             });
@@ -258,10 +260,11 @@ class App extends React.Component {
                     <div className="App">
                         <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <div className="summaryPageCharts">
-                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState} getGenTopics={this.getGenTopics} feedback={this.state.feedback} />
+                            <RadarChart answers={this.state.answers} moveForward={this.moveForward} selectedTopics={this.state.selectedTopics} surveyState={this.state.surveyState}
+                                getGenTopics={this.getGenTopics} feedback={this.state.feedback} />
                             <BarChart answers={this.state.answers} profAverages={this.state.profAverages} selectedTopics={this.state.selectedTopics} move={this.state.move}
-                                surveyState={this.state.surveyState} /></div>
-                        <Summary moveForward={this.moveForwardProf} />
+                                surveyState={this.state.surveyState} getGenTopics={this.getGenTopics} /></div>
+                        <Summary moveForward={this.moveForwardProf} feedback={this.state.feedback} />
                         <Footer />
                     </div>
                 )
