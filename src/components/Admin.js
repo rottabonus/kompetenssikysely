@@ -4,6 +4,7 @@ import axios from 'axios'
 import topics from '../services/topics';
 import Topic from './Topic';
 import AdminList from './AdminList';
+import fire from '../fire';
 import { func } from 'prop-types';
 
 class test extends Component {
@@ -30,7 +31,7 @@ class test extends Component {
     console.log(JSON.stringify(this.state.topics));
   
 }   
-newProfToDB = (event) => {
+ newProfToDB = (event) => {
    var i = this.state.topics.length + 1;
    console.log("tpoics pituus" + i)
    var topicnmbr = "T0"+i;
@@ -40,8 +41,8 @@ newProfToDB = (event) => {
             text : this.state.newProf
     }
     console.log("Kohti kantaa ja sen yli..." + jsondata);
-  await topicService.newTopic(jsondata, topicnmbr)
-    console.log(JSON.stringify(this.state.topics));
+    axios.put('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
+      console.log(JSON.stringify(this.state.topics));
 }
 deleteProf = async (event) => {
     const index = event.target.id;
@@ -124,7 +125,7 @@ newQuestiontoDB = (event) => {
         type : "radio"
     }
 
-    axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
+    axios.patch('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
 
 }
     render() {
