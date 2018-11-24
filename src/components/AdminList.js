@@ -17,7 +17,7 @@ const AdminList = ({ topics, deleteProf, showQuestions, questions, saveChanges, 
      ))}
 
      {questions.map((a, i) =>
-       <AdminTopicItem key={i} topic={a} iteration={i} saveChanges={saveChanges} changeValue={changeValue} 
+       <AdminTopicItem key={i} topic={a} iteration={i} saveChanges={saveChanges} changeValue={changeValue}
        editQuestions={editQuestions}/>
        )}
 </tbody>

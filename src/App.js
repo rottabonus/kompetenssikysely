@@ -29,7 +29,7 @@ class App extends React.Component {
             profTopics: [],
             feedback: [],
             answers: [],
-            surveyState: 0,
+            surveyState: 4,
             states: {
                 WelcomePage: 0,
                 General: 1,
@@ -53,8 +53,9 @@ class App extends React.Component {
 
     async componentDidMount() {
         const topics = await topicService.getAll() //haetaan tietokannan tiedot rest-urlista asynkronisesti ja asetetaan tilaan
-        const professionAnswers = await answerService.getAll()
+        const professionAnswersAll = await answerService.getAll()
 
+        const professionAnswers = professionAnswersAll.filter(t => typeof t === 'object')
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
         const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
         const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
@@ -93,16 +94,10 @@ class App extends React.Component {
 
     sendAnswers = async (event) => {
         event.preventDefault()
-        const answers = {}
-        const allTopics = this.state.answers.map(topic => topic.topic)
-        const uniqueAnswers = [...new Set(allTopics.map(a => a))] // Set on uusi JS ominaisuus, jolla voidaan luoda arraysta uusi versio jossa on vain uniikit arvot
-        uniqueAnswers.forEach((topic) => {
-            let dateSet = new Date().toLocaleDateString('fi-FI')
-            let answerSet = this.state.answers.filter(answers => answers.topic === topic).map(a => a = { answer: a.answer, value: a.value })
-            const dataObject = { Answers: answerSet, date: dateSet }
-            answers[topic] = dataObject
-        })
-        await answerService.sendAnswers(answers)
+          const dateSet = new Date().toLocaleDateString('fi-FI')
+            const answers = this.state.answers.map(a => a = { answer: a.answer, value: a.value, topic: a.topic, category: a.category })
+            const dataObject = { Answers: answers, date: dateSet }
+        await answerService.sendAnswers(dataObject)
         this.moveForwardProf()
     }
 
@@ -123,18 +118,16 @@ class App extends React.Component {
         const answerArray = []
         this.state.professionAnswers.forEach((answers) => { //jokainen alkio sisältää vastauslistan
             professions.forEach((profession, i) => {
-                if (answers[professions[i]]) {
-                    answerArray.push(answers[professions[i]]) //listaan lisätään kompetenssiin kuuluva vastauslista
-                }
+                const topicAnswers = answers.Answers.filter(answer => answer.topic === profession)
+                answerArray.push(topicAnswers)
             })
         })
         if (answerArray.length === 0) {
             const profAverages = { values: [], answers: [] }
-            window.alert('congratulations! You are the first answerer, please contact gay.fagala@felix.com for 1000 billion dollar!! $$$')
             this.setState({ profAverages })
             this.moveForwardProf()
         } else {
-            const onlyAnswers = answerArray.map(l => l.Answers).reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
+            const onlyAnswers = answerArray.reduce((a, b) => [...a, ...b]) // kaikki vastaukset valittuihin kompetensseihin
             const uniqueAnswers = [...new Set(onlyAnswers.map(a => a.answer))] //uniikit vastausnimet
             const answerAverages = []
             uniqueAnswers.forEach((element) => {
@@ -168,7 +161,7 @@ class App extends React.Component {
     }
 
     getGenTopics = () => {
-        return this.state.genTopics.map(a => a.text);
+     return this.state.genTopics.map(a => a.text);
     }
 
     render() {

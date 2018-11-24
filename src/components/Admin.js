@@ -29,8 +29,8 @@ async componentDidMount() {
     this.setState({topics : await topicService.getAll()});
     console.log(topics);
     console.log(JSON.stringify(this.state.topics));
-  
-}   
+
+}
 uusAmmatti = (event) => {
     this.setState({newProf : event.target.value})
 }
@@ -45,16 +45,16 @@ newProfToDB = async(event) => {
             text : this.state.newProf
     }
     console.log("Kohti kantaa ja sen yli..." + jsondata);
-   await axios.put('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmbr+".json", jsondata); 
+   await topicService.newTopic(topicnmbr, jsondata)
       console.log(JSON.stringify(this.state.topics));
 }
+
 deleteProf = async (event) => {
     const index = event.target.id;
     console.log(index)
     var delArray = this.state.topics.filter(t => t.text !== index);
     var topicnmbr = "T0"+index;
     var tobeDEL = JSON.stringify(delArray);
-    console.log("To be DELETED: " + JSON.stringify(delArray));
     await topicService.removeTopic(tobeDEL)
 }
 editQuestions = (event) => {
@@ -68,12 +68,12 @@ changeValue = (event) => {
     var splitText = event.target.dataset.bame.split(":")
     var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
     if (subsubtopic < 10) {
-        this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });    
+        this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
     }
     else {
         this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
-    
+
     console.log("Question number is: "+ this.state.quesnmb)
     this.setState({text: splitText[0]})
     if (vaihtoehto[1] == 0){
@@ -94,14 +94,14 @@ showQuestions = (event) => {
    if (questions.length === 0 ){
        var subtopicnumber = "SST01";
        this.setState({quesnmb : subtopicnumber});
-   } 
+   }
         else if (questions.length > 10) {
             var subtopicnumber = "SST" + parseInt(questions.length + 1);
             this.setState({quesnmb : subtopicnumber});
             }
             else {
                 var subtopicnumber = "SST0" + parseInt(questions.length + 1);
-                this.setState({quesnmb : subtopicnumber});  
+                this.setState({quesnmb : subtopicnumber});
             }
    console.log(profArray);
    console.log(subtopicnumber);
@@ -115,12 +115,12 @@ showQuestions = (event) => {
         var key =  Object.keys(snapshot.val()); //haetaan key firestä
         console.log(key);
         test(key);
-       
+
    })
 
    test = (key) => {
     this.setState({topicnmb : key[0]});
-        console.log("TopicNumero: " + this.state.topicnmb) 
+        console.log("TopicNumero: " + this.state.topicnmb)
    }
 }
 
@@ -144,21 +144,42 @@ newQuestiontoDB = (event) => {
     }
 
     axios.patch('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
-
 }
+
+saveChanges = (item) => {
+  console.log('clicked',item)
+  const values = this.state.key.split(":")
+  const updatedArray = this.state.questions.filter(q => q.text !== values[0])
+
+  const editedObject = {
+    text: values[0],
+    option1: { text: this.state.edit0 !=="" ? this.state.edit0 :  item.option1.text, value: 1},
+    option3: { text: this.state.edit1 !=="" ? this.state.edit1 : item.option3.text, value: 3},
+    option5: { text: this.state.edit2 !=="" ? this.state.edit2 : item.option5.text, value: 5}
+  }
+
+  this.setState({ questions : updatedArray.concat(editedObject),
+                  edit0: "", edit1: "", edit2: ""})
+}
+
+click = (event) => {
+  event.preventDefault()
+  console.log('item clicked, input name:', event.target.name)
+}
+
     render() {
         return (
             <div className="surveyContainer">
 
-                <h1>ASIANTUNTIJANTYÖKALU KOMPETENSSITYÖKALUN-AdminTyökalu</h1>
+                <h1>AdminTyökalu</h1>
             <div>
                 <form className="adminForm">
-                    <label>Ammatti ryhmä: </label>
+                    <label>Kompetenssi: </label>
                     <input type="text" id="ammattiRyhma" value={this.state.newProf} onChange={this.uusAmmatti}></input>
 
                 <input type="submit" onClick={this.newProfToDB} value="Lähetä"/>
                 </form>
-                
+
             </div>
             <div>
 
@@ -170,14 +191,13 @@ newQuestiontoDB = (event) => {
                </table>
                <form>
                    <label>Kysymys: </label> <input type="text" name="text" onChange={this.inputChanged} value={this.state.text} placeholder="Tähän siis kyssäri"></input> <br></br>
-                   <label>Vastausvaihtoehdot: </label> 
+                   <label>Vastausvaihtoehdot: </label>
                    <input type="text" name="option1" onChange={this.inputChanged} value={this.state.option1} placeholder="Tähän vaihtoehto 1."></input>
                    <input type="text" name="option3" onChange={this.inputChanged} value={this.state.option3} placeholder="Tähän vaihtoehto 3."></input>
-                   <input type="text" name="option5" onChange={this.inputChanged} value={this.state.option5} placeholder="Tähän vaihtoehto 5."></input> 
+                   <input type="text" name="option5" onChange={this.inputChanged} value={this.state.option5} placeholder="Tähän vaihtoehto 5."></input>
                </form>
                <button onClick={this.newQuestiontoDB}>Lähetä Kyssäri</button>
             </div>
-
             </div>
         )
     }
