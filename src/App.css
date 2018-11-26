@@ -48,6 +48,7 @@
     font-family: 'Arial';
     font-weight: bold;
     font-size: 15px;
+    border-radius: 3px 3px;
   }
    /*JATKA-nappula*/
   .buttonForward {
@@ -64,6 +65,7 @@
     font-family: 'Arial';
     font-weight: bold;
     font-size: 15px;
+    border-radius: 3px 3px;
   }
   /*TAKAISIN-nappula*/
   .buttonBackward {
@@ -80,6 +82,7 @@
     font-family: 'Arial';
     font-weight: bold;
     font-size: 15px;
+    border-radius: 3px 3px;
   }
    /*ASIANTUNTIJAN OSAAMINEN -intron tekstit*/
   .professionSelectionText {
@@ -89,10 +92,8 @@
     
   }
 
-   
-
   /*ASIANTUNTIJAN OSAAMINEN -intron checkbox*/
-  .professionSelection {
+  .professionSelectionCheckbox {
     text-align: left;
     margin-left: 70px;
     margin-bottom: 40px;
@@ -139,7 +140,9 @@
       align-items: left;
       display: flex;
       flex-direction: column;
-      border-style: solid;
+      border-top-style: solid;
+      border-left-style: solid;
+      border-right-style: solid;
       border-width: 0.5px;
       border-color: #DADADA;
       margin: 0 15% 0 15%;
@@ -310,7 +313,8 @@
     padding-right: 10px
   }
   .footer {
-    border-style: solid;
+    border-top-style: solid;
+    border-bottom-style: solid;
     border-width: 0.5px;
     border-color: #DADADA;
     background-color: white;
@@ -325,6 +329,20 @@
   .hhlogo {
     align-self: flex-end;
     width: 20%;
+  }
+  .stnlogo {
+    align-self: flex-end;
+    width: 20%;
+  }
+  .footer-img {
+    height:48px;
+  }
+  .social-links {
+    margin:auto;
+  }
+  .summaryPrint {
+    display: inline-flex;
+    margin-top: 33px;
   }
   .adminList {
     display: block;
@@ -348,8 +366,6 @@
     a[href]:after {
       content: none;
     }
-
-  
 
     .barContainer {
       display: none;
@@ -382,5 +398,8 @@
 
     .reviewtext {
       text-align: left;
+    }
+    .footer {
+      display: none
     }
   }
