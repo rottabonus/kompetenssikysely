@@ -265,7 +265,7 @@ class App extends React.Component {
             case this.state.states.IMPROV: {
                 return (
                     <div className="App">
-                        <Header />
+                        <Header surveyState={this.state.surveyState} states={this.state.states} />
                         <Improvement answers={this.state.answers} />
                         <Footer />
                     </div>

@@ -57,6 +57,10 @@ console.log(progress)
               ? <img src={prog8}></img>
               :null
             }
+            { src == 8
+              ? <img src={prog8}></img>
+              :null
+            }
             </div>
           );
         }
