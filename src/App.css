@@ -306,6 +306,29 @@
     align-self: flex-end;
     width: 20%;
   }
+  .adminList {
+    display: block;
+  }
+  .adminTable {
+    display: inline-block;
+    align-content: center;
+    margin: 10px 10px 10px 10px;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .adminTable td, .adminTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  .adminTable tr:nth-child(even){background-color: #f2f2f2;}
+  .adminTable tr:hover {background-color: #ddd;}
+  .adminTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
   /*tulostus asettelut tähän*/
   @media print {
     a[href]:after {
