@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AdminTopicItem = ({ topic, iteration,changeValue, saveChanges, editQuestions }) => {
+const AdminTopicItem = ({ topic, iteration,changeValue, deleteQuestion, saveChanges, editQuestions }) => {
 
  const optionValues = Object.values(topic).map(option => option).filter(o => typeof o === 'object')
  //data-bame splitillä saada topic-text ja i
@@ -13,6 +13,7 @@ const AdminTopicItem = ({ topic, iteration,changeValue, saveChanges, editQuestio
      onClick={(e) => changeValue(e)} /></td>)}
 <button onClick={()=> saveChanges(topic)}>save</button>
 <button onClick={(e) => editQuestions(e)}>Edit</button>
+<button id={iteration} data-iteration={topic.text + ":" + iteration} onClick={(e) => deleteQuestion(e)}>Delete</button>
    </tr>
  )
 }
