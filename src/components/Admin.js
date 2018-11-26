@@ -59,15 +59,22 @@ deleteProf = async (event) => {
     await topicService.removeTopic(tobeDEL)
     this.setState({topics: await topicService.getAll()});
 }
-editQuestions = (event) => {
+editQuestions = async (event) => {
     console.log(event.target.dataset.options)
     console.log(event.target.dataset.topic);
+    this.setState({text: event.target.dataset.topic});
     var vaihtoehto = event.target.dataset.options.split(":");
     console.log(vaihtoehto)
-    console.log("Question number is: "+ this.state.quesnmb)
-    this.setState({text: event.target.dataset.topic});
+    var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
+    if (subsubtopic < 10) {
+        await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
+    }
+    else {
+        await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+    }
+    console.log("Question number is: "+ this.state.quesnmb)//set quesnmb nyt vaan seuraava vapaa
     if (vaihtoehto[1] == 0){
-    this.setState({option1 : vaihtoehto[0]})
+        this.setState({option1 : vaihtoehto[0]})
     }
     if (vaihtoehto[3] == 1){
         this.setState({option3 : vaihtoehto[2].substring(1)})
@@ -176,24 +183,8 @@ newQuestiontoDB = async (event) => {
         text : text,
         type : "radio"
     }
-
+    console.log("TopicNMBR: " + topicnmb + "Question nmbr: " + quesnmb + "<br>eruih"+ tobeUpdated)
     axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
-}
-
-saveChanges = (item) => {
-  console.log('clicked',item)
-  const values = this.state.key.split(":")
-  const updatedArray = this.state.questions.filter(q => q.text !== values[0])
-
-  const editedObject = {
-    text: values[0],
-    option1: { text: this.state.edit0 !=="" ? this.state.edit0 :  item.option1.text, value: 1},
-    option3: { text: this.state.edit1 !=="" ? this.state.edit1 : item.option3.text, value: 3},
-    option5: { text: this.state.edit2 !=="" ? this.state.edit2 : item.option5.text, value: 5}
-  }
-
-  this.setState({ questions : updatedArray.concat(editedObject),
-                  edit0: "", edit1: "", edit2: ""})
 }
 
 click = (event) => {

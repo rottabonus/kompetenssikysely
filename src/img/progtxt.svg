@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="prog1.svg">
+   sodipodi:docname="progtxt.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="378.92963"
-     inkscape:cy="154.72926"
+     inkscape:zoom="2.8"
+     inkscape:cx="253.55205"
+     inkscape:cy="83.4299"
      inkscape:document-units="mm"
      inkscape:current-layer="g6369"
      showgrid="true"
@@ -52,7 +52,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,7 +61,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-18.989941,-46.969967)"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#dadada;fill-opacity:1;stroke-width:20;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
        id="path4521"
