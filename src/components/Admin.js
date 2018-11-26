@@ -45,7 +45,8 @@ newProfToDB = async(event) => {
             text : this.state.newProf
     }
     console.log("Kohti kantaa ja sen yli..." + jsondata);
-   await topicService.newTopic(topicnmbr, jsondata)
+   await topicService.newTopic(jsondata, topicnmbr)
+   this.setState({topics: await topicService.getAll()});
       console.log(JSON.stringify(this.state.topics));
 }
 
@@ -56,6 +57,7 @@ deleteProf = async (event) => {
     var topicnmbr = "T0"+index;
     var tobeDEL = JSON.stringify(delArray);
     await topicService.removeTopic(tobeDEL)
+    this.setState({topics: await topicService.getAll()});
 }
 editQuestions = (event) => {
    //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
@@ -95,7 +97,7 @@ showQuestions = (event) => {
        var subtopicnumber = "SST01";
        this.setState({quesnmb : subtopicnumber});
    }
-        else if (questions.length > 10) {
+        else if (questions.length > 10) {   
             var subtopicnumber = "SST" + parseInt(questions.length + 1);
             this.setState({quesnmb : subtopicnumber});
             }
@@ -128,6 +130,23 @@ inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
   };
 
+deleteQuestion = (event, iteration) => {
+    var topicnmb = this.state.topicnmb;
+    console.log(event.target.dataset.iteration);
+    var subsubtopicIteration = event.target.dataset.iteration.split(":");
+    console.log(subsubtopicIteration);
+    var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
+    if (subsubtopic < 10) {
+        this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
+    }
+    else {
+        this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+    }
+    var topicnmb = this.state.topicnmb;
+    console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb)
+    //axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json')
+};
+
 newQuestiontoDB = (event) => {
     var topicnmb = this.state.topicnmb;
     var quesnmb = this.state.quesnmb;
@@ -143,7 +162,7 @@ newQuestiontoDB = (event) => {
         type : "radio"
     }
 
-    axios.patch('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
+    axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
 }
 
 saveChanges = (item) => {
@@ -187,7 +206,7 @@ click = (event) => {
                 <table>
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
-                   editQuestions={this.editQuestions}/>
+                   editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
                </table>
                <form>
                    <label>Kysymys: </label> <input type="text" name="text" onChange={this.inputChanged} value={this.state.text} placeholder="Tähän siis kyssäri"></input> <br></br>
