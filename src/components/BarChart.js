@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import jatka from '../img/PNG/jatka.png';
 import Chart from 'chart.js';
 
 class BarChart extends Component {
@@ -52,19 +51,28 @@ class BarChart extends Component {
             var data = {
                 labels: answerKeys, //tähän kyssärit db:stä
                 datasets: [{
-                    "label": "Minun Kompetenssini",
+                    "label": "Omat kompetenssini",
                     "yAxisID": "A",
                     "backgroundColor": "rgba(0, 159, 227, 0.2)",
                     "data": myData, //tähän käyttäjän vastaukset db:stä
-                    "borderWidth": "2",
+                    "borderWidth": "1.5",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
                 }, {
-                    "label": "Kompetenssi keskiarvo",
+                    /* 
+                      "label": "Vastaajien keskiarvo",
+                       "yAxisID": "A",
+                       "backgroundColor": "rgba(255, 255, 255, 1)",
+                       "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
+                       "borderWidth": "2.5",
+                       "borderColor": "rgba(0, 0, 0, 1.0)", 
+                       */
+
+                    "label": "Vastaajien keskiarvo",
                     "yAxisID": "A",
-                    "backgroundColor": "rgba(249, 176, 0, 0.6)",
+                    "backgroundColor": "rgba(230, 0, 126, 0.2)",
                     "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
-                    "borderWidth": "3",
-                    "borderColor": "rgba(255, 80, 0, 1.0)",
+                    "borderWidth": "1.5",
+                    "borderColor": "rgba(230, 0, 126, 1.0)",
                 }]
             }
             // Chartin asetukset
@@ -127,7 +135,7 @@ class BarChart extends Component {
     render() {
 
         let rows = this.props.answers.map((item, index) => item.category === "ammatti" && (item.value === "1" || item.value === "5") ?
-            <p key={index}>Kohtaan <b>{item.answer}</b> vastasit "{item.text}"</p>
+            <p key={index}><b>{item.answer}:</b> {item.value} {item.text}</p>
             : null
         )
 
@@ -136,17 +144,20 @@ class BarChart extends Component {
                 <div className="barChartContainer">
                     {this.state.canvases.map((canvas) =>
                         <canvas class="barCanvas" id={canvas} key={canvas}></canvas>)}<p></p>
-                    <div className="professionSelectionText">{rows}</div>
-                    {this.props.surveyState !== 6
-                        ? <div>
-                            <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button>
-                            <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
-                        </div>
-                        : null
-
-                    }
-
                 </div>
+                <div className="palaute">
+                    <div className="reviewtext">{rows}</div>
+                </div>
+                {this.props.surveyState !== 6
+                    ? <div>
+                        <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button>
+                        <button className="buttonForward" onClick={(e) => this.props.move(e, 1)}>Jatka</button>
+                    </div>
+                    : null
+
+                }
+
+
             </div>
         );
     }
