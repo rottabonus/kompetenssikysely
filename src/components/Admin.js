@@ -59,8 +59,24 @@ deleteProf = async (event) => {
     this.setState({topics: await topicService.getAll()});
 }
 editQuestions = (event) => {
-   //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
-   //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
+    console.log(event.target.dataset.options)
+    console.log(event.target.dataset.topic);
+    var vaihtoehto = event.target.dataset.options.split(":");
+    console.log(vaihtoehto)
+    console.log("Question number is: "+ this.state.quesnmb)
+    this.setState({text: event.target.dataset.topic});
+    if (vaihtoehto[1] == 0){
+    this.setState({option1 : vaihtoehto[0]})
+    }
+    if (vaihtoehto[3] == 1){
+        this.setState({option3 : vaihtoehto[2].substring(1)})
+    }
+    if (vaihtoehto[5] == 2){
+        this.setState({option5 : vaihtoehto[4].substring(1)})
+    }
+    
+    //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
+    //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
 }
 
 changeValue = (event) => {

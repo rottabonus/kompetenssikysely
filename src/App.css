@@ -3,6 +3,11 @@
   font-family: 'Roboto', sans-serif;
   src: url('https://fonts.googleapis.com/css?family=Roboto:400,900" rel="stylesheet');
 }
+.adminTable {
+  display: inline-block;
+  align-content: center;
+  margin: 10px 10px 10px 10px;
+}
 /* YLEINEN FONTTI */
 .body, div {
   font-family: 'Roboto', sans-serif;
