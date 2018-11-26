@@ -25,10 +25,9 @@ class test extends Component {
     }
 
 async componentDidMount() {
-     var topics;
     this.setState({topics : await topicService.getAll()});
-    console.log(topics);
-    console.log(JSON.stringify(this.state.topics));
+    //console.log(topics);
+    //console.log(JSON.stringify(this.state.topics));
 
 }
 uusAmmatti = (event) => {
@@ -37,17 +36,17 @@ uusAmmatti = (event) => {
 newProfToDB = async(event) => {
     event.preventDefault();
    var i = this.state.topics.length + 1;
-   console.log("tpoics pituus" + i)
+   //console.log("tpoics pituus" + i)
    var topicnmbr = "T0"+i;
    var jsondata = {
             category : "ammatti",
             ST01 : "",
             text : this.state.newProf
     }
-    console.log("Kohti kantaa ja sen yli..." + jsondata);
+    //console.log("Kohti kantaa ja sen yli..." + jsondata);
    await topicService.newTopic(jsondata, topicnmbr)
    this.setState({topics: await topicService.getAll()});
-      console.log(JSON.stringify(this.state.topics));
+      //console.log(JSON.stringify(this.state.topics));
 }
 
 deleteProf = async (event) => {
@@ -81,7 +80,7 @@ editQuestions = (event) => {
 }
 
 changeValue = (event) => {
-    console.log(event.target.dataset.bame);
+    //console.log(event.target.dataset.bame);
     var vaihtoehto = event.target.dataset.options.split(":");
     var splitText = event.target.dataset.bame.split(":")
     var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
@@ -92,7 +91,7 @@ changeValue = (event) => {
         this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
 
-    console.log("Question number is: "+ this.state.quesnmb)
+    //console.log("Question number is: "+ this.state.quesnmb)
     this.setState({text: splitText[0]})
     if (vaihtoehto[1] == 0){
     this.setState({option1 : vaihtoehto[0]})
@@ -146,23 +145,24 @@ inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
   };
 
-deleteQuestion =  async (event) => {
+deleteQuestion = async (event) => {
     console.log(event.target.dataset.iteration);
     var subsubtopicIteration = event.target.dataset.iteration.split(":");
     console.log(subsubtopicIteration);
     var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
     if (subsubtopic < 10) {
-       await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
+        await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
     }
     else {
-       await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+        await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
-    console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb)
-    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json')
-    
+    console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb);
+    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
+    this.setState({topics: await topicService.getAll()});
 };
 
 newQuestiontoDB = async (event) => {
+    event.preventDefault();
     var topicnmb = this.state.topicnmb;
     var quesnmb = this.state.quesnmb;
     var option1 = this.state.option1;
@@ -178,6 +178,7 @@ newQuestiontoDB = async (event) => {
     }
 
     axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
+    this.setState({topics: await topicService.getAll()});
 }
 
 saveChanges = (item) => {
@@ -218,7 +219,7 @@ click = (event) => {
             <div>
 
                 <p>Kyssärit: </p>
-                <table>
+                <table class ="adminTable">
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
                    editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
@@ -229,8 +230,8 @@ click = (event) => {
                    <input type="text" name="option1" onChange={this.inputChanged} value={this.state.option1} placeholder="Tähän vaihtoehto 1."></input>
                    <input type="text" name="option3" onChange={this.inputChanged} value={this.state.option3} placeholder="Tähän vaihtoehto 3."></input>
                    <input type="text" name="option5" onChange={this.inputChanged} value={this.state.option5} placeholder="Tähän vaihtoehto 5."></input>
+                   <button type="submit" onClick={this.newQuestiontoDB}>Lähetä Kyssäri</button>
                </form>
-               <button onClick={this.newQuestiontoDB}>Lähetä Kyssäri</button>
             </div>
             </div>
         )
