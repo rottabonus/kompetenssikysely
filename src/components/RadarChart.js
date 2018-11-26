@@ -94,13 +94,13 @@ class RadarChart extends Component {
       for(i = 0; i < high.length; i++){
         var helper = helpertext.High.filter((a) => a.name == high[i].answer)
         for (b = 0; b < helper.length; b++){
-          rows1.push(<p key={b}><span className="bold">{helper[b].name}, </span>{helper[b].text}</p>)
+          rows1.push(<p key={b}><span className="bold">{helper[b].name}: </span>{helper[b].text}</p>)
         }
       }
       for(i = 0; i < low.length; i++){
         var helper = helpertext.Low.filter((a) => a.name == low[i].answer)
         for (x = 0; x < helper.length; x++){
-          rows2.push(<p key={x}><span className="bold">{helper[x].name}, </span>{helper[x].text}</p>)
+          rows2.push(<p key={x}><span className="bold">{helper[x].name} </span></p>)
         }
       }
      this.setState({rows1 : rows1})
@@ -115,7 +115,7 @@ class RadarChart extends Component {
         <div id="palaute">
         { this.state.rows1.length > 0
               ? <div className="reviewtext">
-                  <h3 className="aligncenter">Itsearviosi perusteella osaamisesi on vahvalla tasolla seuraavissa: </h3>
+                  <h3 className="reviewtextH3">Itsearviosi perusteella osaamisesi on vahvalla tasolla seuraavissa </h3>
                   {this.state.rows1}
                 </div>
               : null
@@ -123,7 +123,7 @@ class RadarChart extends Component {
 
             { this.state.rows2.length > 0
               ? <div className="reviewtext">
-                  <h3 className="aligncenter">Kehittääksesi osaamistasi sinun kannattaa huomioida: </h3>
+                  <h3 className="reviewtextH3">Kehittääksesi osaamistasi sinun kannattaa huomioida </h3>
                   {this.state.rows2}
                 </div>
               : null

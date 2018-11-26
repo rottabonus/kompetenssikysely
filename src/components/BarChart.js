@@ -52,14 +52,14 @@ class BarChart extends Component {
             var data = {
                 labels: answerKeys, //tähän kyssärit db:stä
                 datasets: [{
-                    "label": "Minun Kompetenssini",
+                    "label": "Omat Kompetenssini",
                     "yAxisID": "A",
                     "backgroundColor": "rgba(0, 159, 227, 0.2)",
                     "data": myData, //tähän käyttäjän vastaukset db:stä
                     "borderWidth": "2",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
                 }, {
-                    "label": "Kompetenssi keskiarvo",
+                    "label": "Vastaajien keskiarvo",
                     "yAxisID": "A",
                     "backgroundColor": "rgba(249, 176, 0, 0.6)",
                     "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
@@ -136,7 +136,10 @@ class BarChart extends Component {
                 <div className="barChartContainer">
                     {this.state.canvases.map((canvas) =>
                         <canvas class="barCanvas" id={canvas} key={canvas}></canvas>)}<p></p>
-                    <div className="professionSelectionText">{rows}</div>
+                   </div>
+                    <div className="palaute">
+                    <div className="reviewtext">{rows}</div>
+                    </div>
                     {this.props.surveyState !== 6
                         ? <div>
                             <button className="buttonBackward" onClick={(e) => this.props.move(e, -1)}>Takaisin</button>
@@ -146,7 +149,7 @@ class BarChart extends Component {
 
                     }
 
-                </div>
+                
             </div>
         );
     }

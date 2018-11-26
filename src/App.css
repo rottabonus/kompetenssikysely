@@ -86,7 +86,11 @@
     text-align: left;
     margin-left: 50px;
     margin-bottom: 40px;
+    
   }
+
+   
+
   /*ASIANTUNTIJAN OSAAMINEN -intron checkbox*/
   .professionSelection {
     text-align: left;
@@ -223,6 +227,10 @@
     margin-right: auto;
   }
 
+  .reviewtextH3{
+    font-size: 16px;
+  }
+
   .radarChartContainer {
     width: 60%;
     height: auto;
@@ -281,10 +289,12 @@
   }
   .palaute {
     display: block;
-    text-align: center;
+    text-align: left;
   }
   .reviewtext {
-    text-align: center;
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: left;
   }
   img {
     padding-right: 10px
@@ -311,6 +321,8 @@
     a[href]:after {
       content: none;
     }
+
+  
 
     .barContainer {
       display: none;
@@ -342,6 +354,6 @@
     }
 
     .reviewtext {
-      text-align: center;
+      text-align: left;
     }
   }

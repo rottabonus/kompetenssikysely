@@ -57,8 +57,8 @@ class App extends React.Component {
 
         const professionAnswers = professionAnswersAll.filter(t => typeof t === 'object')
         const filterGeneral = topics.filter(t => t.category === 'yleinen' && typeof t === 'object')
-        const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Yleiset tiedot')
-        const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Yleiset tiedot')
+        const genTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text !== 'Vastaajan taustatiedot')
+        const genGenTopics = Object.values(filterGeneral[0]).map(t => t).filter(t => typeof t === 'object' && t.text === 'Vastaajan taustatiedot')
         const profTopics = topics.filter(t => typeof t === 'object')
 
         this.setState({ professionAnswers, genTopics, genGenTopics, profTopics, topics, feedback: await feedbackService.getAll() })
