@@ -60,8 +60,24 @@ deleteProf = async (event) => {
     this.setState({topics: await topicService.getAll()});
 }
 editQuestions = (event) => {
-   //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
-   //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
+    console.log(event.target.dataset.options)
+    console.log(event.target.dataset.topic);
+    var vaihtoehto = event.target.dataset.options.split(":");
+    console.log(vaihtoehto)
+    console.log("Question number is: "+ this.state.quesnmb)
+    this.setState({text: event.target.dataset.topic});
+    if (vaihtoehto[1] == 0){
+    this.setState({option1 : vaihtoehto[0]})
+    }
+    if (vaihtoehto[3] == 1){
+        this.setState({option3 : vaihtoehto[2].substring(1)})
+    }
+    if (vaihtoehto[5] == 2){
+        this.setState({option5 : vaihtoehto[4].substring(1)})
+    }
+    
+    //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
+    //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
 }
 
 changeValue = (event) => {
@@ -130,24 +146,23 @@ inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
   };
 
-deleteQuestion = (event, iteration) => {
-    var topicnmb = this.state.topicnmb;
+deleteQuestion =  async (event) => {
     console.log(event.target.dataset.iteration);
     var subsubtopicIteration = event.target.dataset.iteration.split(":");
     console.log(subsubtopicIteration);
     var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
     if (subsubtopic < 10) {
-        this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
+       await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
     }
     else {
-        this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+       await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
-    var topicnmb = this.state.topicnmb;
     console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb)
-    //axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json')
+    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json')
+    
 };
 
-newQuestiontoDB = (event) => {
+newQuestiontoDB = async (event) => {
     var topicnmb = this.state.topicnmb;
     var quesnmb = this.state.quesnmb;
     var option1 = this.state.option1;
@@ -162,7 +177,7 @@ newQuestiontoDB = (event) => {
         type : "radio"
     }
 
-    axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
+    axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
 }
 
 saveChanges = (item) => {
