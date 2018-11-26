@@ -3,11 +3,6 @@
   font-family: 'Roboto', sans-serif;
   src: url('https://fonts.googleapis.com/css?family=Roboto:400,900" rel="stylesheet');
 }
-.adminTable {
-  display: inline-block;
-  align-content: center;
-  margin: 10px 10px 10px 10px;
-}
 /* YLEINEN FONTTI */
 .body, div {
   font-family: 'Roboto', sans-serif;
@@ -327,13 +322,7 @@
   }
   .adminTable tr:nth-child(even){background-color: #f2f2f2;}
   .adminTable tr:hover {background-color: #ddd;}
-  .adminTable th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-  }
+  
   /*tulostus asettelut tähän*/
   @media print {
     a[href]:after {
