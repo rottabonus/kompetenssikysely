@@ -25,10 +25,9 @@ class test extends Component {
     }
 
 async componentDidMount() {
-     var topics;
     this.setState({topics : await topicService.getAll()});
-    console.log(topics);
-    console.log(JSON.stringify(this.state.topics));
+    //console.log(topics);
+    //console.log(JSON.stringify(this.state.topics));
 
 }
 uusAmmatti = (event) => {
@@ -37,16 +36,17 @@ uusAmmatti = (event) => {
 newProfToDB = async(event) => {
     event.preventDefault();
    var i = this.state.topics.length + 1;
-   console.log("tpoics pituus" + i)
+   //console.log("tpoics pituus" + i)
    var topicnmbr = "T0"+i;
    var jsondata = {
             category : "ammatti",
             ST01 : "",
             text : this.state.newProf
     }
-    console.log("Kohti kantaa ja sen yli..." + jsondata);
-   await topicService.newTopic(topicnmbr, jsondata)
-      console.log(JSON.stringify(this.state.topics));
+    //console.log("Kohti kantaa ja sen yli..." + jsondata);
+   await topicService.newTopic(jsondata, topicnmbr)
+   this.setState({topics: await topicService.getAll()});
+      //console.log(JSON.stringify(this.state.topics));
 }
 
 deleteProf = async (event) => {
@@ -56,14 +56,38 @@ deleteProf = async (event) => {
     var topicnmbr = "T0"+index;
     var tobeDEL = JSON.stringify(delArray);
     await topicService.removeTopic(tobeDEL)
+    this.setState({topics: await topicService.getAll()});
 }
-editQuestions = (event) => {
-   //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
-   //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
+editQuestions = async (event) => {
+    console.log(event.target.dataset.options)
+    console.log(event.target.dataset.topic);
+    this.setState({text: event.target.dataset.topic});
+    var vaihtoehto = event.target.dataset.options.split(":");
+    console.log(vaihtoehto)
+    var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
+    if (subsubtopic < 10) {
+        await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
+    }
+    else {
+        await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+    }
+    console.log("Question number is: "+ this.state.quesnmb)//set quesnmb nyt vaan seuraava vapaa
+    if (vaihtoehto[1] == 0){
+        this.setState({option1 : vaihtoehto[0]})
+    }
+    if (vaihtoehto[3] == 1){
+        this.setState({option3 : vaihtoehto[2].substring(1)})
+    }
+    if (vaihtoehto[5] == 2){
+        this.setState({option5 : vaihtoehto[4].substring(1)})
+    }
+    
+    //alkuperänen plääni tehä tällä kerralla kaikki toi mitä tapahtuu changeValuessa,
+    //ei saanu datasettiä skulaa koska ylläri ku on inputissa kiinni ni ei oikee liiku enempää dataa esim kaikista kerral
 }
 
 changeValue = (event) => {
-    console.log(event.target.dataset.bame);
+    //console.log(event.target.dataset.bame);
     var vaihtoehto = event.target.dataset.options.split(":");
     var splitText = event.target.dataset.bame.split(":")
     var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
@@ -74,7 +98,7 @@ changeValue = (event) => {
         this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
 
-    console.log("Question number is: "+ this.state.quesnmb)
+    //console.log("Question number is: "+ this.state.quesnmb)
     this.setState({text: splitText[0]})
     if (vaihtoehto[1] == 0){
     this.setState({option1 : vaihtoehto[0]})
@@ -95,7 +119,7 @@ showQuestions = (event) => {
        var subtopicnumber = "SST01";
        this.setState({quesnmb : subtopicnumber});
    }
-        else if (questions.length > 10) {
+        else if (questions.length > 10) {   
             var subtopicnumber = "SST" + parseInt(questions.length + 1);
             this.setState({quesnmb : subtopicnumber});
             }
@@ -128,7 +152,24 @@ inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
   };
 
-newQuestiontoDB = (event) => {
+deleteQuestion = async (event) => {
+    console.log(event.target.dataset.iteration);
+    var subsubtopicIteration = event.target.dataset.iteration.split(":");
+    console.log(subsubtopicIteration);
+    var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
+    if (subsubtopic < 10) {
+        await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
+    }
+    else {
+        await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
+    }
+    console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb);
+    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
+    this.setState({topics: await topicService.getAll()});
+};
+
+newQuestiontoDB = async (event) => {
+    event.preventDefault();
     var topicnmb = this.state.topicnmb;
     var quesnmb = this.state.quesnmb;
     var option1 = this.state.option1;
@@ -142,24 +183,9 @@ newQuestiontoDB = (event) => {
         text : text,
         type : "radio"
     }
-
-    axios.patch('https://surveydev2-a3cc7.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated)
-}
-
-saveChanges = (item) => {
-  console.log('clicked',item)
-  const values = this.state.key.split(":")
-  const updatedArray = this.state.questions.filter(q => q.text !== values[0])
-
-  const editedObject = {
-    text: values[0],
-    option1: { text: this.state.edit0 !=="" ? this.state.edit0 :  item.option1.text, value: 1},
-    option3: { text: this.state.edit1 !=="" ? this.state.edit1 : item.option3.text, value: 3},
-    option5: { text: this.state.edit2 !=="" ? this.state.edit2 : item.option5.text, value: 5}
-  }
-
-  this.setState({ questions : updatedArray.concat(editedObject),
-                  edit0: "", edit1: "", edit2: ""})
+    console.log("TopicNMBR: " + topicnmb + "Question nmbr: " + quesnmb + "<br>eruih"+ tobeUpdated)
+    axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
+    this.setState({topics: await topicService.getAll()});
 }
 
 click = (event) => {
@@ -184,10 +210,10 @@ click = (event) => {
             <div>
 
                 <p>Kyssärit: </p>
-                <table>
+                <table class ="adminTable">
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
-                   editQuestions={this.editQuestions}/>
+                   editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
                </table>
                <form>
                    <label>Kysymys: </label> <input type="text" name="text" onChange={this.inputChanged} value={this.state.text} placeholder="Tähän siis kyssäri"></input> <br></br>
@@ -195,8 +221,8 @@ click = (event) => {
                    <input type="text" name="option1" onChange={this.inputChanged} value={this.state.option1} placeholder="Tähän vaihtoehto 1."></input>
                    <input type="text" name="option3" onChange={this.inputChanged} value={this.state.option3} placeholder="Tähän vaihtoehto 3."></input>
                    <input type="text" name="option5" onChange={this.inputChanged} value={this.state.option5} placeholder="Tähän vaihtoehto 5."></input>
+                   <button type="submit" onClick={this.newQuestiontoDB}>Lähetä Kyssäri</button>
                </form>
-               <button onClick={this.newQuestiontoDB}>Lähetä Kyssäri</button>
             </div>
             </div>
         )
