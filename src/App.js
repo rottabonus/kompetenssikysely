@@ -29,7 +29,7 @@ class App extends React.Component {
             profTopics: [],
             feedback: [],
             answers: [],
-            surveyState: 0,
+            surveyState: 4,
             states: {
                 WelcomePage: 0,
                 General: 1,
@@ -72,16 +72,25 @@ class App extends React.Component {
             text: event.target.dataset.atext,
             category: event.target.dataset.acat
         }
-        const updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
-        this.setState({ answers: updatedAnswers.concat(answerObj) })
+        let updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
+        const duplicateAnswersOnDifferentTopics = this.state.answers.filter(answer => answerObj.answer === answer.answer && answerObj.topic !== answer.topic)
+        if(duplicateAnswersOnDifferentTopics.length > 0){
+          if(duplicateAnswersOnDifferentTopics[0].topic !== answerObj.topic){
+            const duplicateAnswers = duplicateAnswersOnDifferentTopics.concat(answerObj)
+            this.setState({ answers: updatedAnswers.concat(duplicateAnswers) })
+          }
+    } else {
+      this.setState({ answers: updatedAnswers.concat(answerObj) })
     }
 
-    getChecked = (x, item) => {
+  }
+
+    getChecked = (x, item, parent) => {
         if (x === 'basic') {
             const found = this.state.answers.filter(a => a.value === item)
             return found.length === 1
         } else {
-            const filterAnswers = this.state.answers.filter(a => a.answer === x)
+            const filterAnswers = this.state.answers.filter(a => a.answer === x && a.topic === parent)
             const found = filterAnswers.filter(a => parseInt(a.value) === item)
             return found.length === 1
         }
