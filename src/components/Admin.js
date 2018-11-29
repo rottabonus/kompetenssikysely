@@ -110,8 +110,8 @@ changeValue = (event) => {
         this.setState({option5 : vaihtoehto[0]})
     }
 }
-showQuestions = (event) => {
-    var key = [];
+showQuestions = async (event) => {
+    var key = "";
     const index = event.target.id;
    var profArray = this.state.topics.filter(t => t.text == index);
    var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
@@ -134,39 +134,44 @@ showQuestions = (event) => {
    } else {
        this.setState({ questions })
    }
-   fire.database().ref('/topics/').orderByChild('text').equalTo(index).on('value', function(snapshot, key) {
+  await fire.database().ref('/topics/').orderByChild('text').equalTo(index).once('value', function(snapshot) {
        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
-        var key =  Object.keys(snapshot.val()); //haetaan key firestä
+        key =  Object.keys(snapshot.val()); //haetaan key firestä
         console.log(key);
-        test(key);
+        return key;
 
    })
 
-   test = (key) => {
-    this.setState({topicnmb : key[0]});
+    this.setState({topicnmb : key});
         console.log("TopicNumero: " + this.state.topicnmb)
-   }
+   
 }
 
 inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
   };
 
+
 deleteQuestion = async (event) => {
+    var quesKey = "";
     console.log(event.target.dataset.iteration);
     var subsubtopicIteration = event.target.dataset.iteration.split(":");
-    console.log(subsubtopicIteration); //tälllä [0] ottaa Object.keys ni poisto toimii varmemmin?
-    var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
-    if (subsubtopic < 10) {
-        await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
-    }
-    else {
-        await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
-    }
+    console.log(subsubtopicIteration[0]); //tälllä [0] ottaa Object.keys ni poisto toimii varmemmin?
+    
+   await fire.database().ref('/topics/' + this.state.topicnmb + '/ST01/').orderByChild('text').equalTo(subsubtopicIteration[0]).once('value', function(snapshot) {
+        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
+            quesKey = Object.keys(snapshot.val()); //haetaan key firestä
+            console.log("Inside Firebase: "+quesKey);
+            return quesKey;
+    })
+    console.log("Outside Firebase Once: "+ quesKey);
+    this.setState({quesnmb : quesKey});
+    
     console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb);
-   // axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
-    this.setState({topics: await topicService.getAll()});
+    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
+    //this.setState({topics: await topicService.getAll()});
 };
+
 
 newQuestiontoDB = async (event) => {
     event.preventDefault();
