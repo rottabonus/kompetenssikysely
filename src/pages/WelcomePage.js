@@ -23,10 +23,10 @@ class WelcomePage extends Component {
                             <b>B. ASIANTUNTIJAN OSAAMINEN</b>, joista voit yhden tai useamman.<br />
                         </p></div>
                     </div>
-                    <br></br><p>Kompetenssityökalu on toteutettu osana Taidot Työhön –hanketta, jota on rahoittanut Strategisen tutkimuksen neuvosto vuosina 2016-2019. Haaga-Helia ammattikorkeakoulu ylläpitää kompetenssi työkalua ja siihen liittyviä nettisivuja.</p>
+                    <br></br><p>Kompetenssityökalu on toteutettu osana Taidot Työhön –hanketta, jota on rahoittanut Strategisen tutkimuksen neuvosto vuosina 2016-2019. Haaga-Helia ammattikorkeakoulu ylläpitää työkalua ja siihen liittyviä nettisivuja.</p>
                 </div>
 
-                <button className="buttonBegin" onClick={(e) =>this.props.moveForward(e, 1)}>Aloita kysely</button>
+                <button className="buttonBegin" onClick={(e) => this.props.moveForward(e, 1)}>Aloita kysely</button>
 
             </div>
         )
