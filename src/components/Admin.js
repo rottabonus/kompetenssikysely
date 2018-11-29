@@ -37,7 +37,7 @@ newProfToDB = async(event) => {
     event.preventDefault();
    var i = this.state.topics.length + 1;
    //console.log("tpoics pituus" + i)
-   var topicnmbr = "T0"+i;
+   var topicnmbr = 'T0' + i;
    var jsondata = {
             category : "ammatti",
             ST01 : {
@@ -170,7 +170,7 @@ showQuestions = async (event) => {
 
 inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
-  };
+};
 
 
 deleteQuestion = async (event) => {
