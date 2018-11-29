@@ -39,8 +39,10 @@ newProfToDB = async(event) => {
    //console.log("tpoics pituus" + i)
    var topicnmbr = 'T0' + i;
    var jsondata = {
-            category : 'ammatti',
-            ST01 : '',
+            category : "ammatti",
+            ST01 : {
+                text: this.state.newProf
+            },
             text : this.state.newProf
     }
     //console.log("Kohti kantaa ja sen yli..." + jsondata);
@@ -107,36 +109,63 @@ changeValue = (event) => {
 }
 showQuestions = async (event) => {
     var key = "";
+    var quesKey = "";
     const index = event.target.id;
     var profArray = this.state.topics.filter(t => t.text == index);
     var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
-
+    await fire.database().ref('/topics/').orderByChild('text').equalTo(index).once('value', function(snapshot) {
+        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
+         key =  Object.keys(snapshot.val()); //haetaan key firestä
+         console.log(key);
+         return key;
+ 
+     })
+ 
+     this.setState({topicnmb : key});
     if (questions.length === 0 ){
        var subtopicnumber = "SST01";
        this.setState({quesnmb : subtopicnumber});
-    }
-    else if (questions.length > 10) {   
-        var subtopicnumber = "SST" + parseInt(questions.length + 1);
-        this.setState({quesnmb : subtopicnumber});
-    }
-    else {
-        var subtopicnumber = "SST0" + parseInt(questions.length + 1);
-        this.setState({quesnmb : subtopicnumber});
-    }
+    }//tää on iha infernaalinen ifelsetys... ei pysty sellittää
+        else if (questions.length > 0 || questions.length < 10) {   
+        
+            await fire.database().ref('/topics/' + this.state.topicnmb + '/ST01/').orderByChild('text').once('value', function(snapshot) {
+                console.log("Question Keys: "+ JSON.stringify(snapshot.val()));
+                    quesKey = Object.keys(snapshot.val()); //haetaan key firestä
+                    console.log(quesKey.length);
+                    return quesKey;
+            })
+            if (quesKey.length === 2) {
+                var i = quesKey.length - 2;
+            } else {
+                var i = quesKey.length - 2;
+            }
+            console.log(i)
+            var splitSST = quesKey[i].split("T");
+            var indexNumber = parseInt(splitSST[1]) + 1; 
+            var subtopicnumber = "SST0" + indexNumber;
+            this.setState({quesnmb : subtopicnumber});
+            }
+            else {
+                await fire.database().ref('/topics/' + this.state.topicnmb + '/ST01/').orderByChild('text').once('value', function(snapshot) {
+                    console.log("Question Keys: "+ JSON.stringify(snapshot.val()));
+                        quesKey = Object.keys(snapshot.val()); //haetaan key firestä
+                        console.log(quesKey);
+                        return quesKey;
+                })
+                var i = quesKey.length - 2;
+                console.log(i)
+                var splitSST = quesKey[i].split("T");
+                var indexNumber = parseInt(splitSST[1]) + 1; 
+                var subtopicnumber = "SST" + indexNumber;
+                console.log("SST"+subtopicnumber)
+                this.setState({quesnmb : subtopicnumber});
+            }
     if(this.state.questions.length > 0){
         this.setState({ questions: []})
-    } else {
-        this.setState({ questions })
+    }       else {
+                this.setState({ questions })
     }
-
-    await fire.database().ref('/topics/').orderByChild('text').equalTo(index).once('value', function(snapshot) {
-        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
-        key =  Object.keys(snapshot.val()); //haetaan key firestä
-        console.log(key);
-        return key;
-    })
-
-    this.setState({topicnmb : key}); 
+    
 }
 
 inputChanged = (event) => {
@@ -176,6 +205,7 @@ newQuestiontoDB = async (event) => {
         text : text,
         type : "radio"
     }
+    console.log("Päivittyvä kyssäri: "+topicnmb + quesnmb)
     axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
     this.setState({topics: await topicService.getAll()});
 }
