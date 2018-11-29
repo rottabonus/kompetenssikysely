@@ -139,7 +139,7 @@
   /**/
   .barContainer {
       align-items: left;
-      display: flex;
+      display: block;
       flex-direction: column;
       border-top-style: solid;
       border-left-style: solid;
@@ -326,9 +326,9 @@
     border-bottom-style: solid;
     border-width: 0.5px;
     border-color: #DADADA;
+    margin-top: 40px;
     background-color: white;
     bottom: 0;
-    position: fixed;
   }
   .footerImgDiv {
     display: flex;
