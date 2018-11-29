@@ -7,7 +7,7 @@ import AdminList from './AdminList';
 import fire from '../fire';
 import { func } from 'prop-types';
 
-class test extends Component {
+class Admin extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -111,7 +111,6 @@ changeValue = (event) => {
     }
 }
 showQuestions = (event) => {
-    var key = [];
     const index = event.target.id;
    var profArray = this.state.topics.filter(t => t.text == index);
    var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
@@ -134,7 +133,7 @@ showQuestions = (event) => {
    } else {
        this.setState({ questions })
    }
-   fire.database().ref('/topics/').orderByChild('text').equalTo(index).on('value', function(snapshot, key) {
+   fire.database().ref('/topics/').orderByChild('text').equalTo(index).on('value', function(snapshot) {
        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
         var key =  Object.keys(snapshot.val()); //haetaan key firestä
         console.log(key);
@@ -210,7 +209,7 @@ click = (event) => {
             <div>
 
                 <p>Kyssärit: </p>
-                <table class ="adminTable">
+                <table className="adminTable">
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
                    editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
@@ -229,4 +228,4 @@ click = (event) => {
     }
 }
 
-export default test;
+export default Admin;

@@ -11,7 +11,9 @@ const AdminList = ({ topics, deleteProf, showQuestions, questions, deleteQuestio
      <tr key={i} >
      <td>{topic.text}</td>
      <td>{i}</td>
-     <td><button id={topic.text} onClick={deleteProf}>Delete</button></td>
+     <td><button id={topic.text} onClick={(e) =>
+      window.confirm('Are you sure you want to delete this item?') &&
+      deleteProf(e)}>Delete</button></td>
      <td><button id={topic.text} onClick={showQuestions}>Edit</button></td>
      </tr>
      ))}
@@ -30,7 +32,9 @@ const AdminList = ({ topics, deleteProf, showQuestions, questions, deleteQuestio
    <tr key={i} >
    <td>{topic.text}</td>
    <td>{i}</td>
-   <td><button id={topic.text} onClick={deleteProf}>Delete</button></td>
+   <td><button id={topic.text} onClick={(e) =>
+      window.confirm('Are you sure you want to delete this item?') &&
+      deleteProf}>Delete</button></td>
    <td><button id={topic.text} onClick={showQuestions}>Edit</button></td>
    </tr>
    ))}

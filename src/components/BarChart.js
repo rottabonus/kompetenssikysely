@@ -143,7 +143,7 @@ class BarChart extends Component {
             <div className="surveyContainer">
                 <div className="barChartContainer">
                     {this.state.canvases.map((canvas) =>
-                        <canvas class="barCanvas" id={canvas} key={canvas}></canvas>)}<p></p>
+                        <canvas className="barCanvas" id={canvas} key={canvas}></canvas>)}<p></p>
                 </div>
                 <div className="palaute">
                     <div className="reviewtext">{rows}</div>
