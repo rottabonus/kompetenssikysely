@@ -65,8 +65,11 @@ class App extends React.Component {
     }
 
     changeOption = (event) => {
+
+        const name = event.target.name.split("*")
+
         const answerObj = {
-            answer: event.target.name,
+            answer: name[0],
             value: event.target.dataset.aval,
             topic: event.target.dataset.parent,
             text: event.target.dataset.atext,
@@ -86,7 +89,13 @@ class App extends React.Component {
   }
 
     getChecked = (x, item, parent) => {
-            const filterAnswers = this.state.answers.filter(a => a.answer === x && a.topic === parent)
+      console.log(x, item, parent)
+      let name = ''
+      if(x.includes("*")){
+       name = x.split("*")
+      }
+      const result = name === '' ? x : name[0]
+            const filterAnswers = this.state.answers.filter(a => a.answer === result && a.topic === parent)
             const found = filterAnswers.filter(a => parseInt(a.value) === item)
             return found.length === 1
     }
