@@ -9,7 +9,7 @@
 }
 .App {
     text-align: center;
-    min-height: 870px;
+    min-height: 800px;
     background-image: url("./img/PNG/raita.png");
     background-repeat: repeat-y;
     background-position: 93% 50%;
@@ -296,6 +296,7 @@
     text-align: left;
     margin-left: 50px;
     margin-bottom: 40px;
+    margin-right: 50px;
   }
   .improvText {
     text-align: left;
