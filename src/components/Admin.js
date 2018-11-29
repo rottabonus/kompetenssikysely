@@ -155,7 +155,7 @@ inputChanged = (event) => {
 deleteQuestion = async (event) => {
     console.log(event.target.dataset.iteration);
     var subsubtopicIteration = event.target.dataset.iteration.split(":");
-    console.log(subsubtopicIteration);
+    console.log(subsubtopicIteration); //tälllä [0] ottaa Object.keys ni poisto toimii varmemmin?
     var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
     if (subsubtopic < 10) {
         await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
@@ -164,7 +164,7 @@ deleteQuestion = async (event) => {
         await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
     console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb);
-    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
+   // axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
     this.setState({topics: await topicService.getAll()});
 };
 

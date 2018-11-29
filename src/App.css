@@ -313,12 +313,14 @@
     padding-right: 10px
   }
   .footer {
+    width: 100%;
     border-top-style: solid;
     border-bottom-style: solid;
     border-width: 0.5px;
     border-color: #DADADA;
     background-color: white;
-    margin-top: 33px;
+    bottom: 0;
+    position: fixed;
   }
   .footerImgDiv {
     display: flex;

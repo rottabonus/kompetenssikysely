@@ -29,7 +29,7 @@ class App extends React.Component {
             profTopics: [],
             feedback: [],
             answers: [],
-            surveyState: 4,
+            surveyState: 0,
             states: {
                 WelcomePage: 0,
                 General: 1,
