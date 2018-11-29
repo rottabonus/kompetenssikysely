@@ -293,6 +293,12 @@
     margin-left: 50px;
     margin-bottom: 40px;
   }
+  .improvText {
+    text-align: left;
+    margin-left: 50px;
+    margin-bottom: 40px;
+    margin-right: 50px;
+  }
   .welcomePageTextDiv  {
     display:flex;
     flex-direction: row;
