@@ -11,12 +11,10 @@ import prog8 from '../img/prog8.svg'
 
 const ProgressBar2 = ({src}) => {
 var src2 = src + 1;
-var kuva = "../img/prog" + src2 + '.svg';
-var kuva2 = "prog" + src2;
 var imglist = [prog1, prog2, prog3, prog4, prog5, prog6, prog7, prog8];
 var progress;
 imglist.forEach(element => {
-  if ("prog" + src2 == element){
+  if ("prog" + src2 === element){
     progress = element
     return progress;
   }
@@ -25,40 +23,40 @@ console.log(progress)
 
           return (
             <div className="bar">
-            { src == 0
-              ?<img src={prog1}></img>
+            { src === 0
+              ?<img src={prog1} alt=""></img>
               :null
             }
-            { src == 1
-              ? <img src={prog2}></img>
+            { src === 1
+              ? <img src={prog2} alt=""></img>
               :null
             }
-            { src == 2
-              ? <img src={prog3}></img>
+            { src ===2
+              ? <img src={prog3} alt=""></img>
               :null
             }
-            { src == 3
-              ? <img src={prog4}></img>
+            { src === 3
+              ? <img src={prog4} alt=""></img>
               :null
             }
-            { src == 4
-              ? <img src={prog5}></img>
+            { src === 4
+              ? <img src={prog5} alt=""></img>
               :null
             }
-            { src == 5
-              ? <img src={prog6}></img>
+            { src === 5
+              ? <img src={prog6} alt=""></img>
               :null
             }
-            { src == 6
-              ? <img src={prog7}></img>
+            { src === 6
+              ? <img src={prog7} alt=""></img>
               :null
             }
-            { src == 7
-              ? <img src={prog8}></img>
+            { src === 7
+              ? <img src={prog7} alt=""></img>
               :null
             }
-            { src == 8
-              ? <img src={prog8}></img>
+            { src === 8
+              ? <img src={prog8} alt=""></img>
               :null
             }
             </div>
