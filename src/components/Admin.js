@@ -37,10 +37,10 @@ newProfToDB = async(event) => {
     event.preventDefault();
    var i = this.state.topics.length + 1;
    //console.log("tpoics pituus" + i)
-   var topicnmbr = "T0"+i;
+   var topicnmbr = 'T0' + i;
    var jsondata = {
-            category : "ammatti",
-            ST01 : "",
+            category : 'ammatti',
+            ST01 : '',
             text : this.state.newProf
     }
     //console.log("Kohti kantaa ja sen yli..." + jsondata);
@@ -108,40 +108,40 @@ changeValue = (event) => {
 showQuestions = async (event) => {
     var key = "";
     const index = event.target.id;
-   var profArray = this.state.topics.filter(t => t.text == index);
-   var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
-   if (questions.length === 0 ){
+    var profArray = this.state.topics.filter(t => t.text == index);
+    var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
+
+    if (questions.length === 0 ){
        var subtopicnumber = "SST01";
        this.setState({quesnmb : subtopicnumber});
-   }
-        else if (questions.length > 10) {   
-            var subtopicnumber = "SST" + parseInt(questions.length + 1);
-            this.setState({quesnmb : subtopicnumber});
-            }
-            else {
-                var subtopicnumber = "SST0" + parseInt(questions.length + 1);
-                this.setState({quesnmb : subtopicnumber});
-            }
-   if(this.state.questions.length > 0){
-     this.setState({ questions: []})
-   } else {
-       this.setState({ questions })
-   }
-  await fire.database().ref('/topics/').orderByChild('text').equalTo(index).once('value', function(snapshot) {
-       console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
+    }
+    else if (questions.length > 10) {   
+        var subtopicnumber = "SST" + parseInt(questions.length + 1);
+        this.setState({quesnmb : subtopicnumber});
+    }
+    else {
+        var subtopicnumber = "SST0" + parseInt(questions.length + 1);
+        this.setState({quesnmb : subtopicnumber});
+    }
+    if(this.state.questions.length > 0){
+        this.setState({ questions: []})
+    } else {
+        this.setState({ questions })
+    }
+
+    await fire.database().ref('/topics/').orderByChild('text').equalTo(index).once('value', function(snapshot) {
+        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
         key =  Object.keys(snapshot.val()); //haetaan key firestä
         console.log(key);
         return key;
+    })
 
-   })
-
-    this.setState({topicnmb : key});
-   
+    this.setState({topicnmb : key}); 
 }
 
 inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
-  };
+};
 
 
 deleteQuestion = async (event) => {
