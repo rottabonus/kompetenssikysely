@@ -25,7 +25,7 @@ class App extends React.Component {
             profTopics: [],
             feedback: [],
             answers: [],
-            surveyState: 8,
+            surveyState: 0,
             states: {
                 WelcomePage: 0,
                 General: 1,
@@ -73,27 +73,27 @@ class App extends React.Component {
         }
         let updatedAnswers = this.state.answers.filter(answer => answerObj.answer !== answer.answer)
         const duplicateAnswersOnDifferentTopics = this.state.answers.filter(answer => answerObj.answer === answer.answer && answerObj.topic !== answer.topic)
-        if(duplicateAnswersOnDifferentTopics.length > 0){
-          if(duplicateAnswersOnDifferentTopics[0].topic !== answerObj.topic){
-            const duplicateAnswers = duplicateAnswersOnDifferentTopics.concat(answerObj)
-            this.setState({ answers: updatedAnswers.concat(duplicateAnswers) })
-          }
-    } else {
-      this.setState({ answers: updatedAnswers.concat(answerObj) })
+        if (duplicateAnswersOnDifferentTopics.length > 0) {
+            if (duplicateAnswersOnDifferentTopics[0].topic !== answerObj.topic) {
+                const duplicateAnswers = duplicateAnswersOnDifferentTopics.concat(answerObj)
+                this.setState({ answers: updatedAnswers.concat(duplicateAnswers) })
+            }
+        } else {
+            this.setState({ answers: updatedAnswers.concat(answerObj) })
+        }
+
     }
 
-  }
-
     getChecked = (x, item, parent) => {
-      console.log(x, item, parent)
-      let name = ''
-      if(x.includes("*")){
-       name = x.split("*")
-      }
-      const result = name === '' ? x : name[0]
-            const filterAnswers = this.state.answers.filter(a => a.answer === result && a.topic === parent)
-            const found = filterAnswers.filter(a => parseInt(a.value) === item)
-            return found.length === 1
+        console.log(x, item, parent)
+        let name = ''
+        if (x.includes("*")) {
+            name = x.split("*")
+        }
+        const result = name === '' ? x : name[0]
+        const filterAnswers = this.state.answers.filter(a => a.answer === result && a.topic === parent)
+        const found = filterAnswers.filter(a => parseInt(a.value) === item)
+        return found.length === 1
     }
 
     getSelected = (x) => {
@@ -103,9 +103,9 @@ class App extends React.Component {
 
     sendAnswers = async (event) => {
         event.preventDefault()
-          const dateSet = new Date().toLocaleDateString('fi-FI')
-            const answers = this.state.answers.map(a => a = { answer: a.answer, value: a.value, topic: a.topic, category: a.category })
-            const dataObject = { Answers: answers, date: dateSet }
+        const dateSet = new Date().toLocaleDateString('fi-FI')
+        const answers = this.state.answers.map(a => a = { answer: a.answer, value: a.value, topic: a.topic, category: a.category })
+        const dataObject = { Answers: answers, date: dateSet }
         await answerService.sendAnswers(dataObject)
         this.moveForwardProf()
     }
@@ -170,7 +170,7 @@ class App extends React.Component {
     }
 
     getGenTopics = () => {
-     return this.state.genTopics.map(a => a.text);
+        return this.state.genTopics.map(a => a.text);
     }
 
     render() {

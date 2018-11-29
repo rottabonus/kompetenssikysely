@@ -139,7 +139,7 @@
   /**/
   .barContainer {
       align-items: left;
-      display: flex;
+      display: block;
       flex-direction: column;
       border-top-style: solid;
       border-left-style: solid;

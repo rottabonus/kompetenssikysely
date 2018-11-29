@@ -58,15 +58,6 @@ class BarChart extends Component {
                     "borderWidth": "1.5",
                     "borderColor": "rgba(0, 159, 227, 1.0)",
                 }, {
-                    /* 
-                      "label": "Vastaajien keskiarvo",
-                       "yAxisID": "A",
-                       "backgroundColor": "rgba(255, 255, 255, 1)",
-                       "data": avgData, //tähän keskiarvo db:stä, tietty sama amatiryhma kun vastaajalla
-                       "borderWidth": "2.5",
-                       "borderColor": "rgba(0, 0, 0, 1.0)", 
-                       */
-
                     "label": "Vastaajien keskiarvo",
                     "yAxisID": "A",
                     "backgroundColor": "rgba(230, 0, 126, 0.2)",
@@ -133,8 +124,8 @@ class BarChart extends Component {
     }
 
     render() {
-
-        let rows = this.props.answers.map((item, index) => item.category === "ammatti" && (item.value === "1" || item.value === "5") ?
+        let sortedAnswers = this.props.answers.map((a) => a).sort((a, b) => a.value - b.value).reverse();
+        let rows = sortedAnswers.map((item, index) => item.category === "ammatti" && (item.value === "1" || item.value === "5") ?
             <p key={index}><b>{item.answer}:</b> {item.value} {item.text}</p>
             : null
         )
@@ -143,7 +134,7 @@ class BarChart extends Component {
             <div className="surveyContainer">
                 <div className="barChartContainer">
                     {this.state.canvases.map((canvas) =>
-                        <canvas class="barCanvas" id={canvas} key={canvas}></canvas>)}<p></p>
+                        <div><canvas class="barCanvas" id={canvas} key={canvas}></canvas></div>)}<p></p>
                 </div>
                 <div className="palaute">
                     <div className="reviewtext">{rows}</div>
