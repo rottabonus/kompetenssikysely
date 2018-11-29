@@ -86,14 +86,9 @@ class App extends React.Component {
   }
 
     getChecked = (x, item, parent) => {
-        if (x === 'basic') {
-            const found = this.state.answers.filter(a => a.value === item)
-            return found.length === 1
-        } else {
             const filterAnswers = this.state.answers.filter(a => a.answer === x && a.topic === parent)
             const found = filterAnswers.filter(a => parseInt(a.value) === item)
             return found.length === 1
-        }
     }
 
     getSelected = (x) => {

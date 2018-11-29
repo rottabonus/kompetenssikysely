@@ -8,7 +8,7 @@ const GeneralTopicItem = ({ option, changeOption, parent, get }) => {
 			<div className="topicItemContainer">
 				<div>
 					<p className="topicItemHeader">{option.text}</p></div><fieldset>
-					{options.map((o, i) => <label className="topicItemOptions" key={i}><input type="radio" name={option.text} data-atext={option.text} data-acat={"yleinen"} data-aval={o.value} data-parent={parent} checked={get(option.text, o.value)} onChange={changeOption} required /><span className="checkmark"></span>{o.text}</label>)}
+					{options.map((o, i) => <label className="topicItemOptions" key={i}><input type="radio" name={option.text} data-atext={option.text} data-acat={"yleinen"} data-aval={o.value} data-parent={parent} checked={get(option.text, o.value, parent)} onChange={changeOption} required /><span className="checkmark"></span>{o.text}</label>)}
 				</fieldset>
 			</div>)
 }
