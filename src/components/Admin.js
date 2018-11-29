@@ -7,7 +7,7 @@ import AdminList from './AdminList';
 import fire from '../fire';
 import { func } from 'prop-types';
 
-class test extends Component {
+class Admin extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -215,7 +215,7 @@ click = (event) => {
             <div>
 
                 <p>Kyssärit: </p>
-                <table class ="adminTable">
+                <table className="adminTable">
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
                    editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
@@ -234,4 +234,4 @@ click = (event) => {
     }
 }
 
-export default test;
+export default Admin;

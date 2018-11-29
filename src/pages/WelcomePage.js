@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import jatka from '../img/PNG/jatka.png';
 import palkki from '../img/PNG/palkki.png'
 
 class WelcomePage extends Component {

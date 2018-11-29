@@ -127,6 +127,7 @@
     margin: 0% 15% 0% 15%;
     padding-bottom: 40px;
     background-color: rgba(255, 255, 255, 0.719);
+    border-radius: 0px 0px 5px 5px;
   }
 
 /* Luo validointi-merkin checkboxiin*/
@@ -147,6 +148,7 @@
       border-color: #DADADA;
       margin: 0 15% 0 15%;
       background-color: white;
+      border-radius: 5px 5px 0px 0px;
   }
   /*Kategorian otsikko*/
   .topicContainer h2 {

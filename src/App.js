@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import fire from './fire';
 import List from './components/List';
 import SelectProfession from './components/SelectProfession';
 import BarChart from './components/BarChart';
@@ -13,9 +12,6 @@ import answerService from './services/answers';
 import feedbackService from './services/feedback'
 import RadarChart from './components/RadarChart';
 import Summary from './components/Summary';
-import backGround from './img/PNG/raita.png';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import test from './components/test';
 import Improvement from './components/Improvement';
 
 class App extends React.Component {
