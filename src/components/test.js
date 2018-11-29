@@ -44,9 +44,9 @@ class test extends Component {
               //firebase.auth.PhoneAuthProvider.PROVIDER_ID
             ],
             // Terms of service url.
-            tosUrl: '<your-tos-url>',
+            //tosUrl: '<your-tos-url>',
             // Privacy policy url.
-            privacyPolicyUrl: '<your-privacy-policy-url>'
+            //privacyPolicyUrl: '<your-privacy-policy-url>'
           };
 
             // The start method will wait until the DOM is loaded.
@@ -55,18 +55,9 @@ class test extends Component {
     render() {
         return (
             <div className="surveyContainer">
-                <h1>Welcome to My Awesome App</h1>
+                <h1>Admin Login</h1>
                 <div id="firebaseui-auth-container"></div>
                 <div id="loader">Loading...</div>
-
-                <h1>ASIANTUNTIJAN KOMPETENSSITYÖKALU-admin</h1>
-                    <ul>
-                    <li>Tänne siis admin asiaa</li>
-                    <li>Tämä endpoint muuttaa "/admin", joka tarjoo login pagen</li>
-                    <li>Login menee authUI setillä ehkä....?</li>
-                    <li>SignIn authUI tänne tai fire.js filuun?</li>
-                    <li>Sit joku formitus.......</li>
-                    </ul>
             </div>
         )
     }

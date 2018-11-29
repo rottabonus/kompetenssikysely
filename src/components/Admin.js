@@ -7,7 +7,7 @@ import AdminList from './AdminList';
 import fire from '../fire';
 import { func } from 'prop-types';
 
-class test extends Component {
+class Admin extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -37,10 +37,12 @@ newProfToDB = async(event) => {
     event.preventDefault();
    var i = this.state.topics.length + 1;
    //console.log("tpoics pituus" + i)
-   var topicnmbr = "T0"+i;
+   var topicnmbr = 'T0' + i;
    var jsondata = {
             category : "ammatti",
-            ST01 : "",
+            ST01 : {
+                text: this.state.newProf
+            },
             text : this.state.newProf
     }
     //console.log("Kohti kantaa ja sen yli..." + jsondata);
@@ -51,7 +53,6 @@ newProfToDB = async(event) => {
 
 deleteProf = async (event) => {
     const index = event.target.id;
-    console.log(index)
     var delArray = this.state.topics.filter(t => t.text !== index);
     var topicnmbr = "T0"+index;
     var tobeDEL = JSON.stringify(delArray);
@@ -59,11 +60,8 @@ deleteProf = async (event) => {
     this.setState({topics: await topicService.getAll()});
 }
 editQuestions = async (event) => {
-    console.log(event.target.dataset.options)
-    console.log(event.target.dataset.topic);
     this.setState({text: event.target.dataset.topic});
     var vaihtoehto = event.target.dataset.options.split(":");
-    console.log(vaihtoehto)
     var subsubtopic = parseInt(event.target.dataset.iteration) + 1;
     if (subsubtopic < 10) {
         await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
@@ -71,7 +69,6 @@ editQuestions = async (event) => {
     else {
         await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
     }
-    console.log("Question number is: "+ this.state.quesnmb)//set quesnmb nyt vaan seuraava vapaa
     if (vaihtoehto[1] == 0){
         this.setState({option1 : vaihtoehto[0]})
     }
@@ -110,63 +107,88 @@ changeValue = (event) => {
         this.setState({option5 : vaihtoehto[0]})
     }
 }
-showQuestions = (event) => {
-    var key = [];
+showQuestions = async (event) => {
+    var key = "";
+    var quesKey = "";
     const index = event.target.id;
-   var profArray = this.state.topics.filter(t => t.text == index);
-   var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
-   if (questions.length === 0 ){
+    var profArray = this.state.topics.filter(t => t.text == index);
+    var questions = Object.values(profArray[0].ST01).map(option => option).filter(o => typeof o === 'object')
+    await fire.database().ref('/topics/').orderByChild('text').equalTo(index).once('value', function(snapshot) {
+        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
+         key =  Object.keys(snapshot.val()); //haetaan key firestä
+         console.log(key);
+         return key;
+ 
+     })
+ 
+     this.setState({topicnmb : key});
+    if (questions.length === 0 ){
        var subtopicnumber = "SST01";
        this.setState({quesnmb : subtopicnumber});
-   }
-        else if (questions.length > 10) {   
-            var subtopicnumber = "SST" + parseInt(questions.length + 1);
+    }//tää on iha infernaalinen ifelsetys... ei pysty sellittää
+        else if (questions.length > 0 || questions.length < 10) {   
+        
+            await fire.database().ref('/topics/' + this.state.topicnmb + '/ST01/').orderByChild('text').once('value', function(snapshot) {
+                console.log("Question Keys: "+ JSON.stringify(snapshot.val()));
+                    quesKey = Object.keys(snapshot.val()); //haetaan key firestä
+                    console.log(quesKey.length);
+                    return quesKey;
+            })
+            if (quesKey.length === 2) {
+                var i = quesKey.length - 2;
+            } else {
+                var i = quesKey.length - 2;
+            }
+            console.log(i)
+            var splitSST = quesKey[i].split("T");
+            var indexNumber = parseInt(splitSST[1]) + 1; 
+            var subtopicnumber = "SST0" + indexNumber;
             this.setState({quesnmb : subtopicnumber});
             }
             else {
-                var subtopicnumber = "SST0" + parseInt(questions.length + 1);
+                await fire.database().ref('/topics/' + this.state.topicnmb + '/ST01/').orderByChild('text').once('value', function(snapshot) {
+                    console.log("Question Keys: "+ JSON.stringify(snapshot.val()));
+                        quesKey = Object.keys(snapshot.val()); //haetaan key firestä
+                        console.log(quesKey);
+                        return quesKey;
+                })
+                var i = quesKey.length - 2;
+                console.log(i)
+                var splitSST = quesKey[i].split("T");
+                var indexNumber = parseInt(splitSST[1]) + 1; 
+                var subtopicnumber = "SST" + indexNumber;
+                console.log("SST"+subtopicnumber)
                 this.setState({quesnmb : subtopicnumber});
             }
-   console.log(profArray);
-   console.log(subtopicnumber);
-   if(this.state.questions.length > 0){
-     this.setState({ questions: []})
-   } else {
-       this.setState({ questions })
-   }
-   fire.database().ref('/topics/').orderByChild('text').equalTo(index).on('value', function(snapshot, key) {
-       console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
-        var key =  Object.keys(snapshot.val()); //haetaan key firestä
-        console.log(key);
-        test(key);
-
-   })
-
-   test = (key) => {
-    this.setState({topicnmb : key[0]});
-        console.log("TopicNumero: " + this.state.topicnmb)
-   }
+    if(this.state.questions.length > 0){
+        this.setState({ questions: []})
+    }       else {
+                this.setState({ questions })
+    }
+    
 }
 
 inputChanged = (event) => {
     this.setState({[event.target.name]: event.target.value });
-  };
+};
+
 
 deleteQuestion = async (event) => {
-    console.log(event.target.dataset.iteration);
+    var quesKey = "";
     var subsubtopicIteration = event.target.dataset.iteration.split(":");
-    console.log(subsubtopicIteration);
-    var subsubtopic = parseInt(subsubtopicIteration[1]) + 1;
-    if (subsubtopic < 10) {
-        await this.setState({quesnmb: "SST0" + parseInt(subsubtopic) });
-    }
-    else {
-        await this.setState({quesnmb: "SST" + parseInt(subsubtopic) });
-    }
+    
+   await fire.database().ref('/topics/' + this.state.topicnmb + '/ST01/').orderByChild('text').equalTo(subsubtopicIteration[0]).once('value', function(snapshot) {
+        console.log("Mitä löytyy: "+ JSON.stringify(snapshot.val()));
+            quesKey = Object.keys(snapshot.val()); //haetaan key firestä
+            return quesKey;
+    })
+    this.setState({quesnmb : quesKey});
+    
     console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb);
     axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
-    this.setState({topics: await topicService.getAll()});
+    //this.setState({topics: await topicService.getAll()});
 };
+
 
 newQuestiontoDB = async (event) => {
     event.preventDefault();
@@ -183,7 +205,7 @@ newQuestiontoDB = async (event) => {
         text : text,
         type : "radio"
     }
-    console.log("TopicNMBR: " + topicnmb + "Question nmbr: " + quesnmb + "<br>eruih"+ tobeUpdated)
+    console.log("Päivittyvä kyssäri: "+topicnmb + quesnmb)
     axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
     this.setState({topics: await topicService.getAll()});
 }
@@ -210,7 +232,7 @@ click = (event) => {
             <div>
 
                 <p>Kyssärit: </p>
-                <table class ="adminTable">
+                <table className="adminTable">
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
                    editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
@@ -229,4 +251,4 @@ click = (event) => {
     }
 }
 
-export default test;
+export default Admin;
