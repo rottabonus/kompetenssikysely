@@ -31,15 +31,13 @@ const Improvement = ({answers}) => {
 
                 <h3>OSAAMISEN KEHITTÄMINEN</h3>
                 <div className="welcomePageText">
-<p>Onnittelut kartoituksen tekemisestä! Kompetenssikartoituksen avulla olet arvioinut omia vahvuuksiasi ja kehittymiskohteita tämän päivän työelämässä.</p>
-   <p>Yleisiä kompetensseja kuten {commonaverage > 1.5 ? null: <div>{commons[0].topic}</div>} {teamworknaverage > 1.5 ? null: <div>{teamworks[0].topic}</div>} {leadershipaverage > 1.5 ? null: <div>{leaderships[0].topic}</div>} {probsolvaverage > 1.5 ? null: <div>{probsolvs[0].topic}</div>} {securityaverage > 1.5 ? null: <div>{securitys[0].topic}</div>} {negotiationaverage > 1.5 ? null: <div>{negotiations[0].topic}</div>} voit kehittää työssä ja ammattikorkeakoulut, yliopistot ja kaupalliset toimijat tarjoavat monimuotoista opetusta näidenkin taitojen kehittämiseen. </p>
-{
-    average > 1.5 || jobsearchaverage > 1.5 ?  null:  <p>Urasuunnitteluun ja työnhakuun löytyy työkaluja ja valmennusta netistä esimerkiksi valmistuville, jotka soveltuvat hyvin myös työssäkäyvien urapohdintojen avuksi. Työviranomaisten tarjonnan lisäksi modernia työnhakua voi kehittää eri liittojen ja yhdistysten uravalmennuksen tukemana.</p>
-}
-
-<div>Asiantuntijuuttasi voit kehittää seuraavissa taidoissa {value1list.map(a => <p key={a.answer}>{a.answer}</p>)}. Voit hakeutua ammatti-tai tiedekorkeakoulujen koulutukseen, avoimen kursseille, lyhyemmille kokonaisuuksille tai tutkinto-opintoihin. Asiantuntijuutta voit kehittää myös työssä oppimalla ja verkostoituminen muiden asiantuntijoiden kanssa auttaa kehittymään uralla ja viihtymään työelämässä entistä paremmin</div>
-<p>Kompetenssikartoituksen palautteen avulla pystyt myös markkinoimaan omaa osaamistasi ja kertomaan muille, millaisia työelämätaitoja sinulla on. Linkkilista koulutustarjonnasta löytyy täältä.</p>
-<p>Kompetenssityökalu on toteutettu osana Taidot Työhön –hanketta, jota on rahoittanut Strategisen tutkimuksen neuvoston vuosina 2016-2019. Haaga-Helia ammattikorkeakoulu ylläpitää työkalua ja niihin liittyviä nettisivuja. </p>
+<p>Onnittelut kartoituksen tekemisestä! Kompetenssikartoituksen avulla olet arvioinut omia vahvuuksiasi ja kehittymiskohteitasi tämän päivän työelämässä.</p>
+   <p><b>Yleisiä kompetensseja</b> kuten  itsensä johtamista, vuorovaikutus- ja ongelmanratkaisutaitoja voit kehittää työssä, mutta ammattikorkeakoulut, yliopistot ja kaupalliset toimijat tarjoavat monimuotoista opetusta näidenkin taitojen kehittämiseen</p>
+  <p><b>Uranhallintaan ja uuden uran suunnitteluun</b> löytyy työkaluja ja valmennusta, jotka sovelutvat hyvin myös työssäkäyvien urapohdintojen avuksi. Työviranomaisten tarjonnan lisäksi modernia työnhakua voi kehittää eri liittojen ja yhdistysten sekä korkeakoulujen uravalmennuksen tukemana.</p>
+<p>Ylemmät AMK-tutkinnot keskittyvät viimeisimpiin osaamisvaatimuksiin ja yliopistojen tutkinnot pätevyystason nostamiseen. Kaikissa korkeakouluissa on tarjolla myös avoimen korkeakoulun kursseja, usein verkossa. Sekä kansainvälisten että kotimaisten yliopistojen opetusta voi hyödyntää kaikille avointen verkkokurssien kautta.</p>
+<p>Omaa asiantuntijuutta voi kehittää myös <b>työssä oppimalla</b> esimerkiksi hakeutumalla vaativiin projekteihin, pyrkimällä uusiin tehtäviin ja osallistumalla työnantajan tai vaikkapa yhteistyökumppaneiden tilaisuuksiin ja koulutuksiin. Työttömyyden sattuessa kannattaa selvittää voimassa olevat aikuiskoulutuksen tukimuodot</p>
+<p>Kompetenssikartoituksen palautteen avulla pystyt myös markkinoimaan omaa osaamistasi ja kertomaan muile millaisia työelämätaitoja sinulla on. Verkostoituminen muiden asiantuntijoiden kanssa auttaa kehittymään uralla ja viihtymään työssäsi entistä paremmin</p>
+<p>Kompetenssityökalu on toteutettu osana Taidot Työhön –hanketta, jota on rahoittanut Strategisen tutkimuksen neuvosto vuosina 2016-2019.</p>
             </div>
             </div>
         )
