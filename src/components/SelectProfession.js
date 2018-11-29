@@ -3,7 +3,7 @@ import React from 'react'
 const SelectProfession = ({ topics, selectedTopics, changeProfessions, handleProfessionsAndMove, getChecked, move }) => {
 
   return (
-    <div className="App">
+    <div className="">
       <div className="surveyContainer">
         <div className="professionSelectionText">
           <h3>ASIANTUNTIJAN OSAAMINEN</h3>
