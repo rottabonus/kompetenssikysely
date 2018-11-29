@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 //import firebaseui from 'firebaseui';
 
-/*
+
 // DEVAUS:
 var config = {
     apiKey: "AIzaSyB5vqwusAIVlRNqDhNHTej34XqO6g5jCwA",
@@ -10,9 +10,9 @@ var config = {
     projectId: "surveydev-740fb",
     storageBucket: "surveydev-740fb.appspot.com",
     messagingSenderId: "22198431343"
-  }*/
+  }
 
-
+/*
   // TUOTANTO
   var config = {
     apiKey: "AIzaSyDS-MRiDe76I3ctfc90sXtZPcjXRzO48IA",
@@ -21,7 +21,7 @@ var config = {
     projectId: "deploymentdb-eb155",
     storageBucket: "deploymentdb-eb155.appspot.com",
     messagingSenderId: "901006585179"
-  };
+  };*/
 
 /*
 var config = {
