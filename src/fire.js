@@ -2,6 +2,7 @@ import firebase from 'firebase';
 //import firebaseui from 'firebaseui';
 
 
+// DEVAUS:
 var config = {
     apiKey: "AIzaSyB5vqwusAIVlRNqDhNHTej34XqO6g5jCwA",
     authDomain: "surveydev-740fb.firebaseapp.com",
@@ -11,17 +12,6 @@ var config = {
     messagingSenderId: "22198431343"
   }
 
-// DEVAUS:
-
-/*
-  var config = {
-    apiKey: "AIzaSyDYnJ1qxhietDQ9X3F3fD0a1Aohli23DJc",
-    authDomain: "surveydev2-a3cc7.firebaseapp.com",
-    databaseURL: "https://surveydev2-a3cc7.firebaseio.com",
-    projectId: "surveydev2-a3cc7",
-    storageBucket: "surveydev2-a3cc7.appspot.com",
-    messagingSenderId: "604182612489"
-  } */
 /*
   // TUOTANTO
   var config = {

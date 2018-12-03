@@ -9,6 +9,7 @@
 }
 .App {
     text-align: center;
+    min-height: 800px;
     background-image: url("./img/PNG/raita.png");
     background-repeat: repeat-y;
     background-position: 93% 50%;
@@ -128,6 +129,7 @@
     padding-bottom: 40px;
     background-color: rgba(255, 255, 255, 0.719);
     border-radius: 0px 0px 5px 5px;
+    margin-bottom: 4em;
   }
 
 /* Luo validointi-merkin checkboxiin*/
@@ -139,7 +141,7 @@
   /**/
   .barContainer {
       align-items: left;
-      display: flex;
+      display: block;
       flex-direction: column;
       border-top-style: solid;
       border-left-style: solid;
@@ -294,6 +296,7 @@
     text-align: left;
     margin-left: 50px;
     margin-bottom: 40px;
+    margin-right: 50px;
   }
   .improvText {
     text-align: left;
@@ -327,8 +330,17 @@
     border-width: 0.5px;
     border-color: #DADADA;
     background-color: white;
+    position: fixed;
     bottom: 0;
   }
+
+  .phantom {
+    display: block;
+    padding: 20px;
+    height: 5em;
+    width: 100%;
+  }
+
   .footerImgDiv {
     display: flex;
     flex-direction: row;
@@ -351,7 +363,7 @@
   }
   .summaryPrint {
     display: inline-flex;
-    margin-top: 33px;
+    margin-bottom: 60px;
   }
   .adminList {
     display: block;
