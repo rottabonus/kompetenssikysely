@@ -328,7 +328,6 @@
     border-color: #DADADA;
     background-color: white;
     bottom: 0;
-    position: fixed;
   }
   .footerImgDiv {
     display: flex;
