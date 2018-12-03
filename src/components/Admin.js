@@ -33,6 +33,7 @@ async componentDidMount() {
 uusAmmatti = (event) => {
     this.setState({newProf : event.target.value})
 }
+
 newProfToDB = async(event) => {
     event.preventDefault();
    var i = this.state.topics.length + 1;
@@ -44,6 +45,10 @@ newProfToDB = async(event) => {
                 text: this.state.newProf
             },
             text : this.state.newProf
+    }
+    if (jsondata.text === ""){
+        window.alert("Kompetenssi ei voi olla tyhjä!")
+        return;
     }
     //console.log("Kohti kantaa ja sen yli..." + jsondata);
    await topicService.newTopic(jsondata, topicnmbr)
@@ -198,6 +203,10 @@ newQuestiontoDB = async (event) => {
     var option3 = this.state.option3;
     var option5 = this.state.option5;
     var text = this.state.text;
+    if (option1 === "" || option3 === "" || option5 === "" || text === ""){
+        window.alert("Vastausvaihtoehto ei voi olla tyhjä!")
+        return;
+    }
     var tobeUpdated = {
         option1 : {"text": option1, "value": 1},
         option3 : {"text": option3, "value": 3},
@@ -222,6 +231,7 @@ click = (event) => {
                 <h1>AdminTyökalu</h1>
             <div>
                 <form className="adminForm">
+                    <h3>Lisää uusi kompetenssi tästä</h3>
                     <label>Kompetenssi: </label>
                     <input type="text" id="ammattiRyhma" value={this.state.newProf} onChange={this.uusAmmatti}></input>
 
@@ -230,19 +240,20 @@ click = (event) => {
 
             </div>
             <div>
-
-                <p>Kyssärit: </p>
                 <table className="adminTable">
                    <AdminList topics={this.state.topics} changeValue={this.changeValue} click={this.click} saveChanges={this.saveChanges}
                    showQuestions={this.showQuestions} questions={this.state.questions} deleteProf={this.deleteProf}
                    editQuestions={this.editQuestions} deleteQuestion={this.deleteQuestion}/>
                </table>
-               <form>
+               <form className="adminForm">
+                   <h3>Lisää uusi kysymys valittuun kompetenssiin tästä</h3>
                    <label>Kysymys: </label> <input type="text" name="text" onChange={this.inputChanged} value={this.state.text} placeholder="Tähän siis kyssäri"></input> <br></br>
-                   <label>Vastausvaihtoehdot: </label>
-                   <input type="text" name="option1" onChange={this.inputChanged} value={this.state.option1} placeholder="Tähän vaihtoehto 1."></input>
-                   <input type="text" name="option3" onChange={this.inputChanged} value={this.state.option3} placeholder="Tähän vaihtoehto 3."></input>
-                   <input type="text" name="option5" onChange={this.inputChanged} value={this.state.option5} placeholder="Tähän vaihtoehto 5."></input>
+                   <label>Vastausvaihtoehto 1: </label>
+                   <input type="text" name="option1" onChange={this.inputChanged} value={this.state.option1} placeholder="Tähän vaihtoehto 1."></input><br></br>
+                   <label>Vastausvaihtoehto 3: </label>
+                   <input type="text" name="option3" onChange={this.inputChanged} value={this.state.option3} placeholder="Tähän vaihtoehto 3."></input><br></br>
+                   <label>Vastausvaihtoehto 5: </label>
+                   <input type="text" name="option5" onChange={this.inputChanged} value={this.state.option5} placeholder="Tähän vaihtoehto 5."></input><br></br>
                    <button type="submit" onClick={this.newQuestiontoDB}>Lähetä Kyssäri</button>
                </form>
             </div>
