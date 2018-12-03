@@ -90,7 +90,7 @@
     text-align: left;
     margin-left: 50px;
     margin-bottom: 40px;
-    
+
   }
 
   /*ASIANTUNTIJAN OSAAMINEN -intron checkbox*/
@@ -160,6 +160,14 @@
     color: #ffffff;
     text-align: left;
   }
+
+  .Notification {
+    margin-left: 15em;
+    margin-right: 15em;
+    border-style:double;
+    border-width: 5px;
+    border-color: pink;
+}
   /*Kategorian alaotsikko ja vastausvaihtoehdot*/
   .topicItemContainer {
     margin-top: 17px;
@@ -394,7 +402,7 @@
   }
   .adminTable tr:nth-child(even){background-color: #f2f2f2;}
   .adminTable tr:hover {background-color: #ddd;}
-  
+
   /*tulostus asettelut tähän*/
   @media print {
     a[href]:after {
@@ -414,7 +422,7 @@
       width: 50%;
       margin-right: 80%;
     }
-    
+
     .barCanvas {
       width: 50%;
     }
@@ -473,5 +481,5 @@
     .barCanvas{
       display: none;
     }
-  
+
   }
