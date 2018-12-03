@@ -368,6 +368,17 @@
   .adminList {
     display: block;
   }
+  .adminForm {
+    margin-left: 1%;
+    display: inline-block;
+  }
+  .adminForm label {
+    margin-left: 1%;
+    display: inline-block;
+    margin-right: 2%;
+    margin-bottom: 2%;
+  }
+
   .adminTable {
     display: inline-block;
     align-content: center;
