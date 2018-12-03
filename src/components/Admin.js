@@ -56,7 +56,7 @@ newProfToDB = async(event) => {
     }
     //console.log("Kohti kantaa ja sen yli..." + jsondata);
    await topicService.newTopic(jsondata, topicnmbr)
-   this.setState({topics: await topicService.getAll(), message: "profession " + jsondata.text +" added"});
+   this.setState({topics: await topicService.getAll(), message: "profession " + jsondata.text +" saved"});
       //console.log(JSON.stringify(this.state.topics));
       setTimeout(() => {
           this.setState({ message: null })
