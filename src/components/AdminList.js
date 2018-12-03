@@ -4,6 +4,7 @@ import AdminTopicItem from './AdminTopicItem'
 const AdminList = ({ topics, deleteProf, showQuestions, questions, deleteQuestion , saveChanges, changeValue, editQuestions }) => {
 
 
+
  if (topics.topic === questions.text ) {
    return (
      <tbody>

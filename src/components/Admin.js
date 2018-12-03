@@ -190,8 +190,9 @@ deleteQuestion = async (event) => {
     this.setState({quesnmb : quesKey});
     
     console.log("Lähtee topicnumerolla: " + this.state.topicnmb + " ja SST: " + this.state.quesnmb);
-    axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
-    //this.setState({topics: await topicService.getAll()});
+    await axios.delete('https://surveydev-740fb.firebaseio.com/topics/'+this.state.topicnmb+'/ST01/'+this.state.quesnmb+'/.json');
+    const topics = await topicService.getAll();
+    this.setState({topics, questions: []});
 };
 
 
@@ -215,8 +216,9 @@ newQuestiontoDB = async (event) => {
         type : "radio"
     }
     console.log("Päivittyvä kyssäri: "+topicnmb + quesnmb)
-    axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
-    this.setState({topics: await topicService.getAll()});
+    await axios.patch('https://surveydev-740fb.firebaseio.com/topics/'+topicnmb+'/ST01/'+quesnmb+'/.json', tobeUpdated);
+    const topics = await topicService.getAll()
+    this.setState({topics, questions: []});
 }
 
 click = (event) => {
